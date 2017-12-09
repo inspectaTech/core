@@ -1,0 +1,35 @@
+
+
+  {
+    "id":"sS-1",
+    "title":"manual slideshow",
+    "alias":"manual-slideshow",
+    "file_name":"manual_slideshow",
+    "type":"slideshow",
+    "img":"xfiles/images/loosie.jpg",
+    "thumbnail":"xfiles/images/loosie.jpg",
+    "params":{
+      "data":"none"
+    },
+    "details":{
+      "data":"none",
+      "width":"default",
+      "height":"default",
+      "ratio":"2.6666666",
+      "responsive":"1",
+      "background":"#ffffff",
+      "class_pfx":"",
+      "class_style":"",
+      "custom_class":"",
+      "sample_class":"",
+      "class_alt": "",
+      "btn_hover":"",
+      "btn_bg":"#000000",
+      "btn_opacity":100,
+      "btn_hex":"#000000",
+      "btn_style":"background-color:#000000;",
+      "hover_bg":"#CCCCCC",
+      "hover_opacity":100,
+      "hover_hex":"#CCCCCC"
+    }
+  }
