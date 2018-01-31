@@ -1,13 +1,13 @@
 
 
   {
-    "id":"sS-1",
+    "id":"mSS-1",
     "title":"manual slideshow",
     "alias":"manual-slideshow",
     "file_name":"manual_slideshow",
     "type":"slideshow",
-    "img":"xfiles/images/loosie.jpg",
-    "thumbnail":"xfiles/images/loosie.jpg",
+    "img":"xfiles/images/tools.png",
+    "thumbnail":"xfiles/images/tools.png",
     "params":{
       "data":"none"
     },
@@ -18,18 +18,22 @@
       "ratio":"2.6666666",
       "responsive":"1",
       "background":"#ffffff",
+      "auto_width":true,
+      "width_pct":95,
       "class_pfx":"",
       "class_style":"",
       "custom_class":"",
       "sample_class":"",
       "class_alt": "",
+      "btn_class":"d3S_ph15",
       "btn_hover":"",
       "btn_bg":"#000000",
+      "btn_hov":"#CCCCCC",
       "btn_opacity":100,
+      "btn_base16":"ff",
+      "icon_bg":"#ffffff",
+      "icon_hov":"#000000",
       "btn_hex":"#000000",
-      "btn_style":"background-color:#000000;",
-      "hover_bg":"#CCCCCC",
-      "hover_opacity":100,
-      "hover_hex":"#CCCCCC"
+      "btn_style":"background-color:#000000;"
     }
   }

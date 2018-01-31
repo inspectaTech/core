@@ -1,12 +1,12 @@
 (function(){
   var app = angular.module("pictureShow");
-  app.directive("manualSlideshow",["$window",function($window){
+  app.directive("blogModule",["$window",function($window){
   return{
     restrict:"C",
     templateUrl:function(elem, attr){
       let file_name = attr.marquee;
       //let urlStr = `${BASEURL}components/com_psmod/xfiles/js/${file_name}.html`;
-      let urlStr = `${attr.home}templates/${file_name}/${file_name}.html`;
+      let urlStr = `${attr.home}tool_templates/${file_name}/${file_name}.html`;
 
       console.log(`new url string = ${urlStr}`);
 
@@ -79,6 +79,7 @@
 
       if(attrs.mode != "admin") return;
 
+      ///the section updates the available screen_width and height on resize - useful for admin settings
       angular.element($window).bind('resize', function(){
         //bugfix - the element passed here doesn't always have a controller but the scope seems constant
         let my_scope = scope;
@@ -108,6 +109,7 @@
       this.section = "basic";
       this.option_section = "options";
       this.front_stage = "";
+      var slideIndex = 1;
 
 
       console.log("stars = ",this.stars);
@@ -115,6 +117,7 @@
       var iUN = Math.round(Math.random() * 10000);
       this.iUN = iUN;
 
+      //watch for changes in assets
       $scope.$watch(function(){return boss.service.asset_info}, function (newValue, oldValue, scope) {
         //Do anything with $scope.letters
         //console.log("newValue = ",newValue);
@@ -132,6 +135,7 @@
         boss.screen_width = newValue;
         if(boss.initiated == true)
         {
+          if(boss.service.tool.file_name != "blog_module")return;
           boss.process_size();
         }//end if
         //console.log("i see a change in screen_width = ",boss.screen_width);
@@ -142,6 +146,7 @@
         boss.screen_height = newValue;
         if(boss.initiated == true)
         {
+          if(boss.service.tool.file_name != "blog_module")return;
           boss.process_size();
         }//end if
         //console.log("i see a change in screen_height = ",boss.screen_height);
@@ -155,6 +160,24 @@
         //console.log("i see a change in screen_height = ",boss.screen_height);
       }, true);
 
+      $scope.$watch(function(){return boss.service.tool.details.width_pct}, function (newValue, oldValue, scope) {
+        if (newValue)
+          //boss.my_stars = newValue;
+        //boss.cast = newValue;
+        if(boss.service.tool.file_name != "blog_module")return;
+        boss.process_size();
+        //console.log("i see a change in screen_height = ",boss.screen_height);
+      }, true);
+
+      $scope.$watch(function(){return boss.service.tool.details.auto_width}, function (newValue, oldValue, scope) {
+        if (newValue)
+          //boss.my_stars = newValue;
+        //boss.cast = newValue;
+        if(boss.service.tool.file_name != "blog_module")return;
+        boss.process_size();
+        //console.log("i see a change in screen_height = ",boss.screen_height);
+      }, true);
+
       //do i need this $watch?
       $scope.$watch(function(){return boss.service.tool.details.sample_class}, function (newValue, oldValue, scope) {
         if (newValue){
@@ -164,11 +187,13 @@
         //console.log("i see a change in screen_height = ",boss.screen_height);
       }, true);
 
+      //watch for ShowData.tool changes
       $scope.$watch(function(){return boss.service.tool}, function (newValue, oldValue, scope) {
         if (newValue)
           //boss.my_stars = newValue;
         boss.tool = newValue;
         //console.log("i see a change in screen_height = ",boss.screen_height);
+        if(boss.service.tool.file_name != "blog_module")return;
           boss.process_size();
 
       }, true);
@@ -204,17 +229,18 @@
            boss.initiated = true;
            //boss.my_stars = boss.update_assets(ShowData.asset_ids);
            boss.my_stars = ShowData.asset_info;//from
-           //if(boss.my_stars.length == 0){  boss.orbital_style();}
+           //if(boss.my_stars.length == 0){  boss.outer_style();}
         },0,true).then(function(){
            //boss.showDivs(slideIndex);
            //late watch
+           slideIndex = 1;
            $scope.$watch(function(){return boss.service.tool.details.width}, function (newValue, oldValue, scope) {
              if (newValue)
                //boss.my_stars = newValue;
                if(newValue == "default"){
                  ShowData.tool.details.width = document.body.clientWidth * .95;
                  //ShowData.tool.details.width = document.querySelector(boss.front_stage).parentNode.clientWidth * .95;
-                 //if(boss.my_stars.length == 0 && boss.initiated == true){boss.orbital_style();}
+                 //if(boss.my_stars.length == 0 && boss.initiated == true){boss.outer_style();}
                }
              //console.log("i see a change in screen_height = ",boss.screen_height);
            }, true);
@@ -235,7 +261,14 @@
              if (newValue)
                //boss.my_stars = newValue;
              boss.responsive = newValue;
-             //console.log("i see a change in responsive = ",boss.responsive);
+             console.log("i see a change in responsive = ",boss.responsive);
+             $timeout(function(){
+               console.log("responsive timeout running!");
+               if(boss.initiated == true)
+               {
+                 boss.process_size();
+               }//end if
+             },0,true);
            }, true);
 
 
@@ -253,8 +286,10 @@
         return comp_ids;
       }
 
-      this.insertCanvas = function(dt,lst)
+      this.insertCanvas = function(dt,lst,tIUN)
       {
+        if(boss.service.tool.file_name != "blog_module")return;
+
         var inObj = dt;
         let restrict_id = "canvas_img_" + iUN + "_" + inObj.id;
         if(document.querySelector("." + restrict_id) && ShowData.refresh_tool == "false") return;
@@ -266,9 +301,9 @@
 
         // i didn't want to do numbers and create gap indexes so i used a multidim array
         boss.object_params[params_str] = obj_params;
-        let obj_str = "canvas_" + iUN + "_"  + inObj.id;
-        let asset_id = "showTime_img_" + iUN + "_" + inObj.id;
-        let addClass = " " + restrict_id + " arc_rich_img prev_img asset darken ";//d3-w80 d3-h30
+        let obj_str = "bm_canvas_" + iUN + "_"  + inObj.id;
+        let asset_id = "blogMod_img_" + iUN + "_" + inObj.id;//custom id
+        let addClass = " " + restrict_id + " blogMod asset darken ";//d3-w80 d3-h30
         boss.canvas_mkr({name:obj_str,params:obj_params,home:asset_id,class:addClass,adjust:true});
 
         console.log("asset_id = ",asset_id);
@@ -276,62 +311,120 @@
         if(ShowData.refresh_tool != "false" && last_el == true){
           //if its the last one reset the container & tell it to close;
 
-          boss.orbital_style();
+          boss.outer_style();
 
           ShowData.refresh_tool = "close";
         }//end if boss
         //console.log("insert data = ",dt);
       }//insertCanvas
 
-      this.orbital_style = function(){
+      this.outer_style = function(){
         //this section is designed to style the directive container
         //let queryStr = ".manual-slideshow.tool_default";
         let queryStr = boss.stage;
         queryStr = "." + ShowData.removeSomething(queryStr,' ');
         let boss_cont = document.querySelector(queryStr);
         let chk_str = boss_cont.className;
+        let is_responsive = boss.responsive;
         let scrap = boss.weedOut(chk_str,["d3_","d3S_","d3M_","d3L_","d3XL_"],queryStr);
 
+        let use_style = (boss.mode == "admin") ? parseInt(ShowData.tool.details.samp_h_nbr) + "vw": parseInt(ShowData.tool.details.h_nbr) + "vw";
+        //boss_cont.style.minHeight = use_style;
+
+        if(is_responsive != 1)return;
         let use_class = (boss.mode == "admin") ? ShowData.tool.details.sample_class: ShowData.tool.details.custom_class;
 
         let newClass = boss_cont.className + " " + use_class + " ";
 
         boss_cont.className = ShowData.removeSomething(newClass,' ');
-      }//orbital_style
+      }//outer_style
 
-      this.getClass = function()
+      this.getParam = function(data)
       {
-        let use_class = (boss.mode == "admin") ? ShowData.tool.details.sample_class: ShowData.tool.details.custom_class;
+        let  targ_data = data;
+        let params_str = "params" + targ_data.id;
+
+        if(boss.object_params[params_str] != undefined){
+          boss.object_params[params_str] = JSON.parse(targ_data.params);
+        }//end if
+
+        let my_params = boss.object_params[params_str];
+        console.log("blog_module params =",my_params);
+
+        return my_params;
+
+      }//getParam
+
+      this.getClass = function(str)
+      {
+        let use_class;
+        switch (str) {
+          case "outer":
+            use_class = (boss.mode == "admin") ? ShowData.tool.details.sample_class: ShowData.tool.details.custom_class;
+
+          break;
+          default:
+          use_class = (boss.mode == "admin") ? ShowData.tool.details.sample_class: ShowData.tool.details.custom_class;
+
+        }
         return use_class;
       }//getClass
 
+      this.getStyle = function()
+      {
+        let use_style = (boss.mode == "admin") ? ShowData.tool.details.samp_h_nbr: ShowData.tool.details.h_nbr;
+
+        return `min-height:${use_style}vw;`;
+      }//getStyle
+
       this.weedOut = function(str,srch,qSel)
       {
+        /*this function takes out unwanted css classes from the elements classNames by referencing
+        an array of possible unwanted strings*/
         let targ_str = str;
-        let targ_ary = str.split(" ");
+        let targ_ary = str.split(" ");//take the classname str & make an array
         let weedAry = [];
         let srch_ary = (typeof srch == "string") ? [srch] : srch;
         let scratchy = (qSel != undefined) ? document.querySelector(qSel) : "default";
 
-        srch_ary.forEach(function(sentry)
+        targ_ary.forEach(function(entry)
         {
-          targ_ary.forEach(function(entry)
+          let not_in_array = true;
+          srch_ary.forEach(function(sentry)
           {
-            if(entry.indexOf(sentry) != -1)
+            //i need a while to clear multiple instances of the srch term
+            if(entry.indexOf(sentry) != -1 && entry != "")
             {
-              weedAry.push(entry);
-              if(scratchy != "default"){
-                scratchy.className = scratchy.className.replace(entry,"");
-              }//end if
+              not_in_array = false;
             }
-          });
+            });
+
+            if(not_in_array == true){
+              //make sure its not already in weedAry
+              let not_in_here = true;
+              weedAry.forEach(function(checka){
+                if(checka == entry)
+                {
+                  not_in_here = false;
+                }//end if
+              });
+              if(not_in_here == true){
+                weedAry.push(entry);//if isn't found in the srch array push into the final array
+              }//end if
+            }else {
+              if(scratchy != "default"){
+                //scratchy.className = scratchy.className.replace(entry,"");
+                scratchy.className = scratchy.className.replace(new RegExp(entry, 'g'),"");
+              }//end if
+            }//end else
+
         });
 
         //when im done clean it up
         if(scratchy != "default"){
           scratchy.className = ShowData.removeSomething(scratchy.className,' ');
         }//end if
-        return weedAry;
+        return weedAry.join(" ");
       }//weedOut
 
 
@@ -359,7 +452,7 @@
         console.log("crew styles = ",crew_obj.details.custom_class);
         //can_class += " " + crew_obj.details.custom_class + " ";
         let use_class = (boss.mode == "admin") ? crew_obj.details.sample_class : crew_obj.details.custom_class ;
-        can_class += " " + use_class + " ";
+        //can_class += " " + use_class + " ";
         can_class = ShowData.removeSomething(can_class,' ');
         let can_name = cObj.name;//variable name
         let adjust = cObj.adjust || false;
@@ -400,9 +493,10 @@
 
       }//end canvas_mkr
 
-      var slideIndex = 1;
+      //var slideIndex = 1;
 
       this.plusDivs = function(n) {
+        if(boss.initiated == false)return;
         boss.showDivs(slideIndex += n);
       }
 
@@ -431,16 +525,28 @@
           console.log("crew=",unescape(boss.crew));
 
           //get the sceen dimensions
-          let s_w = parseInt(boss.screen_width) * .8;//* .8 gives me the size of the showcase
-          let s_h = parseInt(boss.screen_height) * .8;
+          let s_w = parseInt(boss.screen_width);//* .8 gives me the size of the showcase
+          let s_h = parseInt(boss.screen_height);
+
+          let get_screen_ratio = boss.get_ratio(s_w,s_h);
+          let screen_ratio = get_screen_ratio.split(":");
+          let s_w_ratio = screen_ratio[0];
+          let s_h_ratio = screen_ratio[1];
+          //let h_screen_pct =
+
+          //i need to conver s_h into s_w units of measurement
 
           //get the custom dimensions
           let c_w = ShowData.tool.details.width;
           let c_h = ShowData.tool.details.height;
 
+          let auto_width = ShowData.tool.details.auto_width;
+          let width_pct = parseFloat("." + ShowData.tool.details.width_pct);
+
           let orient = (c_w == c_h) ? "square" : (c_w > c_h) ? "landscape"  : "portrait";
 
           let is_responsive = boss.responsive;
+          console.log("process_size responsive = ",boss.responsive);
 
           //if responsive or if <= use the responsive classes
           //process width
@@ -452,6 +558,7 @@
             let the_ratio = ShowData.tool.details.ratio.split(":");
             let w_ratio = the_ratio[0];
             let h_ratio = the_ratio[1];
+
             //get % of screen width
 
             let w_pct,h_pct;
@@ -460,11 +567,15 @@
               case "square":
               w_pct = (c_w <= s_w) ? c_w / s_w : .95;
               w_pct = (w_pct > .95) ? .95 : w_pct;//make sure it doesn't exceed 95
+              w_pct = (auto_width == false) ? width_pct : w_pct;
 
               h_pct = w_pct;
               break;
 
               case "portrait":
+              //right now he purpose is for displays that fit in the viewport window.
+              //i need the s|c_h converted into screen width measurements - the h is naturally x s|c_w
+              //then i want to know what % of the available h the users wants to use
               h_pct = (c_w <= s_w) ? c_h / s_w : c_h / c_w;
               h_pct = (h_pct > .95) ? .95 : h_pct;//make sure it doesn't exceed 95
 
@@ -474,20 +585,33 @@
               case "landscape":
                 w_pct = (c_w <= s_w) ? c_w / s_w : .95;
                 w_pct = (w_pct > .95) ? .95 : w_pct;//make sure it doesn't exceed 95
+                w_pct = (auto_width == false) ? width_pct : w_pct;
 
                 h_pct = w_pct / w_ratio;
               break;
             }//switch
 
-            let w_class = " d3S_w" + boss.rounded(w_pct);
-            let h_class = "d3S_h" + boss.rounded(h_pct);
+            let w_nbr = boss.rounded(w_pct);
+            let w_class = " d3S_w" + w_nbr;
+            let h_nbr = boss.rounded(h_pct);
+            let h_class = "d3S_h" + h_nbr;
 
+            let samp_w_nbr = parseInt(boss.rounded(w_pct * .80));
+            let samp_w_class = " d3S_w" + samp_w_nbr;
+            let samp_h_nbr = parseInt(boss.rounded(h_pct  * .60));
+            let samp_h_class = "d3S_h" + samp_h_nbr;
 
-            let samp_w_class = " d3S_w" + parseInt(boss.rounded(w_pct * .80));
-            let samp_h_class = "d3S_h" + parseInt(boss.rounded(h_pct  * .80));
+            ShowData.tool.details.w_class = w_class;
+            ShowData.tool.details.h_class = h_class;
+            ShowData.tool.details.w_nbr = w_nbr;
+            ShowData.tool.details.h_nbr = h_nbr;
+            ShowData.tool.details.samp_w_class = samp_w_class;
+            ShowData.tool.details.samp_h_class = samp_h_class;
+            ShowData.tool.details.samp_w_nbr = samp_w_nbr;
+            ShowData.tool.details.samp_h_nbr = samp_h_nbr;
 
-            ShowData.tool.details.class_style = " " + w_class + " " + h_class + " ";
-            ShowData.tool.details.class_alt = " " + samp_w_class + " " + samp_h_class + " ";
+            ShowData.tool.details.class_style = " " + w_class + " ";
+            ShowData.tool.details.class_alt = " " + samp_w_class + " ";
 
             let custom_class = " " + ShowData.tool.details.class_pfx + " " + ShowData.tool.details.class_style + " ";
             custom_class = ShowData.removeSomething(custom_class,' ');
@@ -497,10 +621,20 @@
             ShowData.tool.details.custom_class = custom_class;
             ShowData.tool.details.sample_class = sample_class;
 
+            let custom_style = `min-height:${h_nbr}vw !important`;
+            let sample_style = `min-height:${samp_h_nbr}vw !important`;
+            ShowData.tool.details.custom_style = "";//custom_style;
+            ShowData.tool.details.sample_style = "";//sample_style;
+
+
             console.log("class style = ",ShowData.tool.details.class_style);
             console.log("class alt = ",ShowData.tool.details.class_alt);
-          }//end if boss.mode
-          boss.orbital_style();
+          }else {
+            ShowData.tool.details.custom_class = "";
+            ShowData.tool.details.sample_class = "";
+          }
+          //end if boss.mode
+          boss.outer_style();
 
           ShowData.refresh_tool = "true";
         }
@@ -566,29 +700,49 @@
         }
         console.log("pct = ",pct);
         return pct;
-      }//get_ratio
+      }//rounded
 
-      this.prep_opacity = async function()
-      {
-          let targ_el = event.target;
-
-            //i need to compile the new color
-            await boss.form_btn_color("opacity",targ_el.value);
-            boss.form_btn_style();
-
-      }//prep_color
-
-      this.prep_color = async function(mod)
+      this.prep_color = async function(mod,dest,param)
       {
         let targ_el = event.target;
             //i need to compile the new color
-            await boss.form_btn_color(mod,targ_el.value);
-            boss.form_btn_style();
+            await boss.form_item_color(targ_el.value,mod,dest);
+            boss.form_item_style(dest);
+            //$scope.$digest();
+            $timeout(function(){},0,true);
 
         //return arguments.length ? (_name = newName) : _name;//I like this shortcut
       }//prep_color
 
-      this.form_btn_color = function(mod,dat)
+      this.prep_height = async function()
+      {
+        let targ_el = event.target;
+            //i need to compile the new color
+            await boss.form_btn_height(targ_el.value);
+            //boss.form_item_style();
+            $timeout(function(){},0,true);
+
+        //return arguments.length ? (_name = newName) : _name;//I like this shortcut
+      }//prep_height
+
+      this.form_btn_height = function(dat)
+      {
+        if(dat == undefined)return;
+          let btn_grp = document.querySelectorAll(".sTMSS_Btn");
+          let new_class = " d3S_ph" + dat + " ";
+
+          btn_grp.forEach(function(entry){
+            let dirty_class = entry.className;
+            let clean_class = boss.weedOut(dirty_class,["d3_","d3S_","d3M_","d3L_","d3XL_"]);
+            let class_final = clean_class + new_class;
+            entry.className = ShowData.removeSomething(class_final,' ');
+          });
+          let dat_numb = (dat < 15) ? 15: (dat > 100) ? 100 : dat;
+          boss.service.tool.details.btn_height = parseInt(dat_numb,10);
+          boss.service.tool.details.btn_class = new_class;
+      }//form_btn_height
+
+      this.form_item_color = function(dat,mod,dest)
       {
         switch(mod)
         {
@@ -597,22 +751,137 @@
               let pct = parseInt(dat,10) / 100;
               let targ_nbr = (Math.floor(255 * pct)).toString(16);
 
-              boss.service.tool.details.btn_base16 = targ_nbr;
-              boss.service.tool.details.btn_hex = boss.service.tool.details.btn_bg + "" + targ_nbr;
+              boss.service.tool.details[dest].bg_base16 = targ_nbr;
+              boss.service.tool.details[dest].hex = boss.service.tool.details[dest].bg_color + "" + targ_nbr;
               //boss.service.tool.details.btn_opacity = parseInt(dat,10);
             break;
 
             case "color":
-              boss.service.tool.details.btn_hex = dat + "" + boss.service.tool.details.btn_base16;
-              boss.service.tool.details.btn_bg = dat;
+              boss.service.tool.details[dest].hex = dat + "" + boss.service.tool.details[dest].bg_base16;
+              boss.service.tool.details[dest].bg_color = dat;
+
+              let hVal = `hex value = ${boss.service.tool.details[dest].hex}`
+              console.log(hVal);
             break;
         }//end switch
-      }//form_btn_color
+      }//form_item_color
 
-      this.form_btn_style = function()
+      this.form_item_style = function(dest)
       {
-        boss.service.tool.details.btn_style = "background-color:" + boss.service.tool.details.btn_hex + " !important;";
-      }//form_btn_style
+        switch (dest) {
+          case "main":
+          case "content":
+            //let width = `width:${boss.service.tool.details.width_pct}%;`;
+            let width = "";
+            let bg_color = `background-color:${boss.service.tool.details[dest].hex};`;
+            let margin = ["margin: ",boss.service.tool.details[dest].margin_top,"rem ",
+              boss.service.tool.details[dest].margin_right,"rem ",
+              boss.service.tool.details[dest].margin_bottom,"rem ",
+              boss.service.tool.details[dest].margin_left,"rem ;"].join("");
+
+            let padding = ["padding: ",boss.service.tool.details[dest].padding_top,"rem ",
+              boss.service.tool.details[dest].padding_right,"rem ",
+              boss.service.tool.details[dest].padding_bottom,"rem ",
+              boss.service.tool.details[dest].padding_left,"rem ;"].join("");
+
+            let border_style = "";
+            if(boss.service.tool.details[dest].active_border == true){
+              border_style = `border:${boss.service.tool.details[dest].border_width}px solid ${boss.service.tool.details[dest].border_color};`
+              + ` border-radius:${boss.service.tool.details[dest].border_radius}px;`;
+            }
+
+            boss.service.tool.details[dest].style = width + bg_color + margin + border_style + padding;
+
+          break;
+          default:
+          break;
+        }
+        //boss.service.tool.details[dest].btn_style = "background-color:" + boss.service.tool.details.btn_hex + " !important;";
+      }//form_item_style
+
+      this.make_margin = function(dest,mod,dest2)
+      {
+        let margin_str,margin_boxes;
+
+        switch (dest) {
+        case "all":
+          let mod_str = "." + mod;
+          let chkAll = document.querySelector(mod_str);
+          margin_str = `.${dest2}_margin`;
+          margin_boxes = document.querySelectorAll(margin_str);
+
+          if(chkAll.checked)
+          {
+            margin_boxes.forEach(function(entry){
+              entry.checked = true;
+            });
+            //boss.service.tool.details[dest].auto_same_margins = false;
+          }else {
+            margin_boxes.forEach(function(entry){
+              entry.checked = false;
+            });
+            //boss.service.tool.details[dest].auto_same_margins = true;
+          }
+        break;
+
+        default:
+        margin_str = `.${dest}_margin_box`;
+        margin_boxes = document.querySelectorAll(margin_str);
+        margin_boxes.forEach(function(entry){
+          if(entry.checked)
+          {
+            let el_param = entry.dataset.param;
+            boss.service.tool.details[dest][el_param] = boss.service.tool.details[dest].margin_value;
+          }
+        });
+
+        boss.form_item_style(dest);
+      }//switch
+
+
+      }//make_margin
+
+      this.make_padding = function(dest,mod,dest2)
+      {
+        let padding_str,padding_boxes;
+
+        switch (dest) {
+        case "all":
+          let mod_str = "." + mod;
+          let chkAll = document.querySelector(mod_str);
+          padding_str = `.${dest2}_padding`;
+          padding_boxes = document.querySelectorAll(padding_str);
+
+          if(chkAll.checked)
+          {
+            padding_boxes.forEach(function(entry){
+              entry.checked = true;
+            });
+            //boss.service.tool.details[dest].auto_same_paddings = false;
+          }else {
+            padding_boxes.forEach(function(entry){
+              entry.checked = false;
+            });
+            //boss.service.tool.details[dest].auto_same_paddings = true;
+          }
+        break;
+
+        default:
+        padding_str = `.${dest}_padding_box`;
+        padding_boxes = document.querySelectorAll(padding_str);
+        padding_boxes.forEach(function(entry){
+          if(entry.checked)
+          {
+            let el_param = entry.dataset.param;
+            boss.service.tool.details[dest][el_param] = boss.service.tool.details[dest].padding_value;
+          }
+        });
+
+        boss.form_item_style(dest);
+      }//switch
+
+
+      }//make_padding
 
       this.btn_hover = function(data)
       {
@@ -642,6 +911,31 @@
           break;
         }//switch
       }//end is_responsive
+
+      this.btn_hover = function(str,cStr,mID)
+      {
+        let btn_txt = (cStr == "left") ? "sTMSS_L_Btn" : "sTMSS_R_Btn";
+        let icon_txt = (cStr == "left") ? "sTMSS_L_Icon" : "sTMSS_R_Icon";
+        let btn_string = "." + btn_txt + mID;
+        let icon_string = "." + icon_txt + mID;
+        let targ_btn = document.querySelector(btn_string);
+        let targ_icon = document.querySelector(icon_string);
+
+        switch(str)
+        {
+          case "enter":
+          let mk_btn_col = ShowData.tool.details.btn_hov + boss.service.tool.details.btn_base16;
+            targ_btn.style.backgroundColor = mk_btn_col;
+            targ_icon.style.color = ShowData.tool.details.icon_hov;
+
+          break;
+
+          case "leave":
+            targ_btn.style.backgroundColor = ShowData.tool.details.btn_hex;
+            targ_icon.style.color = ShowData.tool.details.icon_bg;
+          break;
+        }//switch
+      }//btn_hover
 
       this.form_reset = function(fNm)
       {
