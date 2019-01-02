@@ -1,0 +1,291 @@
+<!-- SLIDESHOW TEMPLATE -->
+<button ng-if="take1.tool.views[take1.view].navigation && take1.tool.views[take1.view].button.active_button"
+class="sTBM_L_Btn{{take1.service.module_id}} button sTBM_Btn{{take1.service.module_id}}
+sTBM_Btn sTBM_L_Btn {{take1.getClass('button')}}" ng-click="take1.slick_click('prev')" data-option="button"
+style="{{take1.prep_nav_style('button')}}{{take1.get_nav_style('button')}}"
+ng-mouseenter="take1.btn_hover('enter','left',take1.service.module_id)"
+ng-mouseleave="take1.btn_hover('leave','left',take1.service.module_id)">
+  <i class="material-icons sTBM_L_Icon{{take1.service.module_id}}"
+  ng-if="take1.tool.views[take1.view].orientation == 'default'"
+  style="font-size:2rem;color:{{take1.tool.views[take1.view].button.icon_bg}}"
+  >chevron_left</i>
+  <i class="material-icons sTBM_L_Icon{{take1.service.module_id}}"
+  ng-if="take1.tool.views[take1.view].orientation != 'default'"
+  style="font-size:2rem;color:{{take1.tool.views[take1.view].button.icon_bg}}">expand_more</i>
+</button>
+
+<div class="showTime_blog_module rsz{{take1.service.resize_id}}  w3-content w3-display-container"
+  ng-class="{nav_blog:take1.tool.views[take1.view].navigation}"
+  ng-if="take1.initiated && take1.motiv != 'settings' && take1.hnic()" ng-init="take1.tool = take1.service.tool;"
+  data-prep="{{take1._.prep_stars(take1.my_stars,take1.initiated,take1.mode)}}" >
+  <!-- style="{{take1.getStyle()}}" {{take1.getClass()}} -->
+
+  <div id="{{take1.getAnchor(take1.tool.views[take1.view],'blogMod_main')}}" data-option="main"
+  class="blogMod_main blogMod_main_{{take1.iUN}} layer {{take1.getClass('main')}} " style="{{take1.prep_nav_style('main')}}"
+  ng-class="{nav_blog:take1.tool.views[take1.view].navigation,strict:take1.tool.views[take1.view].height_style == 'strict'}"
+  ng-switch="take1.tool.views[take1.view].navigation">
+
+
+    <slick ng-switch-when="true" class="bM_slider bM_slider_{{take1.iUN}}" ng-if="take1.dataLoaded" init-onload="false"
+    ng-class="{part:take1.tool.views[take1.view].button.nav_dots == false || take1.tool.views[take1.view].button.wrap_dots == 'no'}"
+    data="take1.dataLoaded" vertical="{{take1.slick_orient()}}" vertical-swiping="false"
+     slides-to-scroll="3" slides-to-show="3" autoplay="true" autoplay-speed="10000"
+    dots="{{take1.tool.views[take1.view].button.nav_dots}}" init="take1.f_resize()"
+    enabled="true" center-mode="false"
+    fade="{{take1.slick_fade('active')}}" speed="{{take1.slick_fade('speed')}}"  >
+
+    <!-- nav section
+
+    d8b   db  .d8b.  db    db      .d8888. d88888b  .o88b. d888888b d888888b  .d88b.  d8b   db
+    888o  88 d8' `8b 88    88      88'  YP 88'     d8P  Y8 `~~88~~'   `88'   .8P  Y8. 888o  88
+    88V8o 88 88ooo88 Y8    8P      `8bo.   88ooooo 8P         88       88    88    88 88V8o 88
+    88 V8o88 88~~~88 `8b  d8'        `Y8b. 88~~~~~ 8b         88       88    88    88 88 V8o88
+    88  V888 88   88  `8bd8'       db   8D 88.     Y8b  d8    88      .88.   `8b  d8' 88  V888
+    VP   V8P YP   YP    YP         `8888Y' Y88888P  `Y88P'    YP    Y888888P  `Y88P'  VP   V8P
+
+    make code adjustments to this area
+  -->
+
+    <div class="blogMod_item_wrap" ng-repeat="action in take1.my_stars"
+    ng-if="take1.initiated"
+    data-loaded="{{take1.loaded($last,take1.iUN)}}">
+
+    <!-- copy below -->
+    <div id="blogMod_item_{{take1.iUN}}_{{action.id}}" data-option="content"
+
+    class="blogMod_item layer pure-h {{take1.getClass('content')}}"
+    style="{{take1.getMainHeight()}}{{take1.tool.views[take1.view].content.style}}">
+
+
+      <div class="blogMod_slide_mod img blogMod_slide_main imagelayer {{take1.getClass('imagelayer')}}"
+      style="{{take1.tool.views[take1.view].imagelayer.style}} " data-option="imagelayer" >
+
+        <div id="blogMod_item_{{take1.iUN}}_{{action.id}}" data-option="imagebox"
+        class="blogMod_item pure-h imagebox {{take1.getClass('imagebox')}}"
+        style="{{take1.tool.views[take1.view].imagebox.style}}">
+
+          <div class="blogMod_img_cont {{take1.getClass('image')}}" data-option="image"
+          ng-click="take1.test_link('title',take1.getParam(action).text.link)"
+          ng-class="{canvas_wrapper:take1.tool.views[take1.view].image.force_landscape == true,linkable:take1.tool.views[take1.view].image.linkable == true}"
+          style="{{take1.tool.views[take1.view].image.style}}{{take1.getTextStyle(take1.tool.views[take1.view].image,'image')}}"
+          ng-show="take1.tool.views[take1.view].image.active_image === true" >
+
+            <div id="blogMod_img_{{take1.iUN}}_{{action.id}}" class="blogMod_img canvas_cont"
+            ng-bind="take1.insertCanvas(action,$last,'blogMod_img_{{take1.iUN}}_{{action.id}}')">
+            </div>
+          </div>
+
+        </div>
+      </div><!-- imagelayer -->
+
+        <div class="blogMod_slide_mod blogMod_slide_mod_{{take1.iUN}}_{{action.id}}
+        txt texblogMod_slide_modtlayer blogMod_slide_main {{take1.getClass('textlayer')}}"
+        ng-if=" take1.tool.views[take1.view].textlayer.active_layer"
+        style="{{take1.tool.views[take1.view].textlayer.style}}" data-option="textlayer"
+        ng-class="{linkable:take1.tool.views[take1.view].textlayer.linkable == true}"
+        data-hover="{{take1.setElementHover('blogMod_slide_mod_' + take1.iUN +'_'+ action.id,'textlayer','textbox','hovering')}}"
+        ng-click="take1.test_link('textlayer',take1.getParam(action).text.link)" ><!--/*take1.active_content(action) &&*/ -->
+
+          <div id="blogMod_item_{{take1.iUN}}_{{action.id}}" data-option="textbox"
+          class="blogMod_item pure-h textbox {{take1.getClass('textbox')}}" style="{{take1.tool.views[take1.view].textbox.style}}">
+
+            <div id="{{take1.getAnchor(take1.getParam(action).text.link,'blogMod_head_html')}}" data-option="title"
+            class="blogMod_head_html_{{take1.iUN}}_{{action.id}} blogMod_head_html {{take1.getClass('title')}}"
+            ng-if="take1.tool.views[take1.view].title.active_title === true && take1.tool.views[take1.view].title.custom_text == false"
+            ng-click="take1.test_link('title',take1.getParam(action).text.link)"
+            ng-class="{linkable:take1.tool.views[take1.view].title.linkable == true}"
+            style="{{take1.tool.views[take1.view].title.style}} {{take1.getTextStyle(take1.tool.views[take1.view].title,'title')}}">
+              {{take1.getParam(action).text.head.text}}
+            </div>
+
+            <div id="{{take1.getAnchor(take1.getParam(action).text.link,'blogMod_head_html')}}" data-option="title"
+            class="blogMod_head_html_{{take1.iUN}}_{{action.id}} blogMod_head_html {{take1.getClass('title')}}"
+            ng-if="take1.tool.views[take1.view].title.active_title === true && take1.getParam(action).text.head.html != '' && take1.tool.views[take1.view].title.custom_text == true"
+            ng-class="{master:take1.tool.views[take1.view].title.font_controls == true,linkable:take1.tool.views[take1.view].title.linkable == true}"
+            ng-click="take1.test_link('title',take1.getParam(action).text.link)"
+            ng-bind-html="take1.service.THTML(take1.getParam(action).text.head.html)"
+            style="{{take1.tool.views[take1.view].title.style}} {{take1.getTextStyle(take1.tool.views[take1.view].title,'title')}}"></div>
+
+            <div class="blogMod_body_html_{{take1.iUN}}_{{action.id}} blogMod_body_html flex {{take1.getClass('body')}} " data-option="body"
+            ng-if="take1.tool.views[take1.view].body.active_body === true && take1.tool.views[take1.view].body.custom_text == false"
+            style="{{take1.tool.views[take1.view].body.style}} {{take1.getTextStyle(take1.tool.views[take1.view].body,'body')}}">
+              {{take1.getParam(action).text.body.raw}}
+            </div>
+
+            <div class="blogMod_body_html_{{take1.iUN}}_{{action.id}} blogMod_body_html {{take1.getClass('body')}} "
+            ng-class="{master:take1.tool.views[take1.view].body.font_controls == true}" data-option="body"
+            ng-bind-html="take1.service.THTML(take1.getParam(action).text.body.html)"
+            ng-if="take1.tool.views[take1.view].body.active_body === true && take1.getParam(action).text.body.html != '' && take1.tool.views[take1.view].body.custom_text == true"
+            style="{{take1.tool.views[take1.view].body.style}} {{take1.getTextStyle(take1.tool.views[take1.view].body,'body')}}"></div>
+
+            <div class="read_more_cont" style="justify-content:{{take1.tool.views[take1.view].link.justify}};
+            {{take1.getTextStyle(take1.tool.views[take1.view].link,'link-outer')}} /*i need this because it doesn't know the height*/"
+            ng-if="take1.tool.views[take1.view].link.active_link === true" >
+              <a class="read_more_{{take1.iUN}}_{{action.id}} linkable bM_read_more read_more {{take1.getClass('link')}} button" data-option="link"
+              style="{{take1.tool.views[take1.view].link.style}} {{take1.getTextStyle(take1.tool.views[take1.view].link,'link')}}"
+              ng-click="take1.test_link('link',take1.getParam(action).text.link,true)" data-hover="{{take1.setLinkHover(action.id,'link')}}"
+              ng-if="take1.tool.views[take1.view].link.active_link === true && take1.getParam(action).text.link.alias != '' && take1.getParam(action).text.link.url != ''" >
+                {{take1.getParam(action).text.link.alias}}
+              </a>
+            </div>
+          </div><!--end repeat div-->
+
+
+        </div><!-- blogMod_slide_mod -->
+      </div><!--end repeat div blogMod_item-->
+    <!-- copy above -->
+
+    </div><!--end repeat div-->
+
+    <!-- nav section
+    http://patorjk.com/software/taag/#p=display&h=0&v=0&f=Basic&t=nav%20section
+
+    d8b   db  .d8b.  db    db      .d8888. d88888b  .o88b. d888888b d888888b  .d88b.  d8b   db
+    888o  88 d8' `8b 88    88      88'  YP 88'     d8P  Y8 `~~88~~'   `88'   .8P  Y8. 888o  88
+    88V8o 88 88ooo88 Y8    8P      `8bo.   88ooooo 8P         88       88    88    88 88V8o 88
+    88 V8o88 88~~~88 `8b  d8'        `Y8b. 88~~~~~ 8b         88       88    88    88 88 V8o88
+    88  V888 88   88  `8bd8'       db   8D 88.     Y8b  d8    88      .88.   `8b  d8' 88  V888
+    VP   V8P YP   YP    YP         `8888Y' Y88888P  `Y88P'    YP    Y888888P  `Y88P'  VP   V8P
+
+
+  -->
+
+    </slick>
+
+
+    <!--
+
+     .o88b. db       .d88b.  d8b   db d88888b
+    d8P  Y8 88      .8P  Y8. 888o  88 88'
+    8P      88      88    88 88V8o 88 88ooooo
+    8b      88      88    88 88 V8o88 88~~~~~
+    Y8b  d8 88booo. `8b  d8' 88  V888 88.
+     `Y88P' Y88888P  `Y88P'  VP   V8P Y88888P
+
+     copy the nav code adjustments to this area
+     remember to add lines:
+
+     ng-repeat="action in take1.my_stars" ng-if="take1.initiated"
+     data-test="{{take1.me_seeks(action)}}"
+     data-loaded="{{take1.loaded($last,take1.iUN)}}" ng-switch-when="false"
+
+    -->
+
+
+
+    <div id="blogMod_item_{{take1.iUN}}_{{action.id}}" data-option="content"
+
+    ng-repeat="action in take1.my_stars" ng-if="take1.initiated"
+    data-test="{{take1.me_seeks(action)}}"
+    data-loaded="{{take1.loaded($last,take1.iUN)}}" ng-switch-when="false"
+
+    class="blogMod_item layer pure-h {{take1.getClass('content')}}"
+    style="{{take1.getMainHeight()}}{{take1.tool.views[take1.view].content.style}}">
+
+
+      <div class="blogMod_slide_mod img blogMod_slide_main imagelayer {{take1.getClass('imagelayer')}}"
+        style="{{take1.tool.views[take1.view].imagelayer.style}} " data-option="imagelayer" >
+
+          <div id="blogMod_item_{{take1.iUN}}_{{action.id}}" data-option="imagebox"
+          class="blogMod_item pure-h imagebox {{take1.getClass('imagebox')}}"
+          style="{{take1.tool.views[take1.view].imagebox.style}}">
+
+            <div class="blogMod_img_cont {{take1.getClass('image')}}" data-option="image"
+            ng-click="take1.test_link('title',take1.getParam(action).text.link)"
+            ng-class="{canvas_wrapper:take1.tool.views[take1.view].image.force_landscape == true,linkable:take1.tool.views[take1.view].image.linkable == true}"
+            style="{{take1.tool.views[take1.view].image.style}}{{take1.getTextStyle(take1.tool.views[take1.view].image,'image')}}"
+            ng-show="take1.tool.views[take1.view].image.active_image === true" >
+
+              <div id="blogMod_img_{{take1.iUN}}_{{action.id}}" class="blogMod_img canvas_cont"
+              ng-bind="take1.insertCanvas(action,$last,'blogMod_img_{{take1.iUN}}_{{action.id}}')">
+              </div>
+            </div>
+
+          </div>
+        </div><!-- imagelayer -->
+
+        <div class="blogMod_slide_mod blogMod_slide_mod_{{take1.iUN}}_{{action.id}}
+        txt texblogMod_slide_modtlayer blogMod_slide_main {{take1.getClass('textlayer')}}"
+        ng-if=" take1.tool.views[take1.view].textlayer.active_layer"
+        style="{{take1.tool.views[take1.view].textlayer.style}}" data-option="textlayer"
+        ng-class="{linkable:take1.tool.views[take1.view].textlayer.linkable == true}"
+        data-hover="{{take1.setElementHover('blogMod_slide_mod_' + take1.iUN +'_'+ action.id,'textlayer','textbox','hovering')}}"
+        ng-click="take1.test_link('textlayer',take1.getParam(action).text.link)" ><!--/*take1.active_content(action) &&*/ -->
+
+          <div id="blogMod_item_{{take1.iUN}}_{{action.id}}" data-option="textbox"
+          class="blogMod_item pure-h textbox {{take1.getClass('textbox')}}" style="{{take1.tool.views[take1.view].textbox.style}}">
+
+            <div id="{{take1.getAnchor(take1.getParam(action).text.link,'blogMod_head_html')}}" data-option="title"
+            class="{{take1._.classMkr({name:'blogMod_head_html',iUN:take1.iUN,id:action.id,ndx:$index})}} {{take1.getClass('title')}}"
+            ng-if="take1.tool.views[take1.view].title.active_title === true && take1.tool.views[take1.view].title.custom_text == false"
+            ng-click="take1.test_link('title',take1.getParam(action).text.link)"
+            ng-class="{linkable:take1.tool.views[take1.view].title.linkable == true}"
+            style="{{take1.tool.views[take1.view].title.style}} {{take1.getTextStyle(take1.tool.views[take1.view].title,'title')}}">
+              {{take1.getParam(action).text.head.text}}
+            </div>
+
+            <div id="{{take1.getAnchor(take1.getParam(action).text.link,'blogMod_head_html')}}" data-option="title"
+            class="{{take1._.classMkr({name:'blogMod_head_html',iUN:take1.iUN,id:action.id,ndx:$index})}} {{take1.getClass('title')}}"
+            ng-if="take1.tool.views[take1.view].title.active_title === true && take1.getParam(action).text.head.html != '' && take1.tool.views[take1.view].title.custom_text == true"
+            ng-class="{master:take1.tool.views[take1.view].title.font_controls == true,linkable:take1.tool.views[take1.view].title.linkable == true}"
+            ng-click="take1.test_link('title',take1.getParam(action).text.link)"
+            ng-bind-html="take1.service.THTML(take1.getParam(action).text.head.html)"
+            style="{{take1.tool.views[take1.view].title.style}} {{take1.getTextStyle(take1.tool.views[take1.view].title,'title')}}"></div>
+
+            <div class="{{take1._.classMkr({name:'blogMod_body_html',iUN:take1.iUN,id:action.id,ndx:$index})}} flex {{take1.getClass('body')}} " data-option="body"
+            ng-if="take1.tool.views[take1.view].body.active_body === true && take1.tool.views[take1.view].body.custom_text == false"
+            style="{{take1.tool.views[take1.view].body.style}} {{take1.getTextStyle(take1.tool.views[take1.view].body,'body')}}">
+              {{take1.getParam(action).text.body.raw}}
+            </div>
+
+            <div class="{{take1._.classMkr({name:'blogMod_body_html',iUN:take1.iUN,id:action.id,ndx:$index})}} {{take1.getClass('body')}} "
+            ng-class="{master:take1.tool.views[take1.view].body.font_controls == true}" data-option="body"
+            ng-bind-html="take1.service.THTML(take1.getParam(action).text.body.html)"
+            ng-if="take1.tool.views[take1.view].body.active_body === true && take1.getParam(action).text.body.html != '' && take1.tool.views[take1.view].body.custom_text == true"
+            style="{{take1.tool.views[take1.view].body.style}} {{take1.getTextStyle(take1.tool.views[take1.view].body,'body')}}"></div>
+
+            <div class="read_more_cont" style="justify-content:{{take1.tool.views[take1.view].link.justify}};
+            {{take1.getTextStyle(take1.tool.views[take1.view].link,'link-outer')}} /*i need this because it doesn't know the height*/"
+            ng-if="take1.tool.views[take1.view].link.active_link === true" >
+              <a class="read_more_{{take1.iUN}}_{{action.id}} linkable bM_read_more read_more {{take1.getClass('link')}} button" data-option="link"
+              style="{{take1.tool.views[take1.view].link.style}} {{take1.getTextStyle(take1.tool.views[take1.view].link,'link')}}"
+              ng-click="take1.test_link('link',take1.getParam(action).text.link,true)" data-hover="{{take1.setLinkHover(action.id,'link')}}"
+              ng-if="take1.tool.views[take1.view].link.active_link === true && take1.getParam(action).text.link.alias != '' && take1.getParam(action).text.link.url != ''" >
+                {{take1.getParam(action).text.link.alias}}
+              </a>
+            </div>
+          </div><!--end repeat div-->
+
+
+        </div><!-- blogMod_slide_mod -->
+      </div><!--end repeat div blogMod_item-->
+
+    <!--
+
+     .o88b. db       .d88b.  d8b   db d88888b
+    d8P  Y8 88      .8P  Y8. 888o  88 88'
+    8P      88      88    88 88V8o 88 88ooooo
+    8b      88      88    88 88 V8o88 88~~~~~
+    Y8b  d8 88booo. `8b  d8' 88  V888 88.
+     `Y88P' Y88888P  `Y88P'  VP   V8P Y88888P
+
+    -->
+
+
+  </div>
+</div>
+
+
+<button ng-if="take1.tool.views[take1.view].navigation && take1.tool.views[take1.view].button.active_button"
+class="sTBM_R_Btn{{take1.service.module_id}} button sTBM_Btn{{take1.service.module_id}}
+sTBM_Btn sTBM_R_Btn  {{take1.getClass('button')}}" ng-click="take1.slick_click('next')"
+style="{{take1.prep_nav_style('button')}}{{take1.get_nav_style('button')}}"
+ng-mouseenter="take1.btn_hover('enter','right',take1.service.module_id)"
+ng-mouseleave="take1.btn_hover('leave','right',take1.service.module_id)">
+  <i class="material-icons sTBM_R_Icon{{take1.service.module_id}}"
+  ng-if="take1.tool.views[take1.view].orientation == 'default'"
+  style="font-size:2rem;color:{{take1.tool.views[take1.view].button.icon_bg}}">chevron_right</i>
+  <i class="material-icons sTBM_R_Icon{{take1.service.module_id}}"
+  ng-if="take1.tool.views[take1.view].orientation != 'default'"
+  style="font-size:2rem;color:{{take1.tool.views[take1.view].button.icon_bg}}">expand_less</i>
+</button>

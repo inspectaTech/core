@@ -2,9 +2,12 @@
 <div class="showTime_manual_slideshow {{take1.getClass()}} w3-content w3-display-container pure-h"
   ng-if="take1.motiv != 'settings'" ng-init="take1.tool = take1.service.tool" data-crust="{{take1.me_seeks()}}">
   <div class="showTime_img_cont {{take1.getClass()}} pure-h" >
-    <div id="showTime_img_{{take1.iUN}}_{{action.id}}"
-    ng-repeat="action in take1.my_stars" ng-if="take1.initiated"
-    class="showTime_img {{take1.getClass()}} pure-h  mySlides{{take1.service.module_id}}" ng-bind="take1.insertCanvas(action,$last)">
+    <div id="showTime_img_wrap_{{take1.iUN}}_{{action.id}}"
+    ng-repeat="action in take1.my_stars" ng-if="take1.initiated" style="{{take1.setDisplay($index)}}"
+    class="showTime_img_wrap {{take1.getClass()}} pure-h  mySlides{{take1.service.module_id}}" >
+      <div id="showTime_img_{{take1.iUN}}_{{action.id}}" class="showTime_img {{take1.getClass()}}" ng-bind="take1.insertCanvas(action,$last)">
+
+      </div>
     </div>
   </div>
   <button ng-if="take1.my_stars.length != 0" class="sTMSS_L_Btn{{take1.service.module_id}} sTMSS_Btn{{take1.service.module_id}}
@@ -59,7 +62,9 @@
                 <label class="width_label" title="">width percent:</label>
                 <div class="word_box width_pct">
                 <input type="number" class="mSS_stgs_bg_opacity_nbr mSS_stgs_bg_option" ng-model="take1.tool.details.width_pct"
-                min="15" max="95" ng-model-options="{ updateOn: 'blur' }" />
+                min="15" max="95" ng-model-options="{ updateOn: 'blur' }" ng-if="take1.responsive == 1" />
+                <input type="number" class="mSS_stgs_bg_opacity_nbr mSS_stgs_bg_option" ng-model="take1.tool.details.width_pct"
+                min="15" max="100" ng-model-options="{ updateOn: 'blur' }" ng-if="take1.responsive != 1"/>
                 </div>
               </div>
               <div class="d3_auto_range">
@@ -67,21 +72,27 @@
                   <input type="checkbox" value="None" id="auto_width" name="check" checked ng-model="take1.tool.details.auto_width" />
                   <label for="auto_width" ></label>
                 </div>
-                <label class="auto_label" title="">auto</label>
+                <label class="auto_label" title="" ng-show="take1.tool.details.auto_width != false">on</label>
+                <label class="auto_label" title="" ng-show="take1.tool.details.auto_width == false">off</label>
               </div>
             </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
           <!--range slider-->
             <div class="range_box">
               <input type="range" class="mSS_stgs_bg_opacity_rng mSS_stgs_bg_option" ng-model="take1.tool.details.width_pct"
-              min="15" max="95" />
+              min="15" max="95" ng-if="take1.responsive == 1" />
+              <input type="range" class="mSS_stgs_bg_opacity_rng mSS_stgs_bg_option" ng-model="take1.tool.details.width_pct"
+              min="15" max="100" ng-if="take1.responsive != 1" />
             </div>
           </div>
           <div class="mSS_stgs_mobility_info mSS_stgs_content_box">
-            <label title="should the slideshow be responsive">mobile friendly:</label>
-            <button type="button" class="mSS_stgs_resp first w3-btn" ng-click="take1.is_responsive('yes')"
-            ng-class="{active:take1.responsive == 1}">yes</button>
-            <button type="button" class="mSS_stgs_resp w3-btn" ng-click="take1.is_responsive('no')"
-            ng-class="{active:take1.responsive == 0}"  title="if set to 'no' the slideshow will only be visible on desktops" >no</button>
+            <label title="should the slideshow be responsive">control mode:</label>
+            <button type="button" class="mSS_stgs_resp w3-btn first" ng-click="take1.is_responsive('0')"
+            ng-class="{active:take1.responsive == '0'}"  title="" >none</button>
+            <button type="button" class="mSS_stgs_resp w3-btn" ng-click="take1.is_responsive('1')"
+            ng-class="{active:take1.responsive == '1'}">strict</button>
+            <button type="button" class="mSS_stgs_resp w3-btn last" ng-click="take1.is_responsive('2')"
+            ng-class="{active:take1.responsive == '2'}"  title="" >flex</button>
+
           </div><!--ends mobility info-->
           <div class="mSS_stgs_bg_info mSS_stgs_content_box">
             <label title="">background color:</label>

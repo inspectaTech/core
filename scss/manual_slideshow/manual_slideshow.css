@@ -13,6 +13,33 @@
 .huge {
   height: 26.25rem; }
 
+.showTime_manual_slideshow.flexMode {
+  height: fit-content !important;
+  height: -moz-min-content;
+  height: -webkit-min-content;
+  height: min-content;
+  width: 100% !important; }
+  .showTime_manual_slideshow.flexMode .showTime_img_cont {
+    position: relative;
+    width: 100% !important;
+    height: auto !important; }
+    .showTime_manual_slideshow.flexMode .showTime_img_cont .showTime_img_wrap {
+      justify-content: center;
+      width: 100% !important;
+      height: auto !important; }
+      .showTime_manual_slideshow.flexMode .showTime_img_cont .showTime_img_wrap .showTime_img {
+        display: table-cell !important;
+        width: 100% !important;
+        height: auto !important; }
+        .showTime_manual_slideshow.flexMode .showTime_img_cont .showTime_img_wrap .showTime_img .canvas_area {
+          width: unset !important;
+          height: unset !important;
+          display: unset !important; }
+          .showTime_manual_slideshow.flexMode .showTime_img_cont .showTime_img_wrap .showTime_img .canvas_area .ImgCanvas {
+            width: 100% !important;
+            height: 100% !important;
+            /*auto*/ }
+
 .manual-slideshow {
   display: flex;
   justify-content: center;
@@ -24,7 +51,9 @@
     .manual-slideshow .showTime_manual_slideshow button {
       padding: unset !important;
       border: none;
-      display: inline-block;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
       outline: 0;
       padding: 8px 16px;
       vertical-align: middle;
@@ -130,11 +159,18 @@
   .mSS_stgs_mobility_info button {
     flex: 1;
     border: 1px solid blue;
-    padding: 1px !important;
-    border-radius: 0 5px 5px 0; }
+    padding: 3px 0px !important;
+    margin-right: 2px;
+    border-radius: 0; }
+  .mSS_stgs_mobility_info button.last {
+    border-radius: 0 5px 5px 0;
+    margin-right: unset; }
   .mSS_stgs_mobility_info button.first {
-    border-radius: 5px 0 0 5px;
-    margin-right: 2px; }
+    border-radius: 5px 0 0 5px; }
+  .mSS_stgs_mobility_info button.justify.active {
+    /*background-color: #17315a6b;*/ }
+    .mSS_stgs_mobility_info button.justify.active .material-icons {
+      color: #fff !important; }
 
 .mSS_stgs_bg_info {
   display: flex;

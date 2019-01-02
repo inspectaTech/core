@@ -1,0 +1,44 @@
+<!-- SLIDESHOW TEMPLATE -->
+<div class="showTime_mega_menu  w3-content w3-display-container"
+  ng-if="take1.motiv != 'settings'" ng-init="take1.tool = take1.service.tool" data-crust="{{take1.me_seeks()}}"
+  ><!-- style="{{take1.getStyle()}}" {{take1.getClass()}} -->
+  <div class="megaMenu_main {{take1.getClass('main')}} " style="{{take1.tool.details.main.style}}">
+    <div id="megaMenu_item_{{take1.iUN}}_{{action.id}}"
+    ng-repeat="action in take1.my_stars" ng-if="take1.initiated" data-test="{{take1.me_seeks(action)}}"
+    class="megaMenu_item pure-h {{take1.getClass('content')}}" style="{{take1.getStyle()}}{{take1.tool.details.content.style}}">
+      <div class="megaMenu_img_cont {{take1.getClass('image')}} canvas_wrapper" style="{{take1.tool.details.image.style}}"
+      ng-show="take1.tool.details.image.active_image === true" >
+        <div id="megaMenu_img_{{take1.iUN}}_{{action.id}}" class="megaMenu_img canvas_cont"
+        ng-bind="take1.insertCanvas(action,$last,'megaMenu_img_{{take1.iUN}}_{{action.id}}')">
+        </div>
+      </div>
+
+      <div class="megaMenu_head_html {{take1.getClass('title')}}" ng-if="take1.tool.details.title.active_title === true && take1.tool.details.title.custom_text == false"
+      style="{{take1.tool.details.title.style}} {{take1.getTextStyle(take1.tool.details.title,'title')}}">
+        {{take1.getParam(action).text.head.text}}
+      </div>
+
+      <div class="megaMenu_head_html {{take1.getClass('title')}}" ng-bind-html="take1.service.THTML(take1.getParam(action).text.head.html)"
+      ng-if="take1.tool.details.title.active_title === true && take1.getParam(action).text.head.html != '' && take1.tool.details.title.custom_text == true"
+      style="{{take1.tool.details.title.style}}"></div>
+
+      <div class="megaMenu_body_html {{take1.getClass('body')}} " ng-if="take1.tool.details.body.active_body === true && take1.tool.details.body.custom_text == false"
+      style="{{take1.tool.details.body.style}} {{take1.getTextStyle(take1.tool.details.body,'body')}}">{{take1.getParam(action).text.body.raw}}</div>
+
+      <div class="megaMenu_body_html {{take1.getClass('body')}} " ng-bind-html="take1.service.THTML(take1.getParam(action).text.body.html)"
+      ng-if="take1.tool.details.body.active_body === true && take1.getParam(action).text.body.html != '' && take1.tool.details.body.custom_text == true"
+      style="{{take1.tool.details.body.style}}"></div>
+
+      <div class="read_more_cont" style="justify-content:{{take1.tool.details.link.justify}};
+      {{take1.getTextStyle(take1.tool.details.link,'link-outer')}} /*i need this because it doesn't know the height*/"
+      ng-if="take1.tool.details.link.active_link === true" >
+        <a class="read_more_{{take1.iUN}}_{{action.id}} mM_read_more read_more {{take1.getClass('link')}} button"
+        style="{{take1.tool.details.link.style}} {{take1.getTextStyle(take1.tool.details.link,'link')}}"
+        href="{{take1.getParam(action).text.link.url}}" data-hover="{{take1.setLinkHover(action.id,'link')}}"
+        ng-if="take1.tool.details.link.active_link === true && take1.getParam(action).text.link.alias != '' && take1.getParam(action).text.link.url != ''" >
+          {{take1.getParam(action).text.link.alias}}
+        </a>
+      </div>
+    </div><!--end repeat div-->
+  </div>
+</div>

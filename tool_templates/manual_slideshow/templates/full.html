@@ -1,0 +1,100 @@
+<!-- SLIDESHOW TEMPLATE -->
+<div class="showTime_manual_slideshow {{take1.getClass('outer')}} w3-content w3-display-container pure-h"
+  ng-if="take1.motiv != 'settings' && take1.hnic()" ng-init="take1.tool = take1.service.tool" data-crust="{{take1.me_seeks()}}"
+  style="{{take1.tool.views[take1.view].outer.style;}}" data-option="outer"
+  data-prep="{{take1._.prep_stars(take1)}}"  data-view="{{take1.view}}" >
+  <div class="showTime_img_cont {{take1.getClass('outer')}} pure-h" data-option="outer" >
+    <div id="showTime_img_wrap_{{take1.iUN}}_{{action.id}}"
+    ng-repeat="action in take1.my_stars" ng-if="take1.initiated" data-option="outer"
+    style="{{take1.setDisplay($index);}} {{take1.get_adv_design(action.params,'outer','style');}}"
+    class="showTime_img_wrap canvas_wrapper {{take1.getClass('outer')}} pure-h
+    mySlides{{take1.service.module_id}} {{take1.get_adv_design(action.params,'outer','class');}}"
+    ng-class="{linkable:take1.tool.views[take1.view].main.linkable == true}"
+    ng-click="take1.test_link('main',take1.getParam(action).text.link)" >
+
+    <div class="showTime_slide_mod showTime_slide_main {{take1.getClass('main')}}
+    {{take1.get_adv_design(action.params,'main','class');}}"
+    ng-if="take1.active_content(action)" data-option="main"
+    style="{{take1.tool.views[take1.view].main.style;}}
+    {{take1.get_adv_design(action.params,'main','style');}}">
+
+      <div id="showTime_item_{{take1.iUN}}_{{action.id}}" data-option="content"
+      class="showTime_item pure-h {{take1.getClass('content')}}
+      {{take1.get_adv_design(action.params,'content','class');}}"
+      style="{{take1.getStyle()}}
+      {{take1.tool.views[take1.view].content.style}}
+      {{take1.get_adv_design(action.params,'content','style');}} ">
+
+        <div class="showTime_head_html {{take1.getClass('title')}}
+        {{take1.get_adv_design(action.params,'title','class');}}" data-option="title"
+        ng-if="take1.tool.views[take1.view].title.active_title === true && take1.tool.views[take1.view].title.custom_text == false"
+        style="{{take1.tool.views[take1.view].title.style}}
+        {{take1.getTextStyle(take1.tool.views[take1.view].title,'title')}}
+        {{take1.get_adv_design(action.params,'title','style');}}">
+          {{take1.getParam(action).text.head.text}}
+        </div>
+
+        <div class="showTime_head_html {{take1.getClass('title')}}
+        {{take1.get_adv_design(action.params,'title','class');}}" data-option="title"
+        ng-class="{master:take1.tool.views[take1.view].title.font_controls == true}"
+        ng-bind-html="take1.service.THTML(take1.getParam(action).text.head.html)"
+        ng-if="take1.tool.views[take1.view].title.active_title === true && take1.getParam(action).text.head.html != '' && take1.tool.views[take1.view].title.custom_text == true"
+        style="{{take1.tool.views[take1.view].title.style}}
+        {{take1.getTextStyle(take1.tool.views[take1.view].title,'title')}}
+        {{take1.get_adv_design(action.params,'title','style');}}"></div>
+
+        <div class="showTime_body_html flex {{take1.getClass('body')}}
+        {{take1.get_adv_design(action.params,'body','class');}}" data-option="body"
+        ng-if="take1.tool.views[take1.view].body.active_body === true && take1.tool.views[take1.view].body.custom_text == false"
+        style="{{take1.tool.views[take1.view].body.style}}
+        {{take1.getTextStyle(take1.tool.views[take1.view].body,'body')}}
+        {{take1.get_adv_design(action.params,'body','style');}}" >
+          {{take1.getParam(action).text.body.raw}}
+        </div>
+
+        <div class="showTime_body_html {{take1.getClass('body')}}
+        {{take1.get_adv_design(action.params,'body','class');}}" data-option="body"
+        ng-class="{master:take1.tool.views[take1.view].body.font_controls == true}"
+        ng-bind-html="take1.service.THTML(take1.getParam(action).text.body.html)"
+        ng-if="take1.tool.views[take1.view].body.active_body === true && take1.getParam(action).text.body.html != '' && take1.tool.views[take1.view].body.custom_text == true"
+        style="{{take1.tool.views[take1.view].body.style}}
+        {{take1.getTextStyle(take1.tool.views[take1.view].body,'body')}}
+        {{take1.get_adv_design(action.params,'body','style');}}"></div>
+
+        <div class="read_more_cont" style="justify-content:{{take1.tool.views[take1.view].link.justify}};
+        {{take1.getTextStyle(take1.tool.views[take1.view].link,'link-outer')}} /*i need this because it doesn't know the height*/"
+        ng-if="take1.tool.views[take1.view].link.active_link === true" >
+          <a class="read_more_{{take1.iUN}}_{{action.id}} bM_read_more read_more {{take1.getClass('link')}}
+          button {{take1.get_adv_design(action.params,'link','class');}}" data-option="body"
+          style="{{take1.tool.views[take1.view].link.style}}
+          {{take1.getTextStyle(take1.tool.views[take1.view].link,'link')}}
+          {{take1.get_adv_design(action.params,'link','style');}}"
+          href="{{take1.getParam(action).text.link.url}}" data-hover="{{take1.setLinkHover(action.id,'link')}}"
+          ng-if="take1.tool.views[take1.view].link.active_link === true && take1.getParam(action).text.link.alias != '' && take1.getParam(action).text.link.url != ''" >
+            {{take1.getParam(action).text.link.alias}}
+          </a>
+        </div>
+      </div><!--end repeat div-->
+
+
+    </div><!-- showTime_slide_mod -->
+      <div id="showTime_img_{{take1.iUN}}_{{action.id}}" class="showTime_img canvas_cont {{take1.getClass('outer')}}"
+      ng-bind="take1.insertCanvas(action,$last)">
+      </div>
+    </div>
+    <button ng-if="take1.my_stars.length > 1" class="sTMSS_L_Btn{{take1.service.module_id}} sTMSS_Btn{{take1.service.module_id}}
+    sTMSS_Btn sTMSS_L_Btn w3-display-left {{take1.tool.views[take1.view].button.btn_class}}" ng-click="take1.plusDivs(-1)"
+    style="{{take1.tool.views[take1.view].button.style}}"
+    ng-mouseenter="take1.btn_hover('enter','left',take1.service.module_id)" data-option="button"
+    ng-mouseleave="take1.btn_hover('leave','left',take1.service.module_id)">
+      <i class="material-icons sTMSS_L_Icon{{take1.service.module_id}}" style="font-size:2rem;color:{{take1.tool.views[take1.view].button.icon_bg}}">chevron_left</i>
+    </button>
+    <button ng-if="take1.my_stars.length > 1" class="sTMSS_R_Btn{{take1.service.module_id}} sTMSS_Btn{{take1.service.module_id}}
+    sTMSS_Btn sTMSS_R_Btn w3-display-right {{take1.tool.views[take1.view].button.btn_class}}" ng-click="take1.plusDivs(1)"
+    style="{{take1.tool.views[take1.view].button.style}}"
+    ng-mouseenter="take1.btn_hover('enter','right',take1.service.module_id)" data-option="button"
+    ng-mouseleave="take1.btn_hover('leave','right',take1.service.module_id)">
+      <i class="material-icons sTMSS_R_Icon{{take1.service.module_id}}" style="font-size:2rem;color:{{take1.tool.views[take1.view].button.icon_bg}}">chevron_right</i>
+    </button>
+  </div><!-- end img_cont -->
+</div>

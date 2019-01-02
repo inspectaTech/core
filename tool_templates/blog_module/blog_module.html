@@ -1,20 +1,44 @@
 <!-- SLIDESHOW TEMPLATE -->
-<div class="showTime_blog_module {{take1.getClass()}} w3-content w3-display-container"
+<div class="showTime_blog_module  w3-content w3-display-container"
   ng-if="take1.motiv != 'settings'" ng-init="take1.tool = take1.service.tool" data-crust="{{take1.me_seeks()}}"
-  ><!-- style="{{take1.getStyle()}}" -->
-  <div class="blogMod_main" style="{{take1.tool.details.main.style}}">
+  ><!-- style="{{take1.getStyle()}}" {{take1.getClass()}} -->
+  <div class="blogMod_main {{take1.getClass('main')}} " style="{{take1.tool.details.main.style}}">
     <div id="blogMod_item_{{take1.iUN}}_{{action.id}}"
     ng-repeat="action in take1.my_stars" ng-if="take1.initiated" data-test="{{take1.me_seeks(action)}}"
-    class="blogMod_item pure-h w3-card" style="{{take1.getStyle()}}{{take1.tool.details.content.style}}">
-      <div class="blogMod_img_cont canvas_wrapper" >
+    class="blogMod_item pure-h {{take1.getClass('content')}}" style="{{take1.getStyle()}}{{take1.tool.details.content.style}}">
+      <div class="blogMod_img_cont {{take1.getClass('image')}} canvas_wrapper" style="{{take1.tool.details.image.style}}"
+      ng-show="take1.tool.details.image.active_image === true" >
         <div id="blogMod_img_{{take1.iUN}}_{{action.id}}" class="blogMod_img canvas_cont"
         ng-bind="take1.insertCanvas(action,$last,'blogMod_img_{{take1.iUN}}_{{action.id}}')">
         </div>
       </div>
-      <div class="blogMod_head_html" ng-bind-html="take1.service.THTML(take1.getParam(action).text.head.html)"
-      ng-if="take1.getParam(action).text.head.html != ''"></div>
-      <div class="blogMod_head_html" ng-bind-html="take1.service.THTML(take1.getParam(action).text.body.html)"
-      ng-if="take1.getParam(action).text.body.html != ''"></div>
+
+      <div class="blogMod_head_html {{take1.getClass('title')}}" ng-if="take1.tool.details.title.active_title === true && take1.tool.details.title.custom_text == false"
+      style="{{take1.tool.details.title.style}} {{take1.getTextStyle(take1.tool.details.title,'title')}}">
+        {{take1.getParam(action).text.head.text}}
+      </div>
+
+      <div class="blogMod_head_html {{take1.getClass('title')}}" ng-bind-html="take1.service.THTML(take1.getParam(action).text.head.html)"
+      ng-if="take1.tool.details.title.active_title === true && take1.getParam(action).text.head.html != '' && take1.tool.details.title.custom_text == true"
+      style="{{take1.tool.details.title.style}}"></div>
+
+      <div class="blogMod_body_html {{take1.getClass('body')}} " ng-if="take1.tool.details.body.active_body === true && take1.tool.details.body.custom_text == false"
+      style="{{take1.tool.details.body.style}} {{take1.getTextStyle(take1.tool.details.body,'body')}}">{{take1.getParam(action).text.body.raw}}</div>
+
+      <div class="blogMod_body_html {{take1.getClass('body')}} " ng-bind-html="take1.service.THTML(take1.getParam(action).text.body.html)"
+      ng-if="take1.tool.details.body.active_body === true && take1.getParam(action).text.body.html != '' && take1.tool.details.body.custom_text == true"
+      style="{{take1.tool.details.body.style}}"></div>
+
+      <div class="read_more_cont" style="justify-content:{{take1.tool.details.link.justify}};
+      {{take1.getTextStyle(take1.tool.details.link,'link-outer')}} /*i need this because it doesn't know the height*/"
+      ng-if="take1.tool.details.link.active_link === true" >
+        <a class="read_more_{{take1.iUN}}_{{action.id}} bM_read_more read_more {{take1.getClass('link')}} button"
+        style="{{take1.tool.details.link.style}} {{take1.getTextStyle(take1.tool.details.link,'link')}}"
+        href="{{take1.getParam(action).text.link.url}}" data-hover="{{take1.setLinkHover(action.id,'link')}}"
+        ng-if="take1.tool.details.link.active_link === true && take1.getParam(action).text.link.alias != '' && take1.getParam(action).text.link.url != ''" >
+          {{take1.getParam(action).text.link.alias}}
+        </a>
+      </div>
     </div><!--end repeat div-->
   </div>
 </div>
@@ -29,7 +53,7 @@
     <div class="bM_stgs_ctrls_cont">
       <button type="button" class="bM_stgs_ctrls first w3-btn" ng-click="take1.section = 'basic'"
       ng-class="{active:take1.section == 'basic'}">basic</button>
-      <button type="button" class="bM_stgs_ctrls w3-btn" ng-click="take1.section = 'advanced'; take1.option_section = 'options'"
+      <button type="button" class="bM_stgs_ctrls last w3-btn" ng-click="take1.section = 'advanced'; take1.option_section = 'options'"
       ng-class="{active:take1.section == 'advanced'}"  title="" >advanced</button>
     </div>
 
@@ -62,7 +86,7 @@
                 <label class="width_label" title="">total width %:</label>
                 <div class="word_box width_pct">
                 <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" ng-model="take1.tool.details.width_pct"
-                min="15" max="95" ng-model-options="{ updateOn: 'blur' }" />
+                min="15" max="100" ng-model-options="{ updateOn: 'blur' }" />
                 </div>
               </div>
               <div class="d3_auto_range">
@@ -70,25 +94,35 @@
                   <input type="checkbox" value="None" id="auto_width" name="check" checked ng-model="take1.tool.details.auto_width" />
                   <label for="auto_width" ></label>
                 </div>
-                <label class="auto_label" title="">auto</label>
+                <label class="auto_label" title="" ng-show="take1.tool.details.auto_width == true" >on</label>
+                <label class="auto_label" title="" ng-show="take1.tool.details.auto_width != true" >off</label>
               </div>
             </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
           <!--range slider-->
             <div class="range_box">
               <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" ng-model="take1.tool.details.width_pct"
-              min="15" max="95" />
+              min="15" max="100" />
             </div>
           </div>
           <div class="bM_stgs_mobility_info bM_stgs_content_box">
             <label title="should the slideshow be responsive">mobile friendly:</label>
             <button type="button" class="bM_stgs_resp first w3-btn" ng-click="take1.is_responsive('yes')"
             ng-class="{active:take1.responsive == 1}">yes</button>
-            <button type="button" class="bM_stgs_resp w3-btn" ng-click="take1.is_responsive('no')"
-            ng-class="{active:take1.responsive == 0}"  title="if set to 'no' the slideshow will only be visible on desktops" >no</button>
+            <button type="button" class="bM_stgs_resp last w3-btn" ng-click="take1.is_responsive('no')"
+            ng-class="{active:take1.responsive == 0}"  title="" >no</button>
+          </div><!--ends mobility info-->
+          <div class="bM_stgs_mobility_info bM_stgs_content_box">
+            <label title="should the slideshow be responsive">height style:</label>
+            <button type="button" class="bM_stgs_resp first w3-btn" ng-click="take1.tool.details.height_style = 'flex'"
+            ng-class="{active:take1.tool.details.height_style == 'flex'}">flex</button>
+            <button type="button" class="bM_stgs_resp last w3-btn" ng-click="take1.tool.details.height_style = 'strict'"
+            ng-class="{active:take1.tool.details.height_style == 'strict'}"  title="" >strict</button>
           </div><!--ends mobility info-->
           <div class="bM_stgs_bg_info bM_stgs_content_box">
             <label title="">background color:</label>
-            <input type="color" class="bM_stgs_bg_color" ng-model="take1.service.tool.details.background"/>
+            <input type="color" class="bM_stgs_bg_color" ng-model="take1.service.tool.details.background" ng-change="take1.service.color_change()"/>
+            <div class="advanced_colors" data-destination="take1.service.tool.details" data-property="background"
+            data-collection="take1.getMyColors" data-expandto="bM_stgs_sect_cont" ></div>
           </div><!--ends bg info-->
           <div class="bM_stgs_class_info bM_stgs_content_box">
             <label title="css style unique identifier">custom class:</label>
@@ -107,21 +141,48 @@
             <i class="material-icons" style="font-size:1rem;color:blue">arrow_back</i><!--subject-->
           </button>
           <label class="adv_option_label heading" ng-show="take1.option_section == 'options'">styling options:</label>
-          <label class="adv_option_label heading" ng-show="take1.option_section == 'main'">main style:</label>
-          <label class="adv_option_label heading" ng-show="take1.option_section == 'content'">content box style:</label>
-          <label class="adv_option_label heading" ng-show="take1.option_section == 'sample'">sample style:</label>
+          <label class="adv_option_label heading" ng-show="take1.option_section == 'main'"
+          ng-click="take1.option_section = 'options'" >main style:</label>
+          <label class="adv_option_label heading" ng-show="take1.option_section == 'content'"
+          ng-click="take1.option_section = 'options'" >content style:</label>
+          <label class="adv_option_label heading" ng-show="take1.option_section == 'image'"
+          ng-click="take1.option_section = 'options'" >image style:</label>
+          <label class="adv_option_label heading" ng-show="take1.option_section == 'title'"
+          ng-click="take1.option_section = 'options'" >title style:</label>
+          <label class="adv_option_label heading" ng-show="take1.option_section == 'body'"
+          ng-click="take1.option_section = 'options'" >body style:</label>
+          <label class="adv_option_label heading" ng-show="take1.option_section == 'link'"
+          ng-click="take1.option_section = 'options'" >link style:</label>
+          <label class="adv_option_label heading" ng-show="take1.option_section == 'sample'"
+          ng-click="take1.option_section = 'options'" >sample style:</label>
           <div class="option_btns option_section option_section1" ng-show="take1.option_section == 'options'">
             <div class="adv_option_btn w3-button btn_design" ng-click="take1.option_section = 'main'">
-              <p>main style</p>
+              <h5>main style</h5>
               <div class="list_icon"><i class="material-icons" style="font-size:1.5rem;color:grey">chevron_right</i></div>
             </div>
             <div class="adv_option_btn w3-button btn_design" ng-click="take1.option_section = 'content'">
-              <p>content style</p>
+              <h5>content style</h5>
+              <div class="list_icon"><i class="material-icons" style="font-size:1.5rem;color:grey">chevron_right</i></div>
+            </div>
+            <div class="adv_option_btn w3-button btn_design" ng-click="take1.option_section = 'image'">
+              <h5>image style</h5>
+              <div class="list_icon"><i class="material-icons" style="font-size:1.5rem;color:grey">chevron_right</i></div>
+            </div>
+            <div class="adv_option_btn w3-button btn_design" ng-click="take1.option_section = 'title'">
+              <h5>title style</h5>
+              <div class="list_icon"><i class="material-icons" style="font-size:1.5rem;color:grey">chevron_right</i></div>
+            </div>
+            <div class="adv_option_btn w3-button btn_design" ng-click="take1.option_section = 'body'">
+              <h5>body style</h5>
+              <div class="list_icon"><i class="material-icons" style="font-size:1.5rem;color:grey">chevron_right</i></div>
+            </div>
+            <div class="adv_option_btn w3-button btn_design" ng-click="take1.option_section = 'link'">
+              <h5>link style</h5>
               <div class="list_icon"><i class="material-icons" style="font-size:1.5rem;color:grey">chevron_right</i></div>
             </div>
             <!-- new section button sample copy below-->
             <div class="adv_option_btn w3-button btn_design" ng-click="take1.option_section = 'sample'">
-              <p>sample style</p>
+              <h5>sample style</h5>
               <div class="list_icon"><i class="material-icons" style="font-size:1.5rem;color:grey">chevron_right</i></div>
             </div>
             <!-- new section button sample copy above-->
@@ -154,7 +215,7 @@
                   <label class="width_label" title="">total width %:</label>
                   <div class="word_box width_pct">
                   <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" ng-model="take1.tool.details.width_pct"
-                  min="15" max="95" ng-model-options="{ updateOn: 'blur' }" />
+                  min="15" max="100" ng-model-options="{ updateOn: 'blur' }" />
                   </div>
                 </div>
                 <div class="d3_auto_range">
@@ -168,13 +229,16 @@
             <!--range slider-->
               <div class="range_box">
                 <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" ng-model="take1.tool.details.width_pct"
-                min="15" max="95" />
+                min="15" max="100" />
               </div>
             </div>
             <div class="bM_stgs_bg_info bM_stgs_content_box">
               <label title="">main bkgd color:</label>
               <input type="color" class="bM_stgs_bg_color bM_stgs_bg_option" ng-model="take1.tool.details.main.bg_color"
               ng-change="take1.prep_color('color','main')" />
+              <div class="advanced_colors" data-destination="take1.tool.details.main" data-property="bg_color"
+              data-callout="take1.prep_color2" data-params="['color','main']" data-collection="take1.getMyColors"
+              data-expandto="bM_stgs_sect_cont"></div>
             </div><!--ends bg info-->
             <div class="bM_stgs_bg_info bM_stgs_content_box">
               <div class="d3_range_container">
@@ -192,10 +256,23 @@
             <div class="bM_stgs_bg_info bM_stgs_content_box">
               <div class="d3_range_container width_pct">
                 <div class="d3_range_stack">
-                  <label class="width_label" title="">main margin %:</label>
+
+                  <div class="bM_stgs_label_cont">
+                    <label class="width_label" title="">main margin %:</label>
+                    <!--width mobile margin/padding chk box -->
+                    <div class="d3_auto_range">
+                      <div class="mobile_margin_main squaredOne" ng-hide="show.on">
+                        <input type="checkbox" value="None" id="mobile_margin_main" name="check"
+                        ng-model="take1.tool.details.main.mobile_margin" ng-change="take1.form_item_style('main')" />
+                        <label for="mobile_margin_main" ></label>
+                      </div>
+                      <label class="auto_label" title="" >clear mobile</label>
+                    </div>
+                  </div><!-- bM_stgs_label_cont -->
+
                   <div class="word_box width_pct">
                   <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" data-dest="main" ng-model="take1.tool.details.main.margin_value"
-                  min="0.0" max="2.0" step=".1" ng-model-options="{ updateOn: 'blur' }" ng-blur="take1.make_margin('main')" value="{{take1.tool.details.main.margin_value}}"/>
+                  min="-3.0" max="3.0" step=".1" ng-model-options="{ updateOn: 'blur' }" ng-blur="take1.make_margin('main')" value="{{take1.tool.details.main.margin_value}}"/>
                   </div>
                 </div>
               </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
@@ -204,7 +281,7 @@
                   <div>{{take1.tool.details.main.margin_top}}</div>
                   <div class="main_margin_top squaredOne" ng-hide="show.on">
                     <input id="main_margin_top" type="checkbox" value="None" class="main_margin_box main_margin"
-                    name="check" data-param="margin_top" checked />
+                    name="check" data-param="margin_top" />
                     <label for="main_margin_top" ></label>
                   </div>
                   <label class="auto_label" title="">
@@ -215,7 +292,7 @@
                   <div>{{take1.tool.details.main.margin_right}}</div>
                   <div class="main_margin_rt squaredOne" ng-hide="show.on">
                     <input id="main_margin_rt" type="checkbox" class="main_margin_box main_margin" value="None"
-                    name="check" data-param="margin_right" checked />
+                    name="check" data-param="margin_right"  />
                     <label for="main_margin_rt" ></label>
                   </div>
                   <label class="auto_label" title="">
@@ -226,7 +303,7 @@
                   <div>{{take1.tool.details.main.margin_bottom}}</div>
                   <div class="main_margin_bot squaredOne" ng-hide="show.on">
                     <input id="main_margin_bot" type="checkbox" value="None" class="main_margin_box main_margin"
-                    name="check" data-param="margin_bottom" checked />
+                    name="check" data-param="margin_bottom"  />
                     <label for="main_margin_bot" ></label>
                   </div>
                   <label class="auto_label" title="">
@@ -237,7 +314,7 @@
                   <div>{{take1.tool.details.main.margin_left}}</div>
                   <div class="main_margin_lft squaredOne" ng-hide="show.on">
                     <input id="main_margin_lft" type="checkbox" value="None" class="main_margin_box main_margin"
-                    name="check" data-param="margin_left" checked />
+                    name="check" data-param="margin_left"  />
                     <label for="main_margin_lft" ></label>
                   </div>
                   <label class="auto_label" title="">
@@ -247,7 +324,7 @@
                 <div class="d3_auto_range_cube d3_auto_range">
                   <div class="main_margin_all squaredOne" ng-hide="show.on">
                     <input type="checkbox" value="None" id="main_margin_all" class="main_margin_all_box main_margin" ng-model="take1.tool.details.main.auto_same_margins"
-                    name="check"  checked ng-click="take1.make_margin('all','main_margin_all_box','main')"/>
+                    name="check" ng-click="take1.make_margin('all','main_margin_all_box','main')"/>
                     <label for="main_margin_all" ></label>
                   </div>
                   <label class="auto_label" title="">all</label>
@@ -256,15 +333,15 @@
             <!--range slider-->
               <div class="range_box">
                 <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="main" ng-model="take1.tool.details.main.margin_value"
-                min="0.0" max="2.0" step=".1" ng-change="take1.make_margin('main')" value="{{take1.tool.details.main.margin_value}}"/>
+                min="-3.0" max="3.0" step=".1" ng-change="take1.make_margin('main')" value="{{take1.tool.details.main.margin_value}}"/>
               </div>
             </div><!-- end range container -->
             <div class="bM_stgs_bg_info bM_stgs_button_info bM_stgs_content_box">
               <label title="should the slideshow be responsive">main active border:</label>
               <button type="button" class="bM_active_border first w3-btn" ng-click="take1.tool.details.main.active_border = true;take1.form_item_style('main')"
               ng-class="{active:take1.tool.details.main.active_border == true}">yes</button>
-              <button type="button" class="bM_active_border w3-btn" ng-click="take1.tool.details.main.active_border = false;take1.form_item_style('main')"
-              ng-class="{active:take1.tool.details.main.active_border != true}"  title="if set to 'no' the slideshow will only be visible on desktops" >no</button>
+              <button type="button" class="bM_active_border last w3-btn" ng-click="take1.tool.details.main.active_border = false;take1.form_item_style('main')"
+              ng-class="{active:take1.tool.details.main.active_border != true}"  title="" >no</button>
             </div>
             <div class="bM_stgs_bg_info bM_stgs_content_box">
               <label title="">main border color:</label>
@@ -300,7 +377,18 @@
             <div class="bM_stgs_bg_info bM_stgs_content_box">
               <div class="d3_range_container width_pct">
                 <div class="d3_range_stack">
-                  <label class="width_label" title="">main padding %:</label>
+                  <div class="bM_stgs_label_cont">
+                    <label class="width_label" title="">main padding %:</label>
+                  <!--width mobile margin/padding chk box -->
+                  <div class="d3_auto_range">
+                    <div class="mobile_padding_main squaredOne" ng-hide="show.on">
+                      <input type="checkbox" value="None" id="mobile_padding_main" name="check"
+                      ng-model="take1.tool.details.main.mobile_padding" ng-change="take1.form_item_style('main')" />
+                      <label for="mobile_padding_main" ></label>
+                    </div>
+                    <label class="auto_label" title="" >clear mobile</label>
+                  </div>
+                </div><!-- bM_stgs_label_cont -->
                   <div class="word_box width_pct">
                   <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" data-dest="main" ng-model="take1.tool.details.main.padding_value"
                   min="0.0" max="5.0" step=".1" ng-model-options="{ updateOn: 'blur' }" ng-blur="take1.make_padding('main')" value="{{take1.tool.details.main.padding_value}}"/>
@@ -354,7 +442,7 @@
                 </div>
                 <div class="d3_auto_range_cube d3_auto_range">
                   <div class="main_padding_all squaredOne" ng-hide="show.on">
-                    <input type="checkbox" value="None" id="main_padding_all" class="main_padding_all_box main_padding" ng-model="take1.tool.details.main.auto_same_paddings"
+                    <input type="checkbox" value="None" id="main_padding_all" class="main_padding_all_box main_padding" ng-model="take1.tool.details.main.auto_same_padding"
                     name="check"  checked ng-click="take1.make_padding('all','main_padding_all_box','main')"/>
                     <label for="main_padding_all" ></label>
                   </div>
@@ -367,28 +455,6 @@
                 min="0.0" max="5.0" step=".1" ng-change="take1.make_padding('main')" value="{{take1.tool.details.main.padding_value}}"/>
               </div>
             </div><!-- end range container -->
-            <div class="bM_stgs_bg_info bM_stgs_content_box">
-              <label title="">icon color:</label>
-              <input type="color" class="bM_stgs_bg_color" ng-model="take1.service.tool.details.icon_bg"/>
-            </div><!--ends bg info-->
-            <div class="bM_stgs_bg_info bM_stgs_content_box">
-              <label title="">icon hover color:</label>
-              <input type="color" class="bM_stgs_bg_color bM_stgs_bg_option" ng-model="take1.tool.details.icon_hov" />
-            </div><!--ends bg info-->
-            <div class="bM_stgs_bg_info bM_stgs_content_box">
-              <div class="d3_range_container">
-                <label title="">btn height:</label>
-                <div class="word_box">
-                <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" ng-model="take1.tool.details.btn_height"
-                min="15" max="100" ng-model-options="{ updateOn: 'blur' }" ng-blur="take1.prep_height()"/>
-                </div>
-              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
-            <!--range slider-->
-              <div class="range_box">
-                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" ng-model="take1.tool.details.btn_height"
-                min="15" max="100" ng-change="take1.prep_height()"/>
-              </div>
-            </div>
           </div>
 
           <!-- ******************************* END MAIN SECTION ************************************* -->
@@ -396,6 +462,76 @@
           <!-- ******************************* CONTENT SECTION *************************************** -->
 
           <div class="option_section option_section2" ng-show="take1.option_section == 'content'">
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <div class="d3_range_container width_pct">
+                <div class="d3_range_stack">
+                  <label class="width_label" title="">columns across?:</label>
+                  <div class="word_box width_pct">
+                  <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" data-dest="content" ng-model="take1.tool.details.content.column_value"
+                  min="1" max="6" ng-model-options="{ updateOn: 'blur' }" ng-blur="take1.make_columns('content')" value="{{take1.tool.details.content.column_value}}"/>
+                  </div>
+                </div>
+              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+              <div class="d3_range_container width_pct">
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.content.column_small}}</div>
+                  <div class="content_column_sm squaredOne" ng-hide="show.on">
+                    <input id="content_column_sm" type="radio" value="None" class="content_column_box content_column"
+                    name="column" data-param="column_small" checked />
+                    <label for="content_column_sm" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    SM
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.content.column_medium}}</div>
+                  <div class="content_column_md squaredOne" ng-hide="show.on">
+                    <input id="content_column_md" type="radio" class="content_column_box content_column" value="None"
+                    name="column" data-param="column_medium" checked />
+                    <label for="content_column_md" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    MD
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.content.column_large}}</div>
+                  <div class="content_column_lg squaredOne" ng-hide="show.on">
+                    <input id="content_column_lg" type="radio" value="None" class="content_column_box content_column"
+                    name="column" data-param="column_large" checked />
+                    <label for="content_column_lg" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    LG
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.content.column_xlarge}}</div>
+                  <div class="content_column_xl squaredOne" ng-hide="show.on">
+                    <input id="content_column_xl" type="radio" value="None" class="content_column_box content_column"
+                    name="column" data-param="column_xlarge" checked />
+                    <label for="content_column_xl" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    XL
+                  </label>
+                </div>
+                <!--<div class="d3_auto_range_cube d3_auto_range">
+                  <div class="content_column_all squaredOne" ng-hide="show.on">
+                    <input type="checkbox" value="None" id="content_column_all" class="content_column_all_box content_column" ng-model="take1.tool.details.content.auto_same_columns"
+                    name="column"  checked ng-click="take1.make_columns('all','content_column_all_box','content')"/>
+                    <label for="content_column_all" ></label>
+                  </div>
+                  <label class="auto_label" title="">all</label>
+                </div>-->
+              </div>
+            <!--range slider-->
+              <div class="range_box">
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="content" ng-model="take1.tool.details.content.column_value"
+                min="1" max="6" ng-change="take1.make_columns('content')" value="{{take1.tool.details.content.column_value}}"/>
+              </div>
+            </div><!-- end range container -->
 
             <div class="bM_stgs_bg_info bM_stgs_content_box">
               <label title="">content bkgd color:</label>
@@ -418,10 +554,24 @@
             <div class="bM_stgs_bg_info bM_stgs_content_box">
               <div class="d3_range_container width_pct">
                 <div class="d3_range_stack">
+
+                <div class="bM_stgs_label_cont">
                   <label class="width_label" title="">content margin %:</label>
+
+                  <!--width mobile margin/padding chk box -->
+                  <div class="d3_auto_range">
+                    <div class="mobile_margin_content squaredOne" ng-hide="show.on">
+                      <input type="checkbox" value="None" id="mobile_margin_content" name="check"
+                      ng-model="take1.tool.details.content.mobile_margin" ng-change="take1.form_item_style('content')" />
+                      <label for="mobile_margin_content" ></label>
+                    </div>
+                    <label class="auto_label" title="" >clear mobile</label>
+                  </div>
+                </div><!-- bM_stgs_label_cont -->
+
                   <div class="word_box width_pct">
                   <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" data-dest="content" ng-model="take1.tool.details.content.margin_value"
-                  min="0.0" max="2.0" step=".1" ng-model-options="{ updateOn: 'blur' }" ng-blur="take1.make_margin('content')" value="{{take1.tool.details.content.margin_value}}"/>
+                  min="0.0" max="3.0" step=".1" ng-model-options="{ updateOn: 'blur' }" ng-blur="take1.make_margin('content')" value="{{take1.tool.details.content.margin_value}}"/>
                   </div>
                 </div>
               </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
@@ -430,7 +580,7 @@
                   <div>{{take1.tool.details.content.margin_top}}</div>
                   <div class="content_margin_top squaredOne" ng-hide="show.on">
                     <input id="content_margin_top" type="checkbox" value="None" class="content_margin_box content_margin"
-                    name="check" data-param="margin_top" checked />
+                    name="check" data-param="margin_top" />
                     <label for="content_margin_top" ></label>
                   </div>
                   <label class="auto_label" title="">
@@ -441,7 +591,7 @@
                   <div>{{take1.tool.details.content.margin_right}}</div>
                   <div class="content_margin_rt squaredOne" ng-hide="show.on">
                     <input id="content_margin_rt" type="checkbox" class="content_margin_box content_margin" value="None"
-                    name="check" data-param="margin_right" checked />
+                    name="check" data-param="margin_right" />
                     <label for="content_margin_rt" ></label>
                   </div>
                   <label class="auto_label" title="">
@@ -452,7 +602,7 @@
                   <div>{{take1.tool.details.content.margin_bottom}}</div>
                   <div class="content_margin_bot squaredOne" ng-hide="show.on">
                     <input id="content_margin_bot" type="checkbox" value="None" class="content_margin_box content_margin"
-                    name="check" data-param="margin_bottom" checked />
+                    name="check" data-param="margin_bottom" />
                     <label for="content_margin_bot" ></label>
                   </div>
                   <label class="auto_label" title="">
@@ -463,7 +613,7 @@
                   <div>{{take1.tool.details.content.margin_left}}</div>
                   <div class="content_margin_lft squaredOne" ng-hide="show.on">
                     <input id="content_margin_lft" type="checkbox" value="None" class="content_margin_box content_margin"
-                    name="check" data-param="margin_left" checked />
+                    name="check" data-param="margin_left" />
                     <label for="content_margin_lft" ></label>
                   </div>
                   <label class="auto_label" title="">
@@ -473,7 +623,7 @@
                 <div class="d3_auto_range_cube d3_auto_range">
                   <div class="content_margin_all squaredOne" ng-hide="show.on">
                     <input type="checkbox" value="None" id="content_margin_all" class="content_margin_all_box content_margin" ng-model="take1.tool.details.content.auto_same_margins"
-                    name="check"  checked ng-click="take1.make_margin('all','content_margin_all_box','content')"/>
+                    name="check" ng-click="take1.make_margin('all','content_margin_all_box','content')"/>
                     <label for="content_margin_all" ></label>
                   </div>
                   <label class="auto_label" title="">all</label>
@@ -482,15 +632,32 @@
             <!--range slider-->
               <div class="range_box">
                 <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="content" ng-model="take1.tool.details.content.margin_value"
-                min="0.0" max="2.0" step=".1" ng-change="take1.make_margin('content')" value="{{take1.tool.details.content.margin_value}}"/>
+                min="0.0" max="3.0" step=".1" ng-change="take1.make_margin('content')" value="{{take1.tool.details.content.margin_value}}"/>
               </div>
             </div><!-- end range container -->
+            <div class="bM_stgs_mobility_info bM_stgs_content_box">
+            	<div class="bM_switch_cont switch_cont">
+            		<label class="bM_switch_label stgs_access">expanded? </label>
+            		<label class="bM_switch switch">
+            		  <input class="switch_input stgs_access access" type="checkbox"
+                  ng-model="take1.tool.details.content.flex_fill" ng-change="take1.make_margin('content')">
+            		  <span class="fs_slider"></span>
+            		</label>
+            	</div>
+            </div>
+            <div class="bM_stgs_bg_info bM_stgs_button_info bM_stgs_content_box">
+              <label title="should the slideshow be responsive">w3-card styling?:</label>
+              <button type="button" class="bM_active_border first w3-btn" ng-click="take1.tool.details.content.card_styling = true;"
+              ng-class="{active:take1.tool.details.content.card_styling != false}">yes</button>
+              <button type="button" class="bM_active_border last w3-btn" ng-click="take1.tool.details.content.card_styling = false;"
+              ng-class="{active:take1.tool.details.content.card_styling == false}"  title="" >no</button>
+            </div>
             <div class="bM_stgs_bg_info bM_stgs_button_info bM_stgs_content_box">
               <label title="should the slideshow be responsive">content active border:</label>
               <button type="button" class="bM_active_border first w3-btn" ng-click="take1.tool.details.content.active_border = true;take1.form_item_style('content')"
               ng-class="{active:take1.tool.details.content.active_border == true}">yes</button>
-              <button type="button" class="bM_active_border w3-btn" ng-click="take1.tool.details.content.active_border = false;take1.form_item_style('content')"
-              ng-class="{active:take1.tool.details.content.active_border != true}"  title="if set to 'no' the slideshow will only be visible on desktops" >no</button>
+              <button type="button" class="bM_active_border last w3-btn" ng-click="take1.tool.details.content.active_border = false;take1.form_item_style('content')"
+              ng-class="{active:take1.tool.details.content.active_border != true}"  title="" >no</button>
             </div>
             <div class="bM_stgs_bg_info bM_stgs_content_box">
               <label title="">content border color:</label>
@@ -526,7 +693,19 @@
             <div class="bM_stgs_bg_info bM_stgs_content_box">
               <div class="d3_range_container width_pct">
                 <div class="d3_range_stack">
-                  <label class="width_label" title="">content padding %:</label>
+                  <div class="bM_stgs_label_cont">
+                    <label class="width_label" title="">content padding %:</label>
+
+                  <!--width mobile margin/padding chk box -->
+                  <div class="d3_auto_range">
+                    <div class="mobile_padding_content squaredOne" ng-hide="show.on">
+                      <input type="checkbox" value="None" id="mobile_padding_content" name="check"
+                      ng-model="take1.tool.details.content.mobile_padding" ng-change="take1.form_item_style('content')" />
+                      <label for="mobile_padding_content" ></label>
+                    </div>
+                    <label class="auto_label" title="" >clear mobile</label>
+                  </div>
+                </div><!-- bM_stgs_label_cont -->
                   <div class="word_box width_pct">
                   <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" data-dest="content" ng-model="take1.tool.details.content.padding_value"
                   min="0.0" max="5.0" step=".1" ng-model-options="{ updateOn: 'blur' }" ng-blur="take1.make_padding('content')" value="{{take1.tool.details.content.padding_value}}"/>
@@ -580,7 +759,7 @@
                 </div>
                 <div class="d3_auto_range_cube d3_auto_range">
                   <div class="content_padding_all squaredOne" ng-hide="show.on">
-                    <input type="checkbox" value="None" id="content_padding_all" class="content_padding_all_box content_padding" ng-model="take1.tool.details.content.auto_same_paddings"
+                    <input type="checkbox" value="None" id="content_padding_all" class="content_padding_all_box content_padding" ng-model="take1.tool.details.content.auto_same_padding"
                     name="check"  checked ng-click="take1.make_padding('all','content_padding_all_box','content')"/>
                     <label for="content_padding_all" ></label>
                   </div>
@@ -591,6 +770,896 @@
               <div class="range_box">
                 <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="content" ng-model="take1.tool.details.content.padding_value"
                 min="0.0" max="5.0" step=".1" ng-change="take1.make_padding('content')" value="{{take1.tool.details.content.padding_value}}"/>
+              </div>
+            </div><!-- end range container -->
+          </div>
+
+          <!-- ******************************* END CONTENT SECTION ************************************* -->
+
+          <!-- ******************************* IMAGE SECTION *************************************** -->
+
+          <div class="option_section option_section2" ng-show="take1.option_section == 'image'">
+
+            <div class="bM_stgs_mobility_info bM_stgs_content_box">
+              <div class="bM_switch_cont switch_cont">
+                <label class="bM_switch_label stgs_access">active image? </label>
+                <label class="bM_switch switch">
+                  <input class="switch_input stgs_access access" type="checkbox"
+                  ng-model="take1.tool.details.image.active_image">
+                  <span class="fs_slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <label title="">image bkgd color:</label>
+              <input type="color" class="bM_stgs_bg_color bM_stgs_bg_option" ng-model="take1.tool.details.image.bg_color"
+              ng-change="take1.prep_color('color','image')" />
+            </div><!--ends bg info-->
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <div class="d3_range_container">
+                <label title="">image bkgd opacity:</label>
+                <div class="word_box">
+                  <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" ng-model="take1.tool.details.image.bg_opacity"
+                  min="0" max="100" ng-change="take1.prep_color('opacity','image')"/>
+                </div>
+              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+              <div class="range_box">
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" ng-model="take1.tool.details.image.bg_opacity"
+                min="0" max="100" ng-change="take1.prep_color('opacity','image')"/>
+              </div>
+            </div><!--ends bg info-->
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <div class="d3_range_container width_pct">
+                <div class="d3_range_stack">
+                  <div class="bM_stgs_label_cont">
+                    <label class="width_label" title="">image margin %:</label>
+
+                    <!--width mobile margin/padding chk box -->
+                    <div class="d3_auto_range">
+                      <div class="mobile_margin_image squaredOne" ng-hide="show.on">
+                        <input type="checkbox" value="None" id="mobile_margin_image" name="check"
+                        ng-model="take1.tool.details.image.mobile_margin" ng-change="take1.form_item_style('image')" />
+                        <label for="mobile_margin_image" ></label>
+                      </div>
+                      <label class="auto_label" title="" >clear mobile</label>
+                    </div>
+                  </div><!-- bM_stgs_label_cont -->
+
+                  <div class="word_box width_pct">
+                  <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" data-dest="image" ng-model="take1.tool.details.image.margin_value"
+                  min="0.0" max="3.0" step=".1" ng-model-options="{ updateOn: 'blur' }" ng-blur="take1.make_margin('image')" value="{{take1.tool.details.image.margin_value}}"/>
+                  </div>
+                </div>
+              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+              <div class="d3_range_container width_pct">
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.image.margin_top}}</div>
+                  <div class="image_margin_top squaredOne" ng-hide="show.on">
+                    <input id="image_margin_top" type="checkbox" value="None" class="image_margin_box image_margin"
+                    name="check" data-param="margin_top" />
+                    <label for="image_margin_top" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">expand_less</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.image.margin_right}}</div>
+                  <div class="image_margin_rt squaredOne" ng-hide="show.on">
+                    <input id="image_margin_rt" type="checkbox" class="image_margin_box image_margin" value="None"
+                    name="check" data-param="margin_right" />
+                    <label for="image_margin_rt" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">chevron_right</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.image.margin_bottom}}</div>
+                  <div class="image_margin_bot squaredOne" ng-hide="show.on">
+                    <input id="image_margin_bot" type="checkbox" value="None" class="image_margin_box image_margin"
+                    name="check" data-param="margin_bottom" />
+                    <label for="image_margin_bot" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">expand_more</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.image.margin_left}}</div>
+                  <div class="image_margin_lft squaredOne" ng-hide="show.on">
+                    <input id="image_margin_lft" type="checkbox" value="None" class="image_margin_box image_margin"
+                    name="check" data-param="margin_left" />
+                    <label for="image_margin_lft" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">chevron_left</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div class="image_margin_all squaredOne" ng-hide="show.on">
+                    <input type="checkbox" value="None" id="image_margin_all" class="image_margin_all_box image_margin" ng-model="take1.tool.details.image.auto_same_margins"
+                    name="check" ng-click="take1.make_margin('all','image_margin_all_box','image')"/>
+                    <label for="image_margin_all" ></label>
+                  </div>
+                  <label class="auto_label" title="">all</label>
+                </div>
+              </div>
+            <!--range slider-->
+              <div class="range_box">
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="image" ng-model="take1.tool.details.image.margin_value"
+                min="0.0" max="3.0" step=".1" ng-change="take1.make_margin('image')" value="{{take1.tool.details.image.margin_value}}"/>
+              </div>
+            </div><!-- end range container -->
+            <div class="bM_stgs_bg_info bM_stgs_button_info bM_stgs_content_box">
+              <label title="should the slideshow be responsive">image active border:</label>
+              <button type="button" class="bM_active_border first w3-btn" ng-click="take1.tool.details.image.active_border = true;take1.form_item_style('image')"
+              ng-class="{active:take1.tool.details.image.active_border == true}">yes</button>
+              <button type="button" class="bM_active_border last w3-btn" ng-click="take1.tool.details.image.active_border = false;take1.form_item_style('image')"
+              ng-class="{active:take1.tool.details.image.active_border != true}"  title="" >no</button>
+            </div>
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <label title="">image border color:</label>
+              <input type="color" class="bM_stgs_border_color bM_stgs_bg_option" ng-model="take1.tool.details.image.border_color"
+              ng-change="take1.form_item_style('image')" />
+            </div><!--ends bg info-->
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <div class="d3_range_container">
+                <label title="">image border width:</label>
+                <div class="word_box">
+                  <input type="number" class="bM_stgs_border_width bM_stgs_bg_option" ng-model="take1.tool.details.image.border_width"
+                  min="0" max="10" ng-change="take1.form_item_style('image')"/>
+                </div>
+              </div>
+              <div class="range_box">
+                <input type="range" class="bM_stgs_border_width_rng bM_stgs_bg_option" ng-model="take1.tool.details.image.border_width"
+                min="0" max="10" ng-change="take1.form_item_style('image')"/>
+              </div>
+            </div>
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <div class="d3_range_container">
+                <label title="">image border radius:</label>
+                <div class="word_box">
+                  <input type="number" class="bM_stgs_border_radius bM_stgs_bg_option" ng-model="take1.tool.details.image.border_radius"
+                  min="0" max="50" ng-change="take1.form_item_style('image')"/>
+                </div>
+              </div>
+              <div class="range_box">
+                <input type="range" class="bM_stgs_border_radius_rng bM_stgs_bg_option" ng-model="take1.tool.details.image.border_radius"
+                min="0" max="50" ng-change="take1.form_item_style('image')"/>
+              </div>
+            </div>
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <div class="d3_range_container width_pct">
+                <div class="d3_range_stack">
+                  <div class="bM_stgs_label_cont">
+                    <label class="width_label" title="">image padding %:</label>
+
+                    <!--width mobile margin/padding chk box -->
+                    <div class="d3_auto_range">
+                      <div class="mobile_padding_image squaredOne" ng-hide="show.on">
+                        <input type="checkbox" value="None" id="mobile_padding_image" name="check"
+                        ng-model="take1.tool.details.image.mobile_padding" ng-change="take1.form_item_style('image')" />
+                        <label for="mobile_padding_image" ></label>
+                      </div>
+                      <label class="auto_label" title="" >clear mobile</label>
+                    </div>
+                  </div><!-- bM_stgs_label_cont -->
+                  <div class="word_box width_pct">
+                  <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" data-dest="image" ng-model="take1.tool.details.image.padding_value"
+                  min="0.0" max="5.0" step=".1" ng-model-options="{ updateOn: 'blur' }" ng-blur="take1.make_padding('image')" value="{{take1.tool.details.image.padding_value}}"/>
+                  </div>
+                </div>
+              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+              <div class="d3_range_container width_pct">
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.image.padding_top}}</div>
+                  <div class="image_padding_top squaredOne" ng-hide="show.on">
+                    <input id="image_padding_top" type="checkbox" value="None" class="image_padding_box image_padding"
+                    name="check" data-param="padding_top" checked />
+                    <label for="image_padding_top" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">expand_less</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.image.padding_right}}</div>
+                  <div class="image_padding_rt squaredOne" ng-hide="show.on">
+                    <input id="image_padding_rt" type="checkbox" class="image_padding_box image_padding" value="None"
+                    name="check" data-param="padding_right" checked />
+                    <label for="image_padding_rt" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">chevron_right</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.image.padding_bottom}}</div>
+                  <div class="image_padding_bot squaredOne" ng-hide="show.on">
+                    <input id="image_padding_bot" type="checkbox" value="None" class="image_padding_box image_padding"
+                    name="check" data-param="padding_bottom" checked />
+                    <label for="image_padding_bot" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">expand_more</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.image.padding_left}}</div>
+                  <div class="image_padding_lft squaredOne" ng-hide="show.on">
+                    <input id="image_padding_lft" type="checkbox" value="None" class="image_padding_box image_padding"
+                    name="check" data-param="padding_left" checked />
+                    <label for="image_padding_lft" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">chevron_left</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div class="image_padding_all squaredOne" ng-hide="show.on">
+                    <input type="checkbox" value="None" id="image_padding_all" class="image_padding_all_box image_padding" ng-model="take1.tool.details.image.auto_same_padding"
+                    name="check"  checked ng-click="take1.make_padding('all','image_padding_all_box','image')"/>
+                    <label for="image_padding_all" ></label>
+                  </div>
+                  <label class="auto_label" title="">all</label>
+                </div>
+              </div>
+            <!--range slider-->
+              <div class="range_box">
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="image" ng-model="take1.tool.details.image.padding_value"
+                min="0.0" max="5.0" step=".1" ng-change="take1.make_padding('image')" value="{{take1.tool.details.image.padding_value}}"/>
+              </div>
+            </div><!-- end range container -->
+          </div>
+
+          <!-- ******************************* END IMAGE SECTION ************************************* -->
+
+          <!-- ******************************* TITLE SECTION *************************************** -->
+
+          <div class="option_section option_section2" ng-show="take1.option_section == 'title'">
+
+            <div class="bM_stgs_mobility_info bM_stgs_content_box">
+              <div class="bM_switch_cont switch_cont">
+                <label class="bM_switch_label stgs_access">active title? </label>
+                <label class="bM_switch switch">
+                  <input class="switch_input stgs_access access" type="checkbox"
+                  ng-model="take1.tool.details.title.active_title">
+                  <span class="fs_slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="bM_stgs_mobility_info bM_stgs_content_box">
+              <div class="bM_switch_cont switch_cont">
+                <label class="bM_switch_label stgs_access">custom text? </label>
+                <label class="bM_switch switch">
+                  <input class="switch_input stgs_access access" type="checkbox"
+                  ng-model="take1.tool.details.title.custom_text" >
+                  <span class="fs_slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="bM_stgs_class_info bM_stgs_content_box">
+              <label title="css style unique identifier">title font:</label>
+              <div class="select-menu bM_stgs_custom_class" data-value-mode='none' data-value-data='take1.tool.details.title.font'
+              data-option-data='take1.service.custom_head.font' data-callout="take1.setSelect" data-params="{targ:take1.tool.details.title,prop:'font'}"></div>
+            </div><!--ends bg info-->
+            <div class="bM_stgs_class_info bM_stgs_content_box bM_font_size">
+              <label title="css style unique identifier">title font size:</label>
+              <div class="word_box width_pct">
+              <input type="number" class="mSS_stgs_bg_opacity_nbr mSS_stgs_bg_option" ng-model="take1.tool.details.title.font_size"
+              min="8" max="72" step="1" ng-model-options="{ updateOn: 'blur' }" ng-if="take1.tool.details.title.font_measure == 'px'" />
+              <input type="number" class="mSS_stgs_bg_opacity_nbr mSS_stgs_bg_option" ng-model="take1.tool.details.title.font_size"
+              min="0.2" max="5" step=".1" ng-model-options="{ updateOn: 'blur' }" ng-if="take1.tool.details.title.font_measure != 'px'" />
+              </div>
+              <div class="font_measure_btns bM_stgs_button_info">
+                <button type="button" class="bM_stgs_resp w3-btn first" ng-click="take1.tool.details.title.font_measure = 'px'; take1.tool.details.title.font_size == 14"
+                ng-class="{active:take1.tool.details.title.font_measure == 'px'}"  title="" >px</button>
+                <button type="button" class="bM_stgs_resp w3-btn" ng-click="take1.tool.details.title.font_measure = 'rem'; take1.tool.details.title.font_size == 1.4"
+                ng-class="{active:take1.tool.details.title.font_measure == 'rem'}">rem</button>
+                <button type="button" class="bM_stgs_resp w3-btn" ng-click="take1.tool.details.title.font_measure = 'em'; take1.tool.details.title.font_size == 1.4"
+                ng-class="{active:take1.tool.details.title.font_measure == 'em'}">em</button>
+                <button type="button" class="bM_stgs_resp w3-btn last" ng-click="take1.tool.details.title.font_measure = 'vmin'; take1.tool.details.title.font_size == 3"
+                ng-class="{active:take1.tool.details.title.font_measure == 'vmin'}"  title="" >vmin</button>
+              </div>
+
+              <div class="range_box">
+              <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="title" ng-model="take1.tool.details.title.font_size"
+              min="8" max="72" step="1"  value="{{take1.tool.details.title.font_size}}" ng-if="take1.tool.details.title.font_measure == 'px'" />
+              <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="title" ng-model="take1.tool.details.title.font_size"
+              min="0.2" max="5" step=".1"  value="{{take1.tool.details.title.font_size}}" ng-if="take1.tool.details.title.font_measure != 'px'" />
+              </div>
+            </div><!--ends bM_font_size-->
+            <div class="bM_stgs_class_info bM_stgs_content_box bM_line_height">
+              <label title="css style unique identifier">title line height:</label>
+              <div class="word_box width_pct">
+                <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" ng-model="take1.tool.details.title.line_height"
+                min="0" max="25" step=".5" ng-model-options="{ updateOn: 'blur' }" ng-if="take1.tool.details.title.font_measure != 'rem'" />
+                <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" ng-model="take1.tool.details.title.line_height"
+                min="0" max="2.5" step=".1" ng-model-options="{ updateOn: 'blur' }" ng-if="take1.tool.details.title.font_measure == 'rem'" />
+                <label class=""> {{take1.tool.details.title.font_measure}}</label>
+              </div>
+              <div class="range_box">
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="title" ng-model="take1.tool.details.title.line_height"
+                min="0" max="25" step=".5"  value="{{take1.tool.details.title.line_height}}" ng-if="take1.tool.details.title.font_measure != 'rem'" />
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="title" ng-model="take1.tool.details.title.line_height"
+                min="0" max="2.5" step=".1"  value="{{take1.tool.details.title.line_height}}" ng-if="take1.tool.details.title.font_measure == 'rem'" />
+              </div>
+            </div><!--ends bM_line_height-->
+            <div class="bM_stgs_mobility_info bM_stgs_content_box">
+              <div class="bM_switch_cont switch_cont">
+                <label class="bM_switch_label stgs_access">ellipsis overflow? </label>
+                <label class="bM_switch switch">
+                  <input class="switch_input stgs_access access" type="checkbox"
+                  ng-model="take1.tool.details.title.ellipsis">
+                  <span class="fs_slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="bM_stgs_class_info bM_stgs_content_box bM_line_height" ng-show="take1.tool.details.title.ellipsis == true">
+              <label title="css style unique identifier">number of lines?</label>
+              <div class="word_box width_pct">
+                <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" ng-model="take1.tool.details.title.line_number"
+                min="1" max="10" step="1" ng-model-options="{ updateOn: 'blur' }" />
+                <label class=""> {{take1.tool.details.title.line_number}}</label>
+              </div>
+              <div class="range_box">
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="title" ng-model="take1.tool.details.title.line_number"
+                min="1" max="10" step="1"  value="{{take1.tool.details.title.line_number}}" />
+              </div>
+            </div><!--ends bM_line_number-->
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <label title="">title font color:</label>
+              <input type="color" class="bM_stgs_bg_color" ng-model="take1.service.tool.details.title.font_color"/>
+
+              <div class="advanced_colors" data-destination="take1.service.tool.details.title" data-property="font_color"
+              data-collection="take1.getMyColors" data-expandto="bM_stgs_sect_cont" ></div>
+            </div><!--ends bg info-->
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <label title="">title bkgd color:</label>
+              <input type="color" class="bM_stgs_bg_color bM_stgs_bg_option" ng-model="take1.tool.details.title.bg_color"
+              ng-change="take1.prep_color('color','title')" />
+            </div><!--ends bg info-->
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <div class="d3_range_container">
+                <label title="">title bkgd opacity:</label>
+                <div class="word_box">
+                  <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" ng-model="take1.tool.details.title.bg_opacity"
+                  min="0" max="100" ng-change="take1.prep_color('opacity','title')"/>
+                </div>
+              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+              <div class="range_box">
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" ng-model="take1.tool.details.title.bg_opacity"
+                min="0" max="100" ng-change="take1.prep_color('opacity','title')"/>
+              </div>
+            </div><!--ends bg info-->
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <div class="d3_range_container width_pct">
+                <div class="d3_range_stack">
+                  <div class="bM_stgs_label_cont">
+                    <label class="width_label" title="">title margin %:</label>
+
+                    <!--width mobile margin/padding chk box -->
+                    <div class="d3_auto_range">
+                      <div class="mobile_margin_title squaredOne" ng-hide="show.on">
+                        <input type="checkbox" value="None" id="mobile_margin_title" name="check"
+                        ng-model="take1.tool.details.title.mobile_margin" ng-change="take1.form_item_style('title')" />
+                        <label for="mobile_margin_title" ></label>
+                      </div>
+                      <label class="auto_label" title="" >clear mobile</label>
+                    </div>
+                  </div><!-- bM_stgs_label_cont -->
+                  <div class="word_box width_pct">
+                  <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" data-dest="title" ng-model="take1.tool.details.title.margin_value"
+                  min="0.0" max="3.0" step=".1" ng-model-options="{ updateOn: 'blur' }" ng-blur="take1.make_margin('title')" value="{{take1.tool.details.title.margin_value}}"/>
+                  </div>
+                </div>
+              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+              <div class="d3_range_container width_pct">
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.title.margin_top}}</div>
+                  <div class="title_margin_top squaredOne" ng-hide="show.on">
+                    <input id="title_margin_top" type="checkbox" value="None" class="title_margin_box title_margin"
+                    name="check" data-param="margin_top" />
+                    <label for="title_margin_top" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">expand_less</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.title.margin_right}}</div>
+                  <div class="title_margin_rt squaredOne" ng-hide="show.on">
+                    <input id="title_margin_rt" type="checkbox" class="title_margin_box title_margin" value="None"
+                    name="check" data-param="margin_right" />
+                    <label for="title_margin_rt" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">chevron_right</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.title.margin_bottom}}</div>
+                  <div class="title_margin_bot squaredOne" ng-hide="show.on">
+                    <input id="title_margin_bot" type="checkbox" value="None" class="title_margin_box title_margin"
+                    name="check" data-param="margin_bottom" />
+                    <label for="title_margin_bot" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">expand_more</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.title.margin_left}}</div>
+                  <div class="title_margin_lft squaredOne" ng-hide="show.on">
+                    <input id="title_margin_lft" type="checkbox" value="None" class="title_margin_box title_margin"
+                    name="check" data-param="margin_left" />
+                    <label for="title_margin_lft" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">chevron_left</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div class="title_margin_all squaredOne" ng-hide="show.on">
+                    <input type="checkbox" value="None" id="title_margin_all" class="title_margin_all_box title_margin" ng-model="take1.tool.details.title.auto_same_margins"
+                    name="check" ng-click="take1.make_margin('all','title_margin_all_box','title')"/>
+                    <label for="title_margin_all" ></label>
+                  </div>
+                  <label class="auto_label" title="">all</label>
+                </div>
+              </div>
+            <!--range slider-->
+              <div class="range_box">
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="title" ng-model="take1.tool.details.title.margin_value"
+                min="0.0" max="3.0" step=".1" ng-change="take1.make_margin('title')" value="{{take1.tool.details.title.margin_value}}"/>
+              </div>
+            </div><!-- end range container -->
+            <div class="bM_stgs_bg_info bM_stgs_button_info bM_stgs_content_box">
+              <label title="should the slideshow be responsive">title active border:</label>
+              <button type="button" class="bM_active_border first w3-btn" ng-click="take1.tool.details.title.active_border = true;take1.form_item_style('title')"
+              ng-class="{active:take1.tool.details.title.active_border == true}">yes</button>
+              <button type="button" class="bM_active_border last w3-btn" ng-click="take1.tool.details.title.active_border = false;take1.form_item_style('title')"
+              ng-class="{active:take1.tool.details.title.active_border != true}"  title="" >no</button>
+            </div>
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <label title="">title border color:</label>
+              <input type="color" class="bM_stgs_border_color bM_stgs_bg_option" ng-model="take1.tool.details.title.border_color"
+              ng-change="take1.form_item_style('title')" />
+            </div><!--ends bg info-->
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <div class="d3_range_container">
+                <label title="">title border width:</label>
+                <div class="word_box">
+                  <input type="number" class="bM_stgs_border_width bM_stgs_bg_option" ng-model="take1.tool.details.title.border_width"
+                  min="0" max="10" ng-change="take1.form_item_style('title')"/>
+                </div>
+              </div>
+              <div class="range_box">
+                <input type="range" class="bM_stgs_border_width_rng bM_stgs_bg_option" ng-model="take1.tool.details.title.border_width"
+                min="0" max="10" ng-change="take1.form_item_style('title')"/>
+              </div>
+            </div>
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <div class="d3_range_container">
+                <label title="">title border radius:</label>
+                <div class="word_box">
+                  <input type="number" class="bM_stgs_border_radius bM_stgs_bg_option" ng-model="take1.tool.details.title.border_radius"
+                  min="0" max="50" ng-change="take1.form_item_style('title')"/>
+                </div>
+              </div>
+              <div class="range_box">
+                <input type="range" class="bM_stgs_border_radius_rng bM_stgs_bg_option" ng-model="take1.tool.details.title.border_radius"
+                min="0" max="50" ng-change="take1.form_item_style('title')"/>
+              </div>
+            </div>
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <div class="d3_range_container width_pct">
+                <div class="d3_range_stack">
+                  <div class="bM_stgs_label_cont">
+                    <label class="width_label" title="">title padding %:</label>
+
+                    <!--width mobile margin/padding chk box -->
+                    <div class="d3_auto_range">
+                      <div class="mobile_padding_title squaredOne" ng-hide="show.on">
+                        <input type="checkbox" value="None" id="mobile_padding_title" name="check"
+                        ng-model="take1.tool.details.title.mobile_padding" ng-change="take1.form_item_style('title')" />
+                        <label for="mobile_padding_title" ></label>
+                      </div>
+                      <label class="auto_label" title="" >clear mobile</label>
+                    </div>
+                  </div><!-- bM_stgs_label_cont -->
+                  <div class="word_box width_pct">
+                  <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" data-dest="title" ng-model="take1.tool.details.title.padding_value"
+                  min="0.0" max="5.0" step=".1" ng-model-options="{ updateOn: 'blur' }" ng-blur="take1.make_padding('title')" value="{{take1.tool.details.title.padding_value}}"/>
+                  </div>
+                </div>
+              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+              <div class="d3_range_container width_pct">
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.title.padding_top}}</div>
+                  <div class="title_padding_top squaredOne" ng-hide="show.on">
+                    <input id="title_padding_top" type="checkbox" value="None" class="title_padding_box title_padding"
+                    name="check" data-param="padding_top" checked />
+                    <label for="title_padding_top" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">expand_less</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.title.padding_right}}</div>
+                  <div class="title_padding_rt squaredOne" ng-hide="show.on">
+                    <input id="title_padding_rt" type="checkbox" class="title_padding_box title_padding" value="None"
+                    name="check" data-param="padding_right" checked />
+                    <label for="title_padding_rt" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">chevron_right</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.title.padding_bottom}}</div>
+                  <div class="title_padding_bot squaredOne" ng-hide="show.on">
+                    <input id="title_padding_bot" type="checkbox" value="None" class="title_padding_box title_padding"
+                    name="check" data-param="padding_bottom" checked />
+                    <label for="title_padding_bot" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">expand_more</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.title.padding_left}}</div>
+                  <div class="title_padding_lft squaredOne" ng-hide="show.on">
+                    <input id="title_padding_lft" type="checkbox" value="None" class="title_padding_box title_padding"
+                    name="check" data-param="padding_left" checked />
+                    <label for="title_padding_lft" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">chevron_left</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div class="title_padding_all squaredOne" ng-hide="show.on">
+                    <input type="checkbox" value="None" id="title_padding_all" class="title_padding_all_box title_padding" ng-model="take1.tool.details.title.auto_same_padding"
+                    name="check"  checked ng-click="take1.make_padding('all','title_padding_all_box','title')"/>
+                    <label for="title_padding_all" ></label>
+                  </div>
+                  <label class="auto_label" title="">all</label>
+                </div>
+              </div>
+            <!--range slider-->
+              <div class="range_box">
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="title" ng-model="take1.tool.details.title.padding_value"
+                min="0.0" max="5.0" step=".1" ng-change="take1.make_padding('title')" value="{{take1.tool.details.title.padding_value}}"/>
+              </div>
+            </div><!-- end range container -->
+          </div>
+
+          <!-- ******************************* END title SECTION ************************************* -->
+
+          <!-- ******************************* BODY SECTION *************************************** -->
+
+          <div class="option_section option_section2" ng-show="take1.option_section == 'body'">
+
+            <div class="bM_stgs_mobility_info bM_stgs_content_box">
+              <div class="bM_switch_cont switch_cont">
+                <label class="bM_switch_label stgs_access">active body? </label>
+                <label class="bM_switch switch">
+                  <input class="switch_input stgs_access access" type="checkbox"
+                  ng-model="take1.tool.details.body.active_body">
+                  <span class="fs_slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="bM_stgs_mobility_info bM_stgs_content_box">
+              <div class="bM_switch_cont switch_cont">
+                <label class="bM_switch_label stgs_access">custom text? </label>
+                <label class="bM_switch switch">
+                  <input class="switch_input stgs_access access" type="checkbox"
+                  ng-model="take1.tool.details.body.custom_text" >
+                  <span class="fs_slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="bM_stgs_class_info bM_stgs_content_box">
+              <label title="css style unique identifier">body font:</label>
+              <div class="select-menu bM_stgs_custom_class" data-value-mode='none' data-value-data='take1.tool.details.body.font'
+              data-option-data='take1.service.custom_head.font' data-callout="take1.setSelect" data-params="{targ:take1.tool.details.body,prop:'font'}"></div>
+            </div><!--ends bg info-->
+            <div class="bM_stgs_class_info bM_stgs_content_box bM_font_size">
+              <label title="css style unique identifier">body font size:</label>
+              <div class="word_box width_pct">
+                <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" ng-model="take1.tool.details.body.font_size"
+                min="8" max="72" step="1" ng-model-options="{ updateOn: 'blur' }" ng-if="take1.tool.details.body.font_measure == 'px'" />
+                <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" ng-model="take1.tool.details.body.font_size"
+                min="0.2" max="5" step=".1" ng-model-options="{ updateOn: 'blur' }" ng-if="take1.tool.details.body.font_measure != 'px'" />
+                <label class=""> {{take1.tool.details.body.font_measure}}</label>
+              </div>
+              <div class="font_measure_btns bM_stgs_button_info">
+                <button type="button" class="bM_stgs_resp w3-btn first" ng-click="take1.tool.details.body.font_measure = 'px'; take1.tool.details.body.font_size == 14"
+                ng-class="{active:take1.tool.details.body.font_measure == 'px'}"  title="" >px</button>
+                <button type="button" class="bM_stgs_resp w3-btn" ng-click="take1.tool.details.body.font_measure = 'rem'; take1.tool.details.body.font_size == 1.4"
+                ng-class="{active:take1.tool.details.body.font_measure == 'rem'}">rem</button>
+                <button type="button" class="bM_stgs_resp w3-btn" ng-click="take1.tool.details.body.font_measure = 'em'; take1.tool.details.body.font_size == 1.4"
+                ng-class="{active:take1.tool.details.body.font_measure == 'em'}">em</button>
+                <button type="button" class="bM_stgs_resp w3-btn last" ng-click="take1.tool.details.body.font_measure = 'vmin'; take1.tool.details.body.font_size == 3"
+                ng-class="{active:take1.tool.details.body.font_measure == 'vmin'}"  title="" >vmin</button>
+              </div>
+
+              <div class="range_box">
+              <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="body" ng-model="take1.tool.details.body.font_size"
+              min="8" max="72" step="1"  value="{{take1.tool.details.body.font_size}}" ng-if="take1.tool.details.body.font_measure == 'px'" />
+              <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="body" ng-model="take1.tool.details.body.font_size"
+              min="0.2" max="5" step=".1"  value="{{take1.tool.details.body.font_size}}" ng-if="take1.tool.details.body.font_measure != 'px'" />
+              </div>
+            </div><!--ends bM_font_size-->
+            <div class="bM_stgs_class_info bM_stgs_content_box bM_line_height">
+              <label title="css style unique identifier">body line height:</label>
+              <div class="word_box width_pct">
+                <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" ng-model="take1.tool.details.body.line_height"
+                min="0" max="25" step=".5" ng-model-options="{ updateOn: 'blur' }" ng-if="take1.tool.details.body.font_measure != 'rem'" />
+                <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" ng-model="take1.tool.details.body.line_height"
+                min="0" max="2.5" step=".1" ng-model-options="{ updateOn: 'blur' }" ng-if="take1.tool.details.body.font_measure == 'rem'" />
+                <label class=""> {{take1.tool.details.body.font_measure}}</label>
+              </div>
+              <div class="range_box">
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="body" ng-model="take1.tool.details.body.line_height"
+                min="0" max="25" step=".5"  value="{{take1.tool.details.body.line_height}}" ng-if="take1.tool.details.body.font_measure != 'rem'" />
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="body" ng-model="take1.tool.details.body.line_height"
+                min="0" max="2.5" step=".1"  value="{{take1.tool.details.body.line_height}}" ng-if="take1.tool.details.body.font_measure == 'rem'" />
+              </div>
+            </div><!--ends bM_line_height-->
+            <div class="bM_stgs_mobility_info bM_stgs_content_box">
+              <div class="bM_switch_cont switch_cont">
+                <label class="bM_switch_label stgs_access">ellipsis overflow? </label>
+                <label class="bM_switch switch">
+                  <input class="switch_input stgs_access access" type="checkbox"
+                  ng-model="take1.tool.details.body.ellipsis">
+                  <span class="fs_slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="bM_stgs_class_info bM_stgs_content_box bM_line_height" ng-show="take1.tool.details.body.ellipsis == true">
+              <label title="css style unique identifier">number of lines?</label>
+              <div class="word_box width_pct">
+                <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" ng-model="take1.tool.details.body.line_number"
+                min="1" max="10" step="1" ng-model-options="{ updateOn: 'blur' }" />
+                <label class=""> {{take1.tool.details.body.line_number}}</label>
+              </div>
+              <div class="range_box">
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="body" ng-model="take1.tool.details.body.line_number"
+                min="1" max="10" step="1"  value="{{take1.tool.details.body.line_number}}" />
+              </div>
+            </div><!--ends bM_line_number-->
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <label title="">body font color:</label>
+              <input type="color" class="bM_stgs_bg_color" ng-model="take1.service.tool.details.body.font_color"/>
+
+              <div class="advanced_colors" data-destination="take1.service.tool.details.body" data-property="font_color"
+              data-collection="take1.getMyColors" data-expandto="bM_stgs_sect_cont" ></div>
+            </div><!--ends bg info-->
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <label title="">body bkgd color:</label>
+              <input type="color" class="bM_stgs_bg_color bM_stgs_bg_option" ng-model="take1.tool.details.body.bg_color"
+              ng-change="take1.prep_color('color','body')" />
+            </div><!--ends bg info-->
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <div class="d3_range_container">
+                <label title="">body bkgd opacity:</label>
+                <div class="word_box">
+                  <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" ng-model="take1.tool.details.body.bg_opacity"
+                  min="0" max="100" ng-change="take1.prep_color('opacity','body')"/>
+                </div>
+              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+              <div class="range_box">
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" ng-model="take1.tool.details.body.bg_opacity"
+                min="0" max="100" ng-change="take1.prep_color('opacity','body')"/>
+              </div>
+            </div><!--ends bg info-->
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <div class="d3_range_container width_pct">
+                <div class="d3_range_stack">
+                  <div class="bM_stgs_label_cont">
+                    <label class="width_label" title="">body margin %:</label>
+
+                    <!--width mobile margin/padding chk box -->
+                    <div class="d3_auto_range">
+                      <div class="mobile_margin_body squaredOne" ng-hide="show.on">
+                        <input type="checkbox" value="None" id="mobile_margin_body" name="check"
+                        ng-model="take1.tool.details.body.mobile_margin" ng-change="take1.form_item_style('body')" />
+                        <label for="mobile_margin_body" ></label>
+                      </div>
+                      <label class="auto_label" title="" >clear mobile</label>
+                    </div>
+                  </div><!-- bM_stgs_label_cont -->
+                  <div class="word_box width_pct">
+                  <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" data-dest="body" ng-model="take1.tool.details.body.margin_value"
+                  min="0.0" max="3.0" step=".1" ng-model-options="{ updateOn: 'blur' }" ng-blur="take1.make_margin('body')" value="{{take1.tool.details.body.margin_value}}"/>
+                  </div>
+                </div>
+              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+              <div class="d3_range_container width_pct">
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.body.margin_top}}</div>
+                  <div class="body_margin_top squaredOne" ng-hide="show.on">
+                    <input id="body_margin_top" type="checkbox" value="None" class="body_margin_box body_margin"
+                    name="check" data-param="margin_top" />
+                    <label for="body_margin_top" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">expand_less</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.body.margin_right}}</div>
+                  <div class="body_margin_rt squaredOne" ng-hide="show.on">
+                    <input id="body_margin_rt" type="checkbox" class="body_margin_box body_margin" value="None"
+                    name="check" data-param="margin_right" />
+                    <label for="body_margin_rt" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">chevron_right</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.body.margin_bottom}}</div>
+                  <div class="body_margin_bot squaredOne" ng-hide="show.on">
+                    <input id="body_margin_bot" type="checkbox" value="None" class="body_margin_box body_margin"
+                    name="check" data-param="margin_bottom" />
+                    <label for="body_margin_bot" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">expand_more</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.body.margin_left}}</div>
+                  <div class="body_margin_lft squaredOne" ng-hide="show.on">
+                    <input id="body_margin_lft" type="checkbox" value="None" class="body_margin_box body_margin"
+                    name="check" data-param="margin_left" />
+                    <label for="body_margin_lft" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">chevron_left</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div class="body_margin_all squaredOne" ng-hide="show.on">
+                    <input type="checkbox" value="None" id="body_margin_all" class="body_margin_all_box body_margin" ng-model="take1.tool.details.body.auto_same_margins"
+                    name="check" ng-click="take1.make_margin('all','body_margin_all_box','body')"/>
+                    <label for="body_margin_all" ></label>
+                  </div>
+                  <label class="auto_label" title="">all</label>
+                </div>
+              </div>
+            <!--range slider-->
+              <div class="range_box">
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="body" ng-model="take1.tool.details.body.margin_value"
+                min="0.0" max="3.0" step=".1" ng-change="take1.make_margin('body')" value="{{take1.tool.details.body.margin_value}}"/>
+              </div>
+            </div><!-- end range container -->
+            <div class="bM_stgs_bg_info bM_stgs_button_info bM_stgs_content_box">
+              <label title="should the slideshow be responsive">body active border:</label>
+              <button type="button" class="bM_active_border first w3-btn" ng-click="take1.tool.details.body.active_border = true;take1.form_item_style('body')"
+              ng-class="{active:take1.tool.details.body.active_border == true}">yes</button>
+              <button type="button" class="bM_active_border last w3-btn" ng-click="take1.tool.details.body.active_border = false;take1.form_item_style('body')"
+              ng-class="{active:take1.tool.details.body.active_border != true}"  title="" >no</button>
+            </div>
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <label title="">body border color:</label>
+              <input type="color" class="bM_stgs_border_color bM_stgs_bg_option" ng-model="take1.tool.details.body.border_color"
+              ng-change="take1.form_item_style('body')" />
+            </div><!--ends bg info-->
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <div class="d3_range_container">
+                <label title="">body border width:</label>
+                <div class="word_box">
+                  <input type="number" class="bM_stgs_border_width bM_stgs_bg_option" ng-model="take1.tool.details.body.border_width"
+                  min="0" max="10" ng-change="take1.form_item_style('body')"/>
+                </div>
+              </div>
+              <div class="range_box">
+                <input type="range" class="bM_stgs_border_width_rng bM_stgs_bg_option" ng-model="take1.tool.details.body.border_width"
+                min="0" max="10" ng-change="take1.form_item_style('body')"/>
+              </div>
+            </div>
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <div class="d3_range_container">
+                <label title="">body border radius:</label>
+                <div class="word_box">
+                  <input type="number" class="bM_stgs_border_radius bM_stgs_bg_option" ng-model="take1.tool.details.body.border_radius"
+                  min="0" max="50" ng-change="take1.form_item_style('body')"/>
+                </div>
+              </div>
+              <div class="range_box">
+                <input type="range" class="bM_stgs_border_radius_rng bM_stgs_bg_option" ng-model="take1.tool.details.body.border_radius"
+                min="0" max="50" ng-change="take1.form_item_style('body')"/>
+              </div>
+            </div>
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <div class="d3_range_container width_pct">
+                <div class="d3_range_stack">
+                  <div class="bM_stgs_label_cont">
+                    <label class="width_label" title="">body padding %:</label>
+
+                    <!--width mobile margin/padding chk box -->
+                    <div class="d3_auto_range">
+                      <div class="mobile_padding_body squaredOne" ng-hide="show.on">
+                        <input type="checkbox" value="None" id="mobile_padding_body" name="check"
+                        ng-model="take1.tool.details.body.mobile_padding" ng-change="take1.form_item_style('body')" />
+                        <label for="mobile_padding_body" ></label>
+                      </div>
+                      <label class="auto_label" title="" >clear mobile</label>
+                    </div>
+                  </div><!-- bM_stgs_label_cont -->
+                  <div class="word_box width_pct">
+                  <div class="word_box width_pct">
+                  <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" data-dest="body" ng-model="take1.tool.details.body.padding_value"
+                  min="0.0" max="5.0" step=".1" ng-model-options="{ updateOn: 'blur' }" ng-blur="take1.make_padding('body')" value="{{take1.tool.details.body.padding_value}}"/>
+                  </div>
+                </div>
+              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+            </div>
+              <div class="d3_range_container width_pct">
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.body.padding_top}}</div>
+                  <div class="body_padding_top squaredOne" ng-hide="show.on">
+                    <input id="body_padding_top" type="checkbox" value="None" class="body_padding_box body_padding"
+                    name="check" data-param="padding_top" checked />
+                    <label for="body_padding_top" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">expand_less</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.body.padding_right}}</div>
+                  <div class="body_padding_rt squaredOne" ng-hide="show.on">
+                    <input id="body_padding_rt" type="checkbox" class="body_padding_box body_padding" value="None"
+                    name="check" data-param="padding_right" checked />
+                    <label for="body_padding_rt" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">chevron_right</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.body.padding_bottom}}</div>
+                  <div class="body_padding_bot squaredOne" ng-hide="show.on">
+                    <input id="body_padding_bot" type="checkbox" value="None" class="body_padding_box body_padding"
+                    name="check" data-param="padding_bottom" checked />
+                    <label for="body_padding_bot" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">expand_more</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.body.padding_left}}</div>
+                  <div class="body_padding_lft squaredOne" ng-hide="show.on">
+                    <input id="body_padding_lft" type="checkbox" value="None" class="body_padding_box body_padding"
+                    name="check" data-param="padding_left" checked />
+                    <label for="body_padding_lft" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">chevron_left</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div class="body_padding_all squaredOne" ng-hide="show.on">
+                    <input type="checkbox" value="None" id="body_padding_all" class="body_padding_all_box body_padding" ng-model="take1.tool.details.body.auto_same_padding"
+                    name="check"  checked ng-click="take1.make_padding('all','body_padding_all_box','body')"/>
+                    <label for="body_padding_all" ></label>
+                  </div>
+                  <label class="auto_label" title="">all</label>
+                </div>
+              </div>
+            <!--range slider-->
+              <div class="range_box">
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="body" ng-model="take1.tool.details.body.padding_value"
+                min="0.0" max="5.0" step=".1" ng-change="take1.make_padding('body')" value="{{take1.tool.details.body.padding_value}}"/>
               </div>
             </div><!-- end range container -->
             <div class="bM_stgs_bg_info bM_stgs_content_box">
@@ -617,7 +1686,422 @@
             </div>
           </div>
 
-          <!-- ******************************* END CONTENT SECTION ************************************* -->
+          <!-- ******************************* END BODY SECTION ************************************* -->
+
+          <!-- ******************************* LINK SECTION *************************************** -->
+
+          <div class="option_section option_section2" ng-show="take1.option_section == 'link'">
+
+            <div class="bM_stgs_mobility_info bM_stgs_content_box">
+            	<div class="bM_switch_cont switch_cont">
+            		<label class="bM_switch_label stgs_access">active link? </label>
+            		<label class="bM_switch switch">
+            		  <input class="switch_input stgs_access access" type="checkbox"
+                  ng-model="take1.tool.details.link.active_link">
+            		  <span class="fs_slider"></span>
+            		</label>
+            	</div>
+            </div>
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <div class="d3_range_container width_pct">
+                <div class="d3_range_stack">
+                  <label class="width_label" title="">link width %:</label>
+                  <div class="word_box width_pct">
+                  <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" ng-model="take1.tool.details.link.width_pct"
+                  min="15" max="95" ng-model-options="{ updateOn: 'blur' }" ng-blur="take1.prep_height('link','d3_pmw')" />
+                  </div>
+                </div>
+                <div class="d3_auto_range">
+                  <div class="active_link_width squaredOne" ng-hide="show.on">
+                    <input type="checkbox" value="None" id="active_link_width" name="check" checked ng-model="take1.tool.details.link.active_width" />
+                    <label for="active_link_width" ></label>
+                  </div>
+                  <label class="active_link_width_label" title="">active</label>
+                </div>
+              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+            <!--range slider-->
+              <div class="range_box">
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" ng-model="take1.tool.details.link.width_pct"
+                min="15" max="95" ng-change="take1.prep_height('link','d3_pmw')" />
+              </div>
+            </div>
+            <div class="bM_stgs_mobility_info bM_stgs_content_box">
+              <label title="justify link:">justify link:</label>
+              <button type="button" class="bM_stgs_resp justify first w3-btn" ng-click="take1.tool.details.link.justify = 'flex-start'"
+              ng-class="{active:take1.tool.details.link.justify == 'flex-start'}">
+              <i class="material-icons" style="font-size:1rem;color:blue">format_align_left</i>
+              </button>
+              <button type="button" class="bM_stgs_resp justify w3-btn" ng-click="take1.tool.details.link.justify = 'center'"
+              ng-class="{active:take1.tool.details.link.justify == 'center'}">
+                <i class="material-icons" style="font-size:1rem;color:blue">format_align_center</i>
+              </button>
+              <button type="button" class="bM_stgs_resp justify last w3-btn" ng-click="take1.tool.details.link.justify = 'flex-end'"
+              ng-class="{active:take1.tool.details.link.justify == 'flex-end'}"  title="justify right" >
+                <i class="material-icons" style="font-size:1rem;color:blue">format_align_right</i>
+              </button>
+            </div><!--ends mobility info-->
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <label title="">link bkgd color:</label>
+              <input type="color" class="bM_stgs_bg_color bM_stgs_bg_option" ng-model="take1.tool.details.link.bg_color"
+              ng-change="take1.prep_color('color','link')" />
+            </div><!--ends bg info-->
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <div class="d3_range_container">
+                <label title="">link bkgd opacity:</label>
+                <div class="word_box">
+                  <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" ng-model="take1.tool.details.link.bg_opacity"
+                  min="0" max="100" ng-change="take1.prep_color('opacity','link')"/>
+                </div>
+              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+              <div class="range_box">
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" ng-model="take1.tool.details.link.bg_opacity"
+                min="0" max="100" ng-change="take1.prep_color('opacity','link')"/>
+              </div>
+            </div><!--ends bg info-->
+            <div class="bM_stgs_class_info bM_stgs_content_box">
+              <label title="css style unique identifier">link font:</label>
+              <div class="select-menu bM_stgs_custom_class" data-value-mode='none' data-value-data='take1.tool.details.link.font'
+              data-option-data='take1.service.custom_head.font' data-callout="take1.setSelect" data-params="{targ:take1.tool.details.link,prop:'font'}"></div>
+            </div><!--ends bg info-->
+            <div class="bM_stgs_class_info bM_stgs_content_box bM_font_size">
+              <label title="css style unique identifier">link font size:</label>
+              <div class="word_box width_pct">
+                <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" ng-model="take1.tool.details.link.font_size"
+                min="8" max="72" step="1" ng-model-options="{ updateOn: 'blur' }" ng-if="take1.tool.details.link.font_measure == 'px'" />
+                <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" ng-model="take1.tool.details.link.font_size"
+                min="0.2" max="5" step=".1" ng-model-options="{ updateOn: 'blur' }" ng-if="take1.tool.details.link.font_measure != 'px'" />
+                <label class=""> {{take1.tool.details.link.font_measure}}</label>
+              </div>
+              <div class="font_measure_btns bM_stgs_button_info">
+                <button type="button" class="bM_stgs_resp w3-btn first" ng-click="take1.tool.details.link.font_measure = 'px'; take1.tool.details.link.font_size == 14"
+                ng-class="{active:take1.tool.details.link.font_measure == 'px'}"  title="" >px</button>
+                <button type="button" class="bM_stgs_resp w3-btn" ng-click="take1.tool.details.link.font_measure = 'rem'; take1.tool.details.link.font_size == 1.4"
+                ng-class="{active:take1.tool.details.link.font_measure == 'rem'}">rem</button>
+                <button type="button" class="bM_stgs_resp w3-btn" ng-click="take1.tool.details.link.font_measure = 'em'; take1.tool.details.link.font_size == 1.4"
+                ng-class="{active:take1.tool.details.link.font_measure == 'em'}">em</button>
+                <button type="button" class="bM_stgs_resp w3-btn last" ng-click="take1.tool.details.link.font_measure = 'vmin'; take1.tool.details.link.font_size == 3"
+                ng-class="{active:take1.tool.details.link.font_measure == 'vmin'}"  title="" >vmin</button>
+              </div>
+
+              <div class="range_box">
+              <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="link" ng-model="take1.tool.details.link.font_size"
+              min="8" max="72" step="1"  value="{{take1.tool.details.link.font_size}}" ng-if="take1.tool.details.link.font_measure == 'px'" />
+              <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="link" ng-model="take1.tool.details.link.font_size"
+              min="0.2" max="5" step=".1"  value="{{take1.tool.details.link.font_size}}" ng-if="take1.tool.details.link.font_measure != 'px'" />
+              </div>
+            </div><!--ends bM_font_size-->
+            <div class="bM_stgs_class_info bM_stgs_content_box bM_line_height">
+              <label title="css style unique identifier">link line height:</label>
+              <div class="word_box width_pct">
+                <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" ng-model="take1.tool.details.link.line_height"
+                min="0" max="25" step=".5" ng-model-options="{ updateOn: 'blur' }" ng-if="take1.tool.details.link.font_measure != 'rem'" />
+                <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" ng-model="take1.tool.details.link.line_height"
+                min="0" max="2.5" step=".1" ng-model-options="{ updateOn: 'blur' }" ng-if="take1.tool.details.link.font_measure == 'rem'" />
+                <label class=""> {{take1.tool.details.link.font_measure}}</label>
+              </div>
+              <div class="range_box">
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="link" ng-model="take1.tool.details.link.line_height"
+                min="0" max="25" step=".5"  value="{{take1.tool.details.link.line_height}}" ng-if="take1.tool.details.link.font_measure != 'rem'" />
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="link" ng-model="take1.tool.details.link.line_height"
+                min="0" max="2.5" step=".1"  value="{{take1.tool.details.link.line_height}}" ng-if="take1.tool.details.link.font_measure == 'rem'" />
+              </div>
+            </div><!--ends bM_line_height-->
+            <div class="bM_stgs_mobility_info bM_stgs_content_box">
+              <div class="bM_switch_cont switch_cont">
+                <label class="bM_switch_label stgs_access">ellipsis overflow? </label>
+                <label class="bM_switch switch">
+                  <input class="switch_input stgs_access access" type="checkbox"
+                  ng-model="take1.tool.details.link.ellipsis">
+                  <span class="fs_slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="bM_stgs_class_info bM_stgs_content_box bM_line_height" ng-show="take1.tool.details.link.ellipsis == true">
+              <label title="css style unique identifier">number of lines?</label>
+              <div class="word_box width_pct">
+                <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" ng-model="take1.tool.details.link.line_number"
+                min="1" max="10" step="1" ng-model-options="{ updateOn: 'blur' }" />
+                <label class=""> {{take1.tool.details.link.line_number}}</label>
+              </div>
+              <div class="range_box">
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="link" ng-model="take1.tool.details.link.line_number"
+                min="1" max="10" step="1"  value="{{take1.tool.details.link.line_number}}" />
+              </div>
+            </div><!--ends bM_line_number-->
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <label title="">link font color:</label>
+              <input type="color" class="bM_stgs_bg_color" ng-model="take1.service.tool.details.link.font_color"/>
+
+              <div class="advanced_colors" data-destination="take1.service.tool.details.link" data-property="font_color"
+              data-collection="take1.getMyColors" data-expandto="bM_stgs_sect_cont" ></div>
+            </div><!--ends bg info-->
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <label title="">hover text color:</label>
+              <input type="color" class="bM_stgs_bg_color bM_stgs_bg_option" ng-model="take1.tool.details.link.font_hov_color"
+              ng-change="take1.prep_color('text','link')" />
+            </div><!--ends bg info-->
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <label title="">hover bkgd color:</label>
+              <input type="color" class="bM_stgs_bg_color bM_stgs_bg_option" ng-model="take1.tool.details.link.bg_hov_color"
+              ng-change="take1.prep_color('color','link','bg_hov')" />
+            </div><!--ends bg info-->
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <div class="d3_range_container">
+                <label title="">hover bkgd opacity:</label>
+                <div class="word_box">
+                  <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" ng-model="take1.tool.details.link.bg_hov_opacity"
+                  min="0" max="100" ng-change="take1.prep_color('opacity','link','bg_hov')"/>
+                </div>
+              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+              <div class="range_box">
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" ng-model="take1.tool.details.link.bg_hov_opacity"
+                min="0" max="100" ng-change="take1.prep_color('opacity','link','bg_hov')"/>
+              </div>
+            </div><!--ends bg info-->
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <div class="d3_range_container width_pct">
+                <div class="d3_range_stack">
+                  <div class="bM_stgs_label_cont">
+                    <label class="width_label" title="">link margin %:</label>
+
+                    <!--width mobile margin/padding chk box -->
+                    <div class="d3_auto_range">
+                      <div class="mobile_margin_link squaredOne" ng-hide="show.on">
+                        <input type="checkbox" value="None" id="mobile_margin_link" name="check"
+                        ng-model="take1.tool.details.link.mobile_margin" ng-change="take1.form_item_style('link')" />
+                        <label for="mobile_margin_link" ></label>
+                      </div>
+                      <label class="auto_label" title="" >clear mobile</label>
+                    </div>
+                  </div><!-- bM_stgs_label_cont -->
+                  <div class="word_box width_pct">
+                  <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" data-dest="link" ng-model="take1.tool.details.link.margin_value"
+                  min="0.0" max="3.0" step=".1" ng-model-options="{ updateOn: 'blur' }" ng-blur="take1.make_margin('link')" value="{{take1.tool.details.link.margin_value}}"/>
+                  </div>
+                </div>
+              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+              <div class="d3_range_container width_pct">
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.link.margin_top}}</div>
+                  <div class="link_margin_top squaredOne" ng-hide="show.on">
+                    <input id="link_margin_top" type="checkbox" value="None" class="link_margin_box link_margin"
+                    name="check" data-param="margin_top" />
+                    <label for="link_margin_top" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">expand_less</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.link.margin_right}}</div>
+                  <div class="link_margin_rt squaredOne" ng-hide="show.on">
+                    <input id="link_margin_rt" type="checkbox" class="link_margin_box link_margin" value="None"
+                    name="check" data-param="margin_right" />
+                    <label for="link_margin_rt" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">chevron_right</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.link.margin_bottom}}</div>
+                  <div class="link_margin_bot squaredOne" ng-hide="show.on">
+                    <input id="link_margin_bot" type="checkbox" value="None" class="link_margin_box link_margin"
+                    name="check" data-param="margin_bottom" />
+                    <label for="link_margin_bot" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">expand_more</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.link.margin_left}}</div>
+                  <div class="link_margin_lft squaredOne" ng-hide="show.on">
+                    <input id="link_margin_lft" type="checkbox" value="None" class="link_margin_box link_margin"
+                    name="check" data-param="margin_left" />
+                    <label for="link_margin_lft" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">chevron_left</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div class="link_margin_all squaredOne" ng-hide="show.on">
+                    <input type="checkbox" value="None" id="link_margin_all" class="link_margin_all_box link_margin" ng-model="take1.tool.details.link.auto_same_margins"
+                    name="check" ng-click="take1.make_margin('all','link_margin_all_box','link')"/>
+                    <label for="link_margin_all" ></label>
+                  </div>
+                  <label class="auto_label" title="">all</label>
+                </div>
+              </div>
+            <!--range slider-->
+              <div class="range_box">
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="link" ng-model="take1.tool.details.link.margin_value"
+                min="0.0" max="3.0" step=".1" ng-change="take1.make_margin('link')" value="{{take1.tool.details.link.margin_value}}"/>
+              </div>
+            </div><!-- end range container -->
+            <!-- <div class="bM_stgs_mobility_info bM_stgs_content_box">
+              <div class="bM_switch_cont switch_cont">
+                <label class="bM_switch_label stgs_access">shadow? </label>
+                <label class="bM_switch switch">
+                  <input class="switch_input stgs_access access" type="checkbox"
+                  ng-model="take1.tool.details.link.shadow_mode">
+                  <span class="fs_slider"></span>
+                </label>
+              </div>
+            </div> -->
+            <div class="bM_stgs_bg_info bM_stgs_button_info bM_stgs_content_box">
+              <label title="should the slideshow be responsive">w3-card styling?:</label>
+              <button type="button" class="bM_active_border first w3-btn" ng-click="take1.tool.details.link.card_styling = true;"
+              ng-class="{active:take1.tool.details.link.card_styling != false}">yes</button>
+              <button type="button" class="bM_active_border last w3-btn" ng-click="take1.tool.details.link.card_styling = false;"
+              ng-class="{active:take1.tool.details.link.card_styling == false}"  title="" >no</button>
+            </div>
+            <div class="bM_stgs_bg_info bM_stgs_button_info bM_stgs_content_box">
+              <label title="should the slideshow be responsive">link active border:</label>
+              <button type="button" class="bM_active_border first w3-btn" ng-click="take1.tool.details.link.active_border = true;take1.form_item_style('link')"
+              ng-class="{active:take1.tool.details.link.active_border == true}">yes</button>
+              <button type="button" class="bM_active_border last w3-btn" ng-click="take1.tool.details.link.active_border = false;take1.form_item_style('link')"
+              ng-class="{active:take1.tool.details.link.active_border != true}"  title="" >no</button>
+            </div>
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <label title="">link border color:</label>
+              <input type="color" class="bM_stgs_border_color bM_stgs_bg_option" ng-model="take1.tool.details.link.border_color"
+              ng-change="take1.form_item_style('link')" />
+            </div><!--ends bg info-->
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <div class="d3_range_container">
+                <label title="">link border width:</label>
+                <div class="word_box">
+                  <input type="number" class="bM_stgs_border_width bM_stgs_bg_option" ng-model="take1.tool.details.link.border_width"
+                  min="0" max="10" ng-change="take1.form_item_style('link')"/>
+                </div>
+              </div>
+              <div class="range_box">
+                <input type="range" class="bM_stgs_border_width_rng bM_stgs_bg_option" ng-model="take1.tool.details.link.border_width"
+                min="0" max="10" ng-change="take1.form_item_style('link')"/>
+              </div>
+            </div>
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <div class="d3_range_container">
+                <label title="">link border radius:</label>
+                <div class="word_box">
+                  <input type="number" class="bM_stgs_border_radius bM_stgs_bg_option" ng-model="take1.tool.details.link.border_radius"
+                  min="0" max="50" ng-change="take1.form_item_style('link')"/>
+                </div>
+              </div>
+              <div class="range_box">
+                <input type="range" class="bM_stgs_border_radius_rng bM_stgs_bg_option" ng-model="take1.tool.details.link.border_radius"
+                min="0" max="50" ng-change="take1.form_item_style('link')"/>
+              </div>
+            </div>
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <div class="d3_range_container width_pct">
+                <div class="d3_range_stack">
+                  <div class="bM_stgs_label_cont">
+                    <label class="width_label" title="">link padding %:</label>
+
+                    <!--width mobile margin/padding chk box -->
+                    <div class="d3_auto_range">
+                      <div class="mobile_padding_link squaredOne" ng-hide="show.on">
+                        <input type="checkbox" value="None" id="mobile_padding_link" name="check"
+                        ng-model="take1.tool.details.link.mobile_padding" ng-change="take1.form_item_style('link')" />
+                        <label for="mobile_padding_link" ></label>
+                      </div>
+                      <label class="auto_label" title="" >clear mobile</label>
+                    </div>
+                  </div><!-- bM_stgs_label_cont -->
+                  <div class="word_box width_pct">
+                  <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" data-dest="link" ng-model="take1.tool.details.link.padding_value"
+                  min="0.0" max="5.0" step=".1" ng-model-options="{ updateOn: 'blur' }" ng-blur="take1.make_padding('link')" value="{{take1.tool.details.link.padding_value}}"/>
+                  </div>
+                </div>
+              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+              <div class="d3_range_container width_pct">
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.link.padding_top}}</div>
+                  <div class="link_padding_top squaredOne" ng-hide="show.on">
+                    <input id="link_padding_top" type="checkbox" value="None" class="link_padding_box link_padding"
+                    name="check" data-param="padding_top" checked />
+                    <label for="link_padding_top" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">expand_less</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.link.padding_right}}</div>
+                  <div class="link_padding_rt squaredOne" ng-hide="show.on">
+                    <input id="link_padding_rt" type="checkbox" class="link_padding_box link_padding" value="None"
+                    name="check" data-param="padding_right" checked />
+                    <label for="link_padding_rt" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">chevron_right</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.link.padding_bottom}}</div>
+                  <div class="link_padding_bot squaredOne" ng-hide="show.on">
+                    <input id="link_padding_bot" type="checkbox" value="None" class="link_padding_box link_padding"
+                    name="check" data-param="padding_bottom" checked />
+                    <label for="link_padding_bot" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">expand_more</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.details.link.padding_left}}</div>
+                  <div class="link_padding_lft squaredOne" ng-hide="show.on">
+                    <input id="link_padding_lft" type="checkbox" value="None" class="link_padding_box link_padding"
+                    name="check" data-param="padding_left" checked />
+                    <label for="link_padding_lft" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">chevron_left</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div class="link_padding_all squaredOne" ng-hide="show.on">
+                    <input type="checkbox" value="None" id="link_padding_all" class="link_padding_all_box link_padding" ng-model="take1.tool.details.link.auto_same_padding"
+                    name="check"  checked ng-click="take1.make_padding('all','link_padding_all_box','link')"/>
+                    <label for="link_padding_all" ></label>
+                  </div>
+                  <label class="auto_label" title="">all</label>
+                </div>
+              </div>
+            <!--range slider-->
+              <div class="range_box">
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" data-dest="link" ng-model="take1.tool.details.link.padding_value"
+                min="0.0" max="5.0" step=".1" ng-change="take1.make_padding('link')" value="{{take1.tool.details.link.padding_value}}"/>
+              </div>
+            </div><!-- end range container -->
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <label title="">icon color:</label>
+              <input type="color" class="bM_stgs_bg_color" ng-model="take1.service.tool.details.icon_bg"/>
+            </div><!--ends bg info-->
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <label title="">icon hover color:</label>
+              <input type="color" class="bM_stgs_bg_color bM_stgs_bg_option" ng-model="take1.tool.details.icon_hov" />
+            </div><!--ends bg info-->
+            <div class="bM_stgs_bg_info bM_stgs_content_box">
+              <div class="d3_range_container">
+                <label title="">btn height:</label>
+                <div class="word_box">
+                <input type="number" class="bM_stgs_bg_opacity_nbr bM_stgs_bg_option" ng-model="take1.tool.details.btn_height"
+                min="15" max="100" ng-model-options="{ updateOn: 'blur' }" ng-blur="take1.prep_height()"/>
+                </div>
+              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+            <!--range slider-->
+              <div class="range_box">
+                <input type="range" class="bM_stgs_bg_opacity_rng bM_stgs_bg_option" ng-model="take1.tool.details.btn_height"
+                min="15" max="100" ng-change="take1.prep_height()"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- ******************************* END LINK SECTION ************************************* -->
 
           <!-- new section sample copy below -->
           <div class="option_section option_section1" ng-show="take1.option_section == 'sample'">

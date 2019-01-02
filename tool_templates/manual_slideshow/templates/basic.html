@@ -1,0 +1,32 @@
+<!-- SLIDESHOW TEMPLATE -->
+<div class="showTime_manual_slideshow {{take1.getClass('outer')}} w3-content w3-display-container pure-h"
+  ng-if="take1.motiv != 'settings' && take1.hnic()" ng-init="take1.tool = take1.service.tool" data-crust="{{take1.me_seeks()}}"
+  style="{{take1.tool.views[take1.view].style}}" data-option="outer"
+  data-prep="{{take1._.prep_stars(take1)}}"  data-view="{{take1.view}}" >
+  <div class="showTime_img_cont {{take1.getClass('outer')}} pure-h" >
+    <div id="showTime_img_wrap_{{take1.iUN}}_{{action.id}}"
+    ng-repeat="action in take1.my_stars" ng-if="take1.initiated"
+    style="{{take1.setDisplay($index)}}"  data-option="outer"
+    class="showTime_img_wrap canvas_wrapper {{take1.getClass('outer')}} pure-h  mySlides{{take1.service.module_id}}"
+    ng-class="{linkable:take1.tool.views[take1.view].main.linkable == true}"
+    ng-click="take1.test_link('main',take1.getParam(action).text.link)" >
+      <div id="showTime_img_{{take1.iUN}}_{{action.id}}" class="showTime_img canvas_cont {{take1.getClass('outer')}}"
+      ng-bind="take1.insertCanvas(action,$last)" data-option="image" >
+      </div>
+    </div>
+    <button ng-if="take1.my_stars.length > 1" class="sTMSS_L_Btn{{take1.service.module_id}} sTMSS_Btn{{take1.service.module_id}}
+    sTMSS_Btn sTMSS_L_Btn w3-display-left {{take1.tool.views[take1.view].button.btn_class}}" ng-click="take1.plusDivs(-1)"
+    style="{{take1.tool.views[take1.view].button.style}}" data-option="button"
+    ng-mouseenter="take1.btn_hover('enter','left',take1.service.module_id)"
+    ng-mouseleave="take1.btn_hover('leave','left',take1.service.module_id)">
+      <i class="material-icons sTMSS_L_Icon{{take1.service.module_id}}" style="font-size:2rem;color:{{take1.tool.views[take1.view].button.icon_bg}}">chevron_left</i>
+    </button>
+    <button ng-if="take1.my_stars.length > 1" class="sTMSS_R_Btn{{take1.service.module_id}} sTMSS_Btn{{take1.service.module_id}}
+    sTMSS_Btn sTMSS_R_Btn w3-display-right {{take1.tool.views[take1.view].button.btn_class}}" ng-click="take1.plusDivs(1)"
+    style="{{take1.tool.views[take1.view].button.style}}" data-option="button"
+    ng-mouseenter="take1.btn_hover('enter','right',take1.service.module_id)"
+    ng-mouseleave="take1.btn_hover('leave','right',take1.service.module_id)">
+      <i class="material-icons sTMSS_R_Icon{{take1.service.module_id}}" style="font-size:2rem;color:{{take1.tool.views[take1.view].button.icon_bg}}">chevron_right</i>
+    </button>
+  </div><!-- end img_cont -->
+</div>

@@ -1,0 +1,201 @@
+<!-- SLIDESHOW TEMPLATE -->
+  <div class="megaMenu_lightBox"></div>
+  <div class="showTime_mega_menu  w3-content w3-display-container {{take1.getClass('wrapper')}}"
+    ng-if="take1.initiated && take1.motiv != 'settings' && take1.hnic()"  data-view="{{take1.view}}"
+    ng-init="take1.service.tool = take1.service.tool" data-crust="{{take1.me_seeks()}}"
+    style="{{take1.form_item_style('wrapper','get')}}" data-option="wrapper" ><!-- {{take1.getStyle('wrapper')}} -->
+    <div class="megaMenu_nav {{take1.getClass('nav')}} " style="{{take1.form_item_style('nav','get')}}"
+    ng-if="take1.service.tool.views[take1.view].menu_bar" data-option="nav" >
+
+      <!-- logo1 -->
+      <div class="megaMenu_nav_btn {{take1.getClass('logo')}} mM_logo" ng-init="take1.prep_main($index)" data-option="logo"
+      style="{{take1.form_item_style('logo','get')}} "
+      ng-mouseenter="take1.item_hover('in','logo','hov')" ng-mouseleave="take1.item_hover('out','logo','hov')" data-hov="true"
+      ng-if="take1.service.tool.views[take1.view].logo.active_logo && logo.menu[0].active_image"
+      ng-repeat="logo in take1.service.menu_details track by $index"
+      ng-click="take1.test_link({data:logo.menu[0]}); take1.collapse_all();"
+      ng-class="{flexible:take1.service.tool.views[take1.view].logo.flexible == 'both', flex_grow:take1.service.tool.views[take1.view].logo.flexible == 'grow', flex_shrink:take1.service.tool.views[take1.view].logo.flexible == 'shrink'}">
+
+      <div class="megaMenu_nav_icon w3-btn" ng-if="logo.menu[0].active_icon && logo.menu[0].icon_src == 'goog'" >
+        <i class="material-icons" style="font-size:1.5rem;color:{{take1.getDetails('button','font_color')}}">{{logo.menu[0].item_icon}}</i></button>
+      </div><!-- icon_src item_icon -->
+
+      <div class="megaMenu_nav_icon w3-btn" ng-if="logo.menu[0].active_icon && logo.menu[0].icon_src == 'font'">
+        <i class="fa fa-{{logo.menu[0].item_icon}}" style="font-size:1.3rem;color:{{take1.getDetails('button','font_color')}}"></i>
+      </div>
+
+      <div class="megaMenu_nav_icon w3-btn d3-ui d3-icon-{{logo.menu[0].item_icon}}"
+      ng-if="logo.menu[0].active_icon && logo.menu[0].icon_src == 'sunz'" >
+      </div>
+
+      <img  ng-src="{{take1.getDisplayData(logo.menu[0],'image')}}"
+      ng-if="logo.menu[0].active_image && logo.menu[0].image_type == 'image'" alt="">
+
+      <div class="canvas_wrapper" ng-if="logo.menu[0].active_image && logo.menu[0].image_type == 'canvas'">
+        <div class="logo_home canvas_cont"  alt=""
+        ng-bind="take1.simple_canvas('logo_home',take1.getDisplayData(logo.menu[0],'img_obj',0),'i1')">
+        </div>
+      </div>
+
+    </div><!-- end logo1 -->
+
+    <!-- logo2 -->
+    <div class="megaMenu_nav_btn {{take1.getClass('logo2')}} mM_logo" ng-init="take1.prep_main($index)" data-option="logo2"
+    style="{{take1.form_item_style('logo2','get')}}"
+    ng-mouseenter="take1.item_hover('in','logo2','hov')" ng-mouseleave="take1.item_hover('out','logo2','hov')" data-hov="true"
+    ng-if="take1.service.tool.views[take1.view].logo2.active_logo && logo2.menu[1].active_image"
+    ng-repeat="logo2 in take1.service.menu_details track by $index"
+    ng-click="take1.test_link({data:logo2.menu[1]}); take1.collapse_all();"
+    ng-class="{flexible:take1.service.tool.views[take1.view].logo2.flexible == 'both',flex_grow:take1.service.tool.views[take1.view].logo2.flexible == 'grow', flex_shrink:take1.service.tool.views[take1.view].logo2.flexible == 'shrink'}">
+
+    <div class="megaMenu_nav_icon w3-btn" ng-if="logo2.menu[1].active_icon && logo2.menu[1].icon_src == 'goog'" >
+      <i class="material-icons" style="font-size:1.5rem;color:#17315a">{{logo2.menu[1].item_icon}}</i></button>
+    </div><!-- icon_src item_icon -->
+
+    <div class="megaMenu_nav_icon w3-btn" ng-if="logo2.menu[1].active_icon && logo2.menu[1].icon_src == 'font'">
+      <i class="fa fa-{{logo2.menu[1].item_icon}}" style="font-size:1.3rem;color:#17315a"></i>
+    </div>
+
+    <div class="megaMenu_nav_icon w3-btn d3-ui d3-icon-{{logo2.menu[1].item_icon}}"
+    ng-if="logo2.menu[1].active_icon && logo2.menu[1].icon_src == 'sunz'" >
+    </div>
+
+    <img  ng-src="{{take1.getDisplayData(logo2.menu[1],'image')}}"
+    ng-if="logo2.menu[1].active_image && logo2.menu[1].image_type == 'image'" alt="">
+
+    <div class="canvas_wrapper" ng-if="logo2.menu[1].active_image && logo2.menu[1].image_type == 'canvas'">
+      <div class="logo2_home canvas_cont"  alt=""
+      ng-bind="take1.simple_canvas('logo2_home',take1.getDisplayData(logo2.menu[1],'img_obj',0),'i2')">
+      </div>
+    </div>
+
+  </div><!-- end logo2 -->
+
+      <!-- button/menu item -->
+      <div class="megaMenu_nav_btn {{take1.getClass('button')}} " ng-init="take1.prep_main($index)" data-option="button"
+      style="{{take1.form_item_style('button','get')}}  {{take1.getTextStyle(take1.service.tool.views[take1.view].button,'button')}}"
+      ng-mouseenter="take1.item_hover('in','button','hov')" ng-mouseleave="take1.item_hover('out','button','hov')" data-hov="true"
+      ng-if="take1.getDetails('button','active_button')"
+      ng-repeat="action in take1.service.menu_details track by $index" ng-click="take1.toggle_show($index)"
+      ng-class="{flexible:take1.service.tool.views[take1.view].button.flexible == 'both',flex_grow:take1.service.tool.views[take1.view].button.flexible == 'grow',
+      flex_shrink:take1.service.tool.views[take1.view].button.flexible == 'shrink',canvas: action.active_image && action.image_type == 'canvas',
+      text: action.active_title}">
+
+      <!-- icon section -->
+      <div class="megaMenu_nav_icon" ng-if="action.active_icon && action.icon_src == 'goog'" >
+        <i class="material-icons" style="font-size:flexible:{{take1.getDetails('button','font_size')}}{{take1.getDetails('button','font_measure')}};color:#17315a">{{action.item_icon}}</i></button>
+      </div><!-- icon_src item_icon -->
+
+      <div class="megaMenu_nav_icon" ng-if="action.active_icon && action.icon_src == 'font'">
+        <i class="fa fa-{{action.item_icon}}" style="font-size:{{take1.getDetails('button','font_size')}}{{take1.getDetails('button','font_measure')}};color:#17315a"></i>
+      </div>
+
+      <div class="megaMenu_nav_icon d3-ui d3-icon-{{action.item_icon}}"
+      ng-if="action.active_icon && action.icon_src == 'sunz'" >
+      </div>
+
+      <!-- image section -->
+      <img  ng-src="{{take1.getDisplayData(action,'image')}}"
+      ng-if="action.active_image && action.image_type == 'image'" alt="">
+
+      <div class="canvas_wrapper" ng-if="action.active_image && action.image_type == 'canvas'">
+        <div class="hamburger_home_{{$index}} canvas_cont"  alt="">
+          {{take1.simple_canvas('hamburger_home_'+$index,take1.getDisplayData(action,'img_obj'),$index)}}
+        </div>
+      </div>
+
+      <!-- text section -->
+      <span ng-if="action.active_title">{{action.title}}</span>
+
+      </div>
+    </div>
+
+    <div id="megaMenu_menu_cont_{{$index}}" class="megaMenu_menu_cont {{take1.getClass('panel')}}"
+    style="{{take1.form_item_style('panel','get')}}"
+    ng-repeat="display in take1.service.menu_details track by $index" id="megaMenu_main_{{$index}}"
+    ng-hide="take1.is_collapsed($index)" data-option="panel" >
+      <!--  {{take1.getClass('outer')}} {{take1.form_item_style('outer','get')}} -->
+
+      <div class="megaMenu_main {{take1.getClass('main')}} " style="{{take1.form_item_style('main','get')}}" data-option="main"
+       data-see="{{take1.meView(display)}}" >
+
+          <div id="megaMenu_item_{{take1.iUN}}_{{display.id}}" data-option="content"
+          ng-switch="take1.service.tool.views[take1.view].image.active_image"
+          ng-repeat="feat in display.menu track by $index" ng-if="take1.initiated && feat.published"
+          data-test="{{take1.me_seeks(display)}}"
+          class="megaMenu_item {{take1.getClass('content')}}"
+          style="{{take1.getStyle()}}{{take1.form_item_style('content','get')}}">
+
+            <!-- now has 2 img_cont one evaluates to top_element the other under the title as top_element identical except image/title -->
+            <div class="megaMenu_img_cont {{take1.getClass('image')}} canvas_wrapper" style="{{take1.form_item_style('image','get')}}"
+
+              ng-if="take1.service.tool.views[take1.view].image.active_image === true &&
+              feat.active_image === true && take1.top_element(take1.service.tool.views[take1.view].image,'image')"
+              ng-class="{linkable:take1.tool.views[take1.view].image.linkable == true}"
+              ng-click="take1.test_link({data:feat,dest:'image'}); take1.collapse_all();"
+
+              data-option="image" >
+                <div id="megaMenu_img_{{take1.iUN}}_{{feat.id}}" class="megaMenu_img canvas_cont"
+                ng-bind="take1.simple_canvas('megaMenu_img_{{take1.iUN}}_{{feat.id}}', take1.image_picker(feat), $index+''+feat.id)">
+                <!-- ng-bind="take1.insertCanvas('megaMenu_img_{{take1.iUN}}_{{feat.id}}'feat,$last,)" -->
+                </div>
+            </div>
+
+            <div class="megaMenu_head_html {{take1.getClass('title')}}" data-option="title"
+            ng-class="{master:take1.service.tool.views[take1.view].title.font_controls == true}"
+            ng-if="take1.service.tool.views[take1.view].title.active_title && !take1.service.tool.views[take1.view].title.active_url "
+            style="{{take1.form_item_style('title','get')}} {{take1.getTextStyle(take1.service.tool.views[take1.view].title,'title')}}">
+            <span ng-if="feat.active_title">{{take1.getDisplayData(feat,'title')}}</span>
+            </div>
+            <div class="megaMenu_head_html button {{take1.getClass('title')}}" data-option="title"
+            ng-class="{master:take1.service.tool.views[take1.view].title.font_controls == true}"
+            ng-if="take1.service.tool.views[take1.view].title.active_title === true && take1.service.tool.views[take1.view].title.active_url "
+            style="{{take1.form_item_style('title','get')}} {{take1.getTextStyle(take1.service.tool.views[take1.view].title,'title')}}"
+            ng-mouseenter="take1.item_hover('in','title','hov')" ng-mouseleave="take1.item_hover('out','title','hov')" data-hov="true"
+            ng-click="take1.test_link({data:feat}); take1.collapse_all();">
+            <span ng-if="feat.active_title">{{take1.getDisplayData(feat,'title')}}</span>
+            </div>
+
+            <!-- now has 2 img_cont one evaluates to top_element the other under the title as top_element identical except image/title -->
+            <div class="megaMenu_img_cont {{take1.getClass('image')}} canvas_wrapper" style="{{take1.form_item_style('image','get')}}"
+
+              ng-if="take1.service.tool.views[take1.view].image.active_image === true &&
+              feat.active_image === true && take1.top_element(take1.service.tool.views[take1.view].image,'title')"
+              ng-class="{linkable:take1.tool.views[take1.view].image.linkable == true}"
+              ng-click="take1.test_link({data:feat,dest:'image'}); take1.collapse_all();"
+
+              data-option="image" >
+              <div id="megaMenu_img_{{take1.iUN}}_{{feat.id}}" class="megaMenu_img canvas_cont"
+              ng-bind="take1.simple_canvas('megaMenu_img_{{take1.iUN}}_{{feat.id}}', take1.image_picker(feat), $index)">
+              <!-- ng-bind="take1.insertCanvas('megaMenu_img_{{take1.iUN}}_{{feat.id}}'feat,$last,)" -->
+              </div>
+            </div>
+
+            <nav class="megaMenu_body_html {{take1.getClass('body')}} " data-option="body"
+            ng-if="take1.service.tool.views[take1.view].body.active_body === true "
+            ng-repeat="item in feat.submenu track by $index"
+            style="{{take1.form_item_style('body','get')}}  {{take1.getTextStyle(take1.service.tool.views[take1.view].body,'body')}}">
+
+              <div class="read_more_{{take1.iUN}}_{{feat.id}}_{{item.id}} mM_read_more read_more {{take1.getClass('list')}} button" data-option="list"
+              style="{{take1.form_item_style('list','get')}} {{take1.getTextStyle(take1.service.tool.views[take1.view].list,'list')}}"
+              ng-mouseenter="take1.item_hover('in','list','hov')" ng-mouseleave="take1.item_hover('out','list','hov')" data-hov="true"
+              ng-if="item.active_title" ng-click="take1.test_link({data:item}); take1.collapse_all();" >
+                {{take1.getDisplayData(item,'title')}}
+              </div>
+
+              <a class="read_more_{{take1.iUN}}_{{feat.id}}_{{item.id}}_{{base.id}} mM_read_more read_more {{take1.getClass('list2')}} button" data-option="list2"
+              ng-repeat="base in item.base track by $index"
+              style="{{take1.form_item_style('list2','get')}} {{take1.getTextStyle(take1.service.tool.views[take1.view].list2,'list2')}}"
+              ng-mouseenter="take1.item_hover('in','list2','hov')" ng-mouseleave="take1.item_hover('out','list2','hov')" data-hov="true"
+              ng-if="take1.service.tool.views[take1.view].list2.active_list2 === true && base.published"
+              ng-click="take1.test_link({data:base}); take1.collapse_all();" >
+                <span ng-if="base.active_title">{{take1.getDisplayData(base,'title')}}</span>
+              </a>
+
+            </nav><!--end body div-->
+
+          </div><!--end mM item repeat div-->
+      </div><!-- mM main -->
+
+    </div><!--mM menu cont -->
+  </div>

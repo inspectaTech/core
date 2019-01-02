@@ -1,0 +1,1748 @@
+
+<!-- SETTINGS TEMPLATE -->
+<!--<div ng-if="take1.motiv == 'settings'">switched to settings \n data params = {{take1.service.current_tool.params.data}}'-->
+<div class="mM_stgs" ng-if="take1.motiv == 'settings' && take1.hnic()">
+  <span class="ng-hide" ></span>
+  <h5 class="mM_stgs_label">mega menu settings</h5>
+  <div class="mM_main">
+
+    <div class="mM_stgs_ctrls_cont">
+      <button type="button" class="mM_stgs_ctrls first w3-btn" ng-click="take1.section = 'items'"
+      ng-class="{active:take1.section == 'items'}">items</button>
+      <button type="button" class="mM_stgs_ctrls first w3-btn" ng-click="take1.section = 'basic'"
+      ng-class="{active:take1.section == 'basic'}">basic</button>
+      <button type="button" class="mM_stgs_ctrls last w3-btn" ng-click="take1.section = 'advanced'; take1.option_section = 'options'"
+      ng-class="{active:take1.section == 'advanced'}"  title="" ng-show="take1.tool.design_mode != 'pattern'" >advanced</button>
+    </div>
+
+    <div class="mM_stgs_sect_cont">
+
+      <!-- ******************************* ITEMS SECTION *************************************** -->
+
+        <div class="mM_stgs_basic mM_stgs_sect mM_stgs_sect1 " ng-show="take1.section == 'items'"
+        ng-init="take1.setup()" ng-switch on="take1.menu_display">
+          <div ng-switch-when="category">
+            <div class="mM_item_label_cont sticky" >
+              <div class="mM_item_label_text">
+                <h4>edit category</h4>
+              </div>
+            </div>
+
+            <div class="mM_item_cont category_dropzone">
+              <div id="mM_item_category{{$index}}" draggable="true" ng-repeat="category in take1.service.menu_info track by $index"
+              class="mM_item category_mov category_dropzone mov{{$index}} mov mM_mov" data-moving="category"
+              data-my_src="{{category.src}}" data-my_id="{{category.id}}" >
+                <div class="mM_item_upper wrapper w3-button">
+                  <label>{{category.title}}</label>
+                  <div class="mM_item_btn_cont">
+                    <button type="button" class="mM_stgs_ctrls first w3-btn" ng-click="take1.start_menu_editor(category.params)" >
+                      <i class="material-icons" style="font-size:1.2rem;color:#17315a">visibility</i>
+                    </button>
+                    <button type="button" class="mM_stgs_ctrls first w3-btn" ng-click="take1.delete_item('category',category)" >
+                      <i class="material-icons" style="font-size:1.2rem;color:#17315a">close</i>
+                    </button>
+                  </div>
+                  <hr class="d_hr">
+                </div>
+                <hr class="r_hr{{category.id}} r_hr">
+                <div id="remove_contents{{category.id}}" class="mM_item_lower rbx{{category.id}} w3-pale-red remove_contents">
+                  remove all contents?
+                  <div class="mM_item_btn_conf">
+                    <button type="button" class="mM_stgs_ctrls first w3-btn" ng-click="take1.delete_item('category',category,'confirm')" >
+                      confirm
+                    </button>
+                    <button type="button" class="mM_stgs_ctrls first w3-btn" ng-click="take1.delete_item('category',category,'cancel')" >
+                      cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div><!-- end dropzone cont -->
+
+            <!--
+            <div class="mM_new_item_cont">
+              <div ng-form name="mega_category_form" class="mM_new_item_title_editor" ng-show="take1.create_category == 1" >
+                <div class="">
+                  <label for="">category title</label>
+                  <button type="button" class="mM_new_item_cancel w3-btn" ng-click="take1.createItem('category')">
+                  <i class="material-icons" style="font-size:1.5rem;color:#17315a">done</i></button>
+                  <button type="button" class="mM_new_item_cancel w3-btn" ng-click="take1.create_category = 0;take1.reset_item_creator()">
+                  <i class="material-icons" style="font-size:1.5rem;color:#17315a">close</i></button>
+                </div>
+                <input type="text" name="categoryTxt" value="" ng-model="take1.item_title" ng-change="take1.check_entry(take1.item_title,'title')"
+                placeholder="Enter category title..." ng-class="{invalid:take1.valid_title == 'invalid'}"
+                ng-keypress="take1.check_enter('category')" ng-init="take1.categoryForm = mega_category_form" required>
+              </div>
+              <button type="button" class="mM_new_item_btn w3-btn" ng-click="take1.create_category = 1"
+              ng-show="take1.create_category != 1">
+              add category
+              <i class="material-icons" style="font-size:1.5rem;color:#17315a">add_circle</i></button>
+            </div>
+            end new_item cont -->
+
+          </div><!-- end new_item cont -->
+
+        </div><!-- end of basic section container -->
+
+
+        <!-- ******************************* END ITEMS SECTION *************************************** -->
+
+      <!-- ******************************* BASIC SECTION *************************************** -->
+
+        <div class="mM_stgs_basic mM_stgs_sect mM_stgs_sect1" ng-show="take1.section == 'basic'">
+
+          <div class="mM_stgs_class_info column mM_stgs_content_box">
+
+            <label title="css style unique identifier">view control:</label>
+
+            <div class="select-menu mM_stgs_view_class" data-value-mode='none' data-value-data='take1.view'
+            data-option-data='take1.view_ary_obj' data-callout="take1.setSelect" data-cname="take1.view_select"
+            data-params="{targ:take1,prop:'view',callout:take1.prep_view}"></div>
+
+            <button type="button" class="mM_view_new_item_btn  w3-btn" ng-click="take1.add_view = true"
+            ng-show="take1.add_view == false && take1.dummy == true">
+              <i class="material-icons" style="font-size:1.5rem;color:#17315a">add_circle</i>
+            </button>
+            <div class="mM_view_head_cont" ng-show="take1.add_view == true" >
+              <label title="css style unique identifier">view title/description</label>
+              <div class="mM_view_title_input_cont">
+                <input class="mM_view_title_input" ng-class="{invalid:take1.valid_title == 'invalid'}" type="text"
+                name="" value=""
+                placeholder="title/describe your view" ng-blur="" ng-model="take1.temp_view_text">
+              </div>
+              <button type="button" class="w3-btn mM_view_title_btn confirm" ng-click="take1.make_select('confirm','view')" >
+                <i class="material-icons" style="font-size:1rem;color:green">done</i><!--subject-->
+              </button>
+              <button type="button" class="w3-btn mM_view_title_btn cancel" ng-click="take1.make_select('cancel','view')" >
+                <i class="material-icons" style="font-size:1rem;color:#17315a">close</i><!--subject-->
+              </button>
+            </div>
+
+          </div><!--ends menu style-->
+
+          <div class="mM_stgs_mobility_info mM_stgs_content_box info_space">
+            <label title="should the slideshow be responsive">current view: {{take1.view}}</label>
+            <button type="button" class="mM_stgs_resp w3-btn"
+            ng-repeat="view in take1._.views_array(take1._.tool) track by $index"
+            ng-hide="(take1._.views_array(take1._.tool)).length > 2 && take1.view == view"
+            ng-click="take1.view = view; take1.update_select_menu(view)"
+            ng-class="{active:take1.view == view}">{{view}}</button>
+          </div><!--ends design mode-->
+
+          <div class="mM_stgs_mobility_info mM_stgs_content_box"
+           ng-show="take1.view != 'default'" data-slip="{{take1.view}}" >
+            <div class="mM_switch_cont switch_cont">
+              <label class="mM_switch_label stgs_access">active view? </label>
+              <label class="mM_switch switch">
+                <input class="switch_input stgs_access access" type="checkbox"
+                ng-model="take1.tool.views[take1.view].active_view"
+                ng-change="take1.prep_view(); take1.soft_apply()" >
+                <span class="fs_slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="mM_stgs_class_info mM_stgs_content_box" ng-show="take1.tool.design_mode != 'pattern'" >
+            <label title="css style unique identifier">menu style:</label>
+            <div class="select-menu mM_stgs_custom_class" data-value-mode='none' data-value-data='take1.service.tool.template_style'
+            data-option-data='take1.template_styles' data-callout="take1.setSelect"
+            data-params="{targ:take1.service.tool,prop:'template_style',callout:take1.setTemplateStyle}"></div>
+          </div><!--ends bg info-->
+          <div class="mM_stgs_mobility_info mM_stgs_content_box info_space">
+            <label title="should the slideshow be responsive">design mode:</label>
+            <button type="button" class="mM_stgs_resp first w3-btn" ng-click="take1.tool.design_mode = 'custom'"
+            ng-class="{active:take1.tool.design_mode != 'pattern'}">custom</button>
+            <button type="button" class="mM_stgs_resp last w3-btn" ng-click="take1.tool.design_mode = 'pattern'"
+            ng-class="{active:take1.tool.design_mode == 'pattern'}"  title="" >pattern</button>
+
+            <div class="fyinfo" ng-class="{'w3-pale-yellow open':take1.info_space.design_mode == 1}">
+              <p class="mM_content_control_info" ng-if="take1.tool.design_mode == 'pattern'"
+              ng-show="take1.info_space.design_mode == 1" >
+                The <strong>pattern</strong> setting uses a selected module's details as its template. <br>
+                Bookmark patterns can be set using the bookmark button.
+              </p>
+              <p class="mM_content_control_info" ng-if="take1.tool.design_mode != 'pattern'"
+              ng-show="take1.info_space.design_mode == 1" >
+              The <strong>custom</strong> setting allows a customized user design for this module.
+              </p>
+              <button class="info_btn w3-btn" ng-show="take1.info_space.design_mode != 1"
+              ng-click="take1.info_space.design_mode = 1">
+                <i class="material-icons" style="font-size:1.2rem;color:#17315a">info</i>
+              </button>
+              <button class="info_btn w3-btn" ng-show="take1.info_space.design_mode == 1"
+              ng-click="take1.info_space.design_mode = 0">
+                <i class="material-icons" style="font-size:1.2rem;color:#17315a">close</i>
+              </button>
+            </div><!--ends fyinfo-->
+          </div><!--ends design mode-->
+          <div ng-show="take1.tool.design_mode != 'pattern'" >
+
+            <div class="mM_stgs_mobility_info mM_stgs_content_box">
+              <div class="mM_switch_cont switch_cont">
+                <label class="mM_switch_label stgs_access">invisible? </label>
+                <label class="mM_switch switch">
+                  <input class="switch_input stgs_access access" type="checkbox"
+                  ng-model="take1.tool.views[take1.view].invisible"   ng-change="take1.outer_style(); take1.soft_apply()" >
+                  <span class="fs_slider"></span>
+                </label>
+              </div>
+            </div>
+          <div class="mM_stgs_mobility_info mM_stgs_content_box">
+            <label title="should the slideshow be responsive">sticky?</label>
+            <button type="button" class="mM_stgs_resp first w3-btn" ng-click="take1.tool.views[take1.view].sticky = 'none';take1.form_item_style('main');"
+            ng-class="{active:take1.tool.views[take1.view].sticky == 'none'}">none</button>
+            <button type="button" class="mM_stgs_resp w3-btn" ng-click="take1.tool.views[take1.view].sticky = 'sticky-top';take1.form_item_style('main');"
+            ng-class="{active:take1.tool.views[take1.view].sticky == 'sticky-top'}"  title="" >top</button>
+            <button type="button" class="mM_stgs_resp last w3-btn" ng-click="take1.tool.views[take1.view].sticky = 'sticky-bot';take1.form_item_style('main');"
+            ng-class="{active:take1.tool.views[take1.view].sticky == 'sticky-bot'}"  title="" >bottom</button>
+          </div><!--ends mobility info-->
+          <div class="mM_stgs_mobility_info mM_stgs_content_box">
+            <label title="should the slideshow be responsive">menu action:</label>
+            <button type="button" class="mM_stgs_resp first w3-btn" ng-click="take1.tool.views[take1.view].action = 'push';take1.form_item_style('main');"
+            ng-class="{active:take1.tool.views[take1.view].action == 'push'}">push</button>
+            <button type="button" class="mM_stgs_resp w3-btn" ng-click="take1.tool.views[take1.view].action = 'overlay';take1.form_item_style('main');"
+            ng-class="{active:take1.tool.views[take1.view].action == 'overlay'}"  title="" >overlay</button>
+            <button type="button" class="mM_stgs_resp last w3-btn" ng-click="take1.tool.views[take1.view].action = 'fixed';take1.form_item_style('main');"
+            ng-class="{active:take1.tool.views[take1.view].action == 'fixed'}"  title="" >fixed</button>
+          </div><!--ends mobility info-->
+          <div class="mM_stgs_current_info mM_stgs_content_box">
+            <label title="size of your current viewport (above the fold)">current screen size:</label>
+            <div>width:   {{take1.screen_width}}</div>
+            <div>height:   {{take1.screen_height}}</div>
+          </div><!--ends current info-->
+          <div class="mM_stgs_custom_info mM_stgs_content_box">
+            <label title="customize the size your slideshow should be compared to the viewport">custom size:</label>
+            <div class="mM_stgs_size_wrapr">
+              <div class="mM_stgs_size_wrapr">width:</div>
+              <input class="mM_stgs_custom_input" type="text"  ng-blur="take1.process_size()"
+              ng-model="take1.service.tool.views[take1.view].width">
+            </div>
+            <div class="mM_stgs_size_wrapr">
+              <div >height:</div>
+              <input class="mM_stgs_custom_input" type="text" ng-blur="take1.process_size()"
+              ng-model="take1.service.tool.views[take1.view].height" >
+            </div>
+          </div><!--ends custom info-->
+          <div class="mM_stgs_bg_info mM_stgs_content_box">
+            <div class="d3_range_container width_pct">
+              <div class="d3_range_stack">
+                <label class="width_label" title="">total width %:</label>
+                <div class="word_box width_pct">
+                <input type="number" class="mM_stgs_bg_opacity_nbr mM_stgs_bg_option" ng-model="take1.tool.views[take1.view].width_pct"
+                min="15" max="100" ng-blur="take1.form_item_style(take1.destination)" />
+                </div>
+              </div>
+              <div class="d3_auto_range">
+                <div class="auto_width squaredOne" ng-hide="show.on">
+                  <input type="checkbox" value="None" id="auto_width" name="check"  ng-model="take1.tool.views[take1.view].auto_width" />
+                  <label for="auto_width" >auto</label>
+                </div>
+                <label class="auto_label" title="" ng-show="take1.tool.views[take1.view].auto_width == true" >on</label>
+                <label class="auto_label" title="" ng-show="take1.tool.views[take1.view].auto_width != true" >off</label>
+              </div>
+            </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+          <!--range slider-->
+            <div class="range_box">
+              <input type="range" class="mM_stgs_bg_opacity_rng mM_stgs_bg_option" ng-model="take1.tool.views[take1.view].width_pct"
+              min="15" max="100" ng-change="take1.form_item_style(take1.destination)" />
+            </div>
+          </div>
+          <div class="mM_stgs_mobility_info mM_stgs_content_box">
+            <div class="mM_switch_cont switch_cont">
+              <label class="mM_switch_label stgs_access">inline? </label>
+              <label class="mM_switch switch">
+                <input class="switch_input stgs_access access" type="checkbox"
+                ng-model="take1.tool.views[take1.view].inline">
+                <span class="fs_slider"></span>
+              </label>
+            </div>
+          </div>
+          <div class="mM_stgs_bg_info mM_stgs_content_box" ng-if="take1.tool.views[take1.view].inline">
+            <div class="d3_range_container width_pct">
+              <div class="d3_range_stack">
+                <label class="width_label" title="">device width?:</label>
+                <div class="word_box width_pct">
+                <input type="number" class="mM_stgs_bg_opacity_nbr mM_stgs_bg_option" data-dest="outer" ng-model="take1.tool.views[take1.view].outer.column_value"
+                min="1" max="100" ng-change="take1.make_columns('outer')" value="{{take1.tool.views[take1.view].outer.column_value}}"/>
+                </div>
+              </div>
+            </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+            <div class="d3_range_container width_pct">
+              <div class="d3_auto_range_cube d3_auto_range">
+                <div>{{take1.tool.views[take1.view].outer.column_small}}</div>
+                <div class="outer_column_sm squaredOne" ng-hide="show.on">
+                  <input id="outer_column_sm" type="radio" value="None" class="outer_column_box outer_column"
+                  name="column" data-param="column_small"  />
+                  <label for="outer_column_sm" ></label>
+                </div>
+                <label class="auto_label" title="">
+                  SM
+                </label>
+              </div>
+              <div class="d3_auto_range_cube d3_auto_range">
+                <div>{{take1.tool.views[take1.view].outer.column_medium}}</div>
+                <div class="outer_column_md squaredOne" ng-hide="show.on">
+                  <input id="outer_column_md" type="radio" class="outer_column_box outer_column" value="None"
+                  name="column" data-param="column_medium"  />
+                  <label for="outer_column_md" ></label>
+                </div>
+                <label class="auto_label" title="">
+                  MD
+                </label>
+              </div>
+              <div class="d3_auto_range_cube d3_auto_range">
+                <div>{{take1.tool.views[take1.view].outer.column_large}}</div>
+                <div class="outer_column_lg squaredOne" ng-hide="show.on">
+                  <input id="outer_column_lg" type="radio" value="None" class="outer_column_box outer_column"
+                  name="column" data-param="column_large"  />
+                  <label for="outer_column_lg" ></label>
+                </div>
+                <label class="auto_label" title="">
+                  LG
+                </label>
+              </div>
+              <div class="d3_auto_range_cube d3_auto_range">
+                <div>{{take1.tool.views[take1.view].outer.column_xlarge}}</div>
+                <div class="outer_column_xl squaredOne" ng-hide="show.on">
+                  <input id="outer_column_xl" type="radio" value="None" class="outer_column_box outer_column"
+                  name="column" data-param="column_xlarge"  />
+                  <label for="outer_column_xl" ></label>
+                </div>
+                <label class="auto_label" title="">
+                  XL
+                </label>
+              </div>
+
+            </div>
+          <!--range slider-->
+            <div class="range_box">
+              <input type="range" class="mM_stgs_bg_opacity_rng mM_stgs_bg_option" data-dest="outer" ng-model="take1.tool.views[take1.view].outer.column_value"
+              min="1" max="100" ng-change="take1.make_columns('outer')" value="{{take1.tool.views[take1.view].outer.column_value}}"/>
+            </div>
+          </div><!-- end range container --><!-- end device width -->
+
+
+          <div class="mM_stgs_mobility_info mM_stgs_content_box">
+            <label title="should the slideshow be responsive">mobile friendly:</label>
+            <button type="button" class="mM_stgs_resp first w3-btn" ng-click="take1.is_responsive('yes')"
+            ng-class="{active:take1.responsive == 1}">yes</button>
+            <button type="button" class="mM_stgs_resp last w3-btn" ng-click="take1.is_responsive('no')"
+            ng-class="{active:take1.responsive == 0}"  title="" >no</button>
+          </div><!--ends mobility info-->
+
+          <div class="mM_stgs_mobility_info mM_stgs_content_box">
+            <div class="mM_switch_cont switch_cont">
+              <label class="mM_switch_label stgs_access">limit devices? </label>
+              <label class="mM_switch switch">
+                <input class="switch_input stgs_access access" type="checkbox"
+                ng-model="take1.tool.views[take1.view].limit_devices"   ng-change="take1.outer_style(); take1.soft_apply()" >
+                <span class="fs_slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="mM_stgs_bg_info mM_stgs_content_box" ng-show="take1.tool.views[take1.view].limit_devices">
+            <div class="d3_range_container width_pct">
+              <div class="d3_range_stack">
+                <label class="width_label" title="">hide on?:</label>
+              </div>
+            </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+            <div class="d3_range_container width_pct">
+              <div class="d3_auto_range_cube d3_auto_range">
+                <div class="hide_on_sm squaredOne" ng-hide="show.on">
+                  <input id="hide_on_sm" type="checkbox" value="None" class="hide_on_box hide_on"
+                  name="device" data-param="device_small" ng-model="take1.tool.views[take1.view].hide_small"
+                  ng-change="take1.outer_style(); take1.soft_apply()" />
+                  <label for="hide_on_sm" ></label>
+                </div>
+                <label class="auto_label" title="">
+                  SM
+                </label>
+              </div>
+              <div class="d3_auto_range_cube d3_auto_range">
+                <div class="hide_on_md squaredOne" ng-hide="show.on">
+                  <input id="hide_on_md" type="checkbox" class="hide_on_box hide_on" value="None"
+                  name="device" data-param="device_medium" ng-model="take1.tool.views[take1.view].hide_medium"
+                  ng-change="take1.outer_style(); take1.soft_apply()"  />
+                  <label for="hide_on_md" ></label>
+                </div>
+                <label class="auto_label" title="">
+                  MD
+                </label>
+              </div>
+              <div class="d3_auto_range_cube d3_auto_range">
+                <div class="hide_on_lg squaredOne" ng-hide="show.on">
+                  <input id="hide_on_lg" type="checkbox" value="None" class="hide_on_box hide_on"
+                  name="device" data-param="device_large"  ng-model="take1.tool.views[take1.view].hide_large"
+                  ng-change="take1.outer_style(); take1.soft_apply()" />
+                  <label for="hide_on_lg" ></label>
+                </div>
+                <label class="auto_label" title="">
+                  LG
+                </label>
+              </div>
+              <!--<div class="d3_auto_range_cube d3_auto_range">
+                <div>{{take1.tool.views[take1.view].nav.device_xlarge}}</div>
+                <div class="hide_on_xl squaredOne" ng-hide="show.on">
+                  <input id="hide_on_xl" type="radio" value="None" class="hide_on_box hide_on"
+                  name="device" data-param="device_xlarge"  />
+                  <label for="hide_on_xl" ></label>
+                </div>
+                <label class="auto_label" title="">
+                  XL
+                </label>
+              </div>-->
+            </div>
+
+          </div><!-- end limit on -->
+
+          <div class="mM_stgs_mobility_info mM_stgs_content_box info_space">
+            <label title="should the slideshow be responsive">height style:</label>
+            <button type="button" class="mM_stgs_resp first w3-btn" ng-click="take1.tool.views[take1.view].height_style = 'flex'"
+            ng-class="{active:take1.tool.views[take1.view].height_style == 'flex'}">flex</button>
+            <button type="button" class="mM_stgs_resp last w3-btn" ng-click="take1.tool.views[take1.view].height_style = 'strict'"
+            ng-class="{active:take1.tool.views[take1.view].height_style == 'strict'}"  title="" >strict</button>
+
+            <div class="fyinfo" ng-class="{'w3-pale-yellow open':take1.info_space.height_style == 1}">
+              <p class="mM_content_control_info" ng-if="take1.tool.views[take1.view].height_style != 'strict'"
+              ng-show="take1.info_space.height_style == 1">
+                The <strong>flex</strong> setting automates the height & works best with <strong>'content control'</strong> settings turned <strong>on</strong>.
+              </p>
+              <p class="mM_content_control_info" ng-if="take1.tool.views[take1.view].height_style == 'strict'"
+              ng-show="take1.info_space.height_style == 1">
+              The <strong>strict</strong> setting requires a manually set height & works best with <strong>'content control'</strong> settings turned <strong>off</strong>.
+              </p>
+              <button class="info_btn w3-btn" ng-show="take1.info_space.height_style != 1"
+              ng-click="take1.info_space.height_style = 1">
+                <i class="material-icons" style="font-size:1.2rem;color:#17315a">info</i>
+              </button>
+              <button class="info_btn w3-btn" ng-show="take1.info_space.height_style == 1"
+              ng-click="take1.info_space.height_style = 0">
+                <i class="material-icons" style="font-size:1.2rem;color:#17315a">close</i>
+              </button>
+            </div><!--ends fyinfo-->
+
+          </div><!--ends mobility info-->
+          <div class="mM_stgs_class_info mM_stgs_content_box">
+            <label title="css style unique identifier">custom class:</label>
+            <textarea type="text" class="mM_stgs_custom_class"
+            ng-model="take1.service.tool.views[take1.view].class_pfx"
+            ng-model-options="{ updateOn: 'blur' }" ></textarea>
+          </div><!--ends bg info-->
+          <div class="mM_stgs_class_info bM_stgs_content_box">
+            <label title="css style unique identifier">grid area class:</label>
+            <textarea type="text" class="mM_stgs_custom_class"
+            ng-model="take1.service.tool.views[take1.view].grid_area_class"
+            ng-model-options="{ updateOn: 'blur' }" ></textarea>
+          </div><!--ends bg info-->
+          <div class="mM_stgs_class_info bM_stgs_content_box">
+            <label title="css style unique identifier">grid area style:</label>
+            <textarea type="text" class="mM_stgs_custom_style"
+            ng-model="take1.service.tool.views[take1.view].grid_area_style"
+            ng-model-options="{ updateOn: 'blur' }"></textarea>
+          </div><!--ends bg info-->
+          <div class="mSS_stgs_class_info bM_stgs_content_box">
+            <label title="css style unique identifier">notes:</label>
+            <textarea type="text" class="mSS_stgs_custom_notes"
+            ng-model="take1.service.tool.notes"
+            ng-model-options="{ updateOn: 'blur' }" ></textarea>
+          </div><!--ends bg info-->
+
+          <button type="button" class="mM_stgs_reset_btn w3-btn" ng-click="take1.form_reset(take1.service.tool.file_name);" title="restore default settings">reset</button>
+
+          <div class="mM_stgs_bg_info col mM_stgs_content_box" ng-if="take1.view != 'default'">
+              <button type="button" class="mM_custom_new_item_btn  w3-btn w3-card"
+              ng-click="take1.remove_view(take1.view,'reset')"
+              ng-show="take1.add_custom == false" title="reset {{take1.view}} to current default">
+                <i class="material-icons" style="font-size:1.5rem;color:#ccc">refresh</i>
+              </button>
+          </div><!--ends bg info-->
+          <div class="mM_stgs_bg_info col mM_stgs_content_box" ng-if="take1.view != 'default'">
+              <button type="button" class="mM_custom_new_item_btn  w3-btn custom_delete"
+              ng-click="take1.remove_view(take1.view,'delete')"
+              ng-show="take1.add_custom == false" title="remove {{take1.view}} settings">
+                <i class="material-icons" style="font-size:1.5rem;color:FireBrick">delete_forever</i>
+              </button>
+          </div><!--ends bg info-->
+
+        </div><!-- end ng-show="take1.tool.design_mode != 'pattern'"  -->
+        </div>
+
+        <!-- ******************************* END BASIC SECTION *************************************** -->
+
+
+        <!--
+        ADVANCED SECTION
+
+         .d8b.  d8888b. db    db  .d8b.  d8b   db  .o88b. d88888b d8888b.
+        d8' `8b 88  `8D 88    88 d8' `8b 888o  88 d8P  Y8 88'     88  `8D
+        88ooo88 88   88 Y8    8P 88ooo88 88V8o 88 8P      88ooooo 88   88
+        88~~~88 88   88 `8b  d8' 88~~~88 88 V8o88 8b      88~~~~~ 88   88
+        88   88 88  .8D  `8bd8'  88   88 88  V888 Y8b  d8 88.     88  .8D
+        YP   YP Y8888D'    YP    YP   YP VP   V8P  `Y88P' Y88888P Y8888D'
+
+        -->
+
+        <div class="mM_stgs_advanced mM_stgs_sect mM_stgs_sect2" ng-show="take1.section == 'advanced'"><!-- menu -->
+          <button type="button" class="mM_stgs_option_back w3-btn" ng-click="take1.option_section = 'options'"
+          ng-hide="take1.option_section == 'options'" title="">
+            <i class="material-icons" style="font-size:1rem;color:blue">arrow_back</i><!--subject-->
+          </button>
+          <label class="adv_option_label heading sticky-top" ng-show="take1.option_section == 'options'">styling options:</label>
+          <label class="adv_option_label heading sticky-top" ng-show="take1.option_section == 'config' && take1.destination != ''"
+          ng-click="take1.option_section = 'options'; take1.destination = ''" >{{take1.tool.views[take1.view][take1.destination].alias}} style:</label>
+          <label class="adv_option_label heading sticky-top" ng-show="take1.option_section == 'config'  && take1.destination == ''"
+          ng-click="take1.option_section = 'options'" >custom style:</label>
+          <label class="adv_option_label heading sticky-top" ng-show="take1.option_section == 'sample'"
+          ng-click="take1.option_section = 'options'" >sample style:</label>
+          <label class="adv_option_label heading sticky-top" ng-show="take1.option_section == 'advanced'"
+          ng-click="take1.option_section = 'options'" >advanced style:</label>
+
+          <div class="option_btns option_section option_section1" ng-show="take1.option_section == 'options'">
+
+            <div class="adv_option_btn w3-button btn_design" ng-click="take1.option_section = 'config'; take1.destination = prop"
+            ng-repeat="prop in take1.tool_properties track by $index">
+              <h5>{{take1.tool.views[take1.view][prop].alias}} style</h5>
+              <div class="list_icon"><i class="material-icons" style="font-size:1.5rem;color:grey">chevron_right</i></div>
+            </div>
+
+            <div class="adv_option_btn w3-button btn_design" ng-click="take1.option_section = 'config'; take1.destination = ''">
+              <h5>custom style</h5>
+              <div class="list_icon"><i class="material-icons" style="font-size:1.5rem;color:grey">chevron_right</i></div>
+            </div>
+            <!-- new section button sample copy below-->
+            <div class="adv_option_btn w3-button btn_design" ng-click="take1.option_section = 'sample'">
+              <h5>sample style</h5>
+              <div class="list_icon"><i class="material-icons" style="font-size:1.5rem;color:grey">chevron_right</i></div>
+            </div>
+            <div class="adv_option_btn w3-button btn_design" ng-click="take1.option_section = 'advanced'">
+              <h5>advanced style</h5>
+              <div class="list_icon"><i class="material-icons" style="font-size:1.5rem;color:grey">chevron_right</i></div>
+            </div>
+            <!-- new section button sample copy above-->
+          </div>
+
+          <!--
+          CUSTOM SECTION
+
+           .o88b. db    db .d8888. d888888b  .d88b.  .88b  d88.
+          d8P  Y8 88    88 88'  YP `~~88~~' .8P  Y8. 88'YbdP`88
+          8P      88    88 `8bo.      88    88    88 88  88  88
+          8b      88    88   `Y8b.    88    88    88 88  88  88
+          Y8b  d8 88b  d88 db   8D    88    `8b  d8' 88  88  88
+           `Y88P' ~Y8888P' `8888Y'    YP     `Y88P'  YP  YP  YP
+
+          -->
+          <div class="option_section option_section2" ng-show="take1.option_section == 'config'">
+
+            <div class="blogMod_hidden" >
+              <div class="curtain blogMod_curtain" ng-show="take1.loader == 1"
+              ng-dblclick="take1.loader = 0" >
+                <div class="loader"></div>
+              </div>
+            </div>
+
+            <div class="mM_stgs_class_info column mM_stgs_content_box" ng-if="take1.not_custom()">
+
+              <label title="css style unique identifier">menu style:</label>
+
+              <div class="select-menu mM_stgs_custom_class" data-value-mode='none' data-value-data='take1.destination'
+              data-option-data='take1.custom_ary_obj' data-callout="take1.setSelect" data-cname="take1.custom_select"
+              data-params="{targ:take1,prop:'destination'}"></div>
+
+              <button type="button" class="mM_custom_new_item_btn  w3-btn" ng-click="take1.add_custom = true"
+              ng-show="take1.add_custom == false"
+              ng-class="{active:take1.advanced_category_options == true}" >
+                <i class="material-icons" style="font-size:1.5rem;color:#17315a">add_circle</i>
+              </button>
+              <div class="mM_custom_head_cont" ng-show="take1.add_custom == true" >
+                <div class="mM_custom_title_input_cont">
+                  <input class="mM_custom_title_input" ng-class="{invalid:take1.valid_title == 'invalid'}" type="text"
+                  name="" value=""
+                  placeholder="custom item..." ng-blur="" ng-model="take1.temp_custom_text">
+                </div>
+                <button type="button" class="w3-btn mM_custom_title_btn confirm" ng-click="take1.make_select('confirm','custom')" >
+                  <i class="material-icons" style="font-size:1rem;color:green">done</i><!--subject-->
+                </button>
+                <button type="button" class="w3-btn mM_custom_title_btn cancel" ng-click="take1.make_select('cancel','custom')" >
+                  <i class="material-icons" style="font-size:1rem;color:#17315a">close</i><!--subject-->
+                </button>
+              </div>
+
+            </div><!--ends menu style-->
+
+            <div ng-if="take1.has_destination()">
+
+              <div class="mM_stgs_mobility_info mM_stgs_content_box"
+              ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'active_' + take1.destination)" >
+                <div class="mM_switch_cont switch_cont">
+                <label class="mM_switch_label stgs_access">active? </label>
+                <label class="mM_switch switch">
+                  <input class="switch_input stgs_access access" type="checkbox"
+                  ng-model = "take1.tool.views[take1.view][take1.destination]['active_' + take1.destination]" >
+                  <span class="fs_slider"></span>
+                </label>
+                </div>
+              </div>
+
+              <div class="mM_stgs_mobility_info mM_stgs_content_box"
+              ng-if="take1.is_custom() || take1.available_option(take1.tool.views[take1.view][take1.destination],'top_element')" >
+                <label title="flow imagelayer:">top element? </label>
+                <button type="button" class="mM_stgs_resp first w3-btn"  title="height control disabled"
+                ng-click="take1.tool.views[take1.view][take1.destination].top_element = 'title'; take1.soft_apply()"
+                ng-class="{active:take1.tool.views[take1.view][take1.destination].top_element == 'title'}">
+                  title
+                </button>
+
+                <button type="button" class="mM_stgs_resp last w3-btn"  title="height control percent"
+                ng-click="take1.tool.views[take1.view][take1.destination].top_element = 'image'; take1.soft_apply()"
+                ng-class="{active:take1.tool.views[take1.view][take1.destination].top_element == 'image'}">
+                  image
+                </button>
+              </div><!--ends mobility info-->
+
+            <div class="mM_stgs_mobility_info mM_stgs_content_box info_space"
+            ng-if="take1.is_custom()">
+              <label title="should the slideshow be responsive">custom element:</label>
+              <button type="button" class="mM_stgs_resp first w3-btn"   title=""
+              ng-click="take1.tool.views[take1.view][take1.destination].custom_type = 'parent'"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].custom_type == 'parent'}">parent</button>
+              <button type="button" class="mM_stgs_resp w3-btn"   title=""
+              ng-click="take1.tool.views[take1.view][take1.destination].custom_type = 'classname'"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].custom_type == 'classname'}" >classname</button>
+              <button type="button" class="mM_stgs_resp last w3-btn" title=""
+              ng-click="take1.tool.views[take1.view][take1.destination].custom_type = 'nested'"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].custom_type == 'nested'}" >nested</button>
+
+              <div class="fyinfo" ng-class="{'w3-pale-yellow open':take1.info_space.custom_type == 1}">
+                <p class="mM_content_control_info"
+                ng-if="take1.tool.views[take1.view][take1.destination].custom_type == 'parent'"
+                ng-show="take1.info_space.custom_type == 1" >
+                  The <strong>parent</strong> setting targets the modules parent position.
+                </p>
+                <p class="mM_content_control_info"
+                ng-if="take1.tool.views[take1.view][take1.destination].custom_type == 'classname'"
+                ng-show="take1.info_space.custom_type == 1" >
+                The <strong>classname</strong> targets a specific classname found on the page.
+                </p>
+                <p class="mM_content_control_info"
+                ng-if="take1.tool.views[take1.view][take1.destination].custom_type == 'nested'"
+                ng-show="take1.info_space.custom_type == 1" >
+                The <strong>nested</strong> targets a sections nested element. written by nameing
+                a (valid) targeted section followed by the target element for example: <br> body p.
+                </p>
+                <button class="info_btn w3-btn" ng-show="take1.info_space.custom_type != 1"
+                ng-click="take1.info_space.custom_type = 1">
+                  <i class="material-icons" style="font-size:1.2rem;color:#17315a">info</i>
+                </button>
+                <button class="info_btn w3-btn" ng-show="take1.info_space.custom_type == 1"
+                ng-click="take1.info_space.custom_type = 0">
+                  <i class="material-icons" style="font-size:1.2rem;color:#17315a">close</i>
+                </button>
+              </div><!--ends fyinfo-->
+            </div><!--ends custom element-->
+
+            <div class="mM_stgs_class_info column mM_stgs_content_box" ng-if="take1.is_custom()"
+            ng-show="take1.tool.views[take1.view][take1.destination].custom_type == 'nested'">
+
+              <label title="css style unique identifier">nested parent:</label>
+
+              <div class="select-menu mM_stgs_custom_class" data-value-mode='array'
+              data-value-data='take1.tool.views[take1.view][take1.destination].nested_parent'
+              data-option-data='take1.nest_prop_obj' data-callout="take1.setSelect"
+              data-params="{targ:take1.tool.views[take1.view][take1.destination],prop:'nested_parent'}"></div>
+
+              <label title="css style unique identifier">nested element:</label>
+
+              <div class="select-menu mM_stgs_custom_class" data-value-mode='array'
+              data-value-data='take1.tool.views[take1.view][take1.destination].nested_element'
+              data-option-data='take1.child_els_obj' data-callout="take1.setSelect"
+              data-params="{targ:take1.tool.views[take1.view][take1.destination],prop:'nested_element'}"></div>
+
+            </div><!--ends custom element-->
+
+            <div class="mM_stgs_class_info mM_stgs_content_box" ng-if="take1.is_custom()"
+            ng-show="take1.tool.views[take1.view][take1.destination].custom_type == 'classname'">
+              <label title="css style unique identifier">custom class:</label>
+              <input type="text" class="mM_stgs_custom_class"
+              ng-model="take1.tool.views[take1.view][take1.destination].custom_element"/>
+            </div><!--ends bg info-->
+
+            <div class="mM_stgs_mobility_info mM_stgs_content_box info_space"
+            ng-if="take1.is_custom() || take1.available_option(take1.tool.views[take1.view][take1.destination],'display')" >
+              <label title="should the slideshow be responsive">display:</label>
+              <button type="button" class="mM_stgs_resp first w3-btn"   title=""
+              ng-click="take1.tool.views[take1.view][take1.destination].display = 'none'; take1.form_item_style(take1.destination)"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].display == 'none'}">none</button>
+              <button type="button" class="mM_stgs_resp w3-btn"   title=""
+              ng-click="take1.tool.views[take1.view][take1.destination].display = 'block'; take1.form_item_style(take1.destination)"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].display == 'block'}" >block</button>
+              <button type="button" class="mM_stgs_resp last w3-btn" title=""
+              ng-click="take1.tool.views[take1.view][take1.destination].display = 'flex'; take1.form_item_style(take1.destination)"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].display == 'flex'}" >flex</button>
+            </div><!--ends custom element-->
+
+            <div class="mM_stgs_mobility_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.tool.views[take1.view][take1.destination],'display')"
+            ng-show="take1.tool.views[take1.view][take1.destination].display == 'flex'" >
+              <label title="justify button:">justify {{take1.destination}}:</label>
+              <button type="button" class="mM_stgs_resp justify first w3-btn" title="justify-content:flex-start"
+              ng-click="take1.tool.views[take1.view][take1.destination].justify = 'flex-start'; take1.form_item_style(take1.destination)"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].justify == 'flex-start'}">
+              <i class="material-icons" style="font-size:1rem;color:blue">format_align_left</i>
+              </button>
+              <button type="button" class="mM_stgs_resp justify w3-btn" title="justify-content:space-around"
+              ng-show="take1.available_option(take1.tool.views[take1.view][take1.destination],'justify_full')"
+              ng-click="take1.tool.views[take1.view][take1.destination].justify = 'space-around'; take1.form_item_style(take1.destination)"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].justify == 'space-around'}">
+                <i class="material-icons" style="font-size:1rem;color:blue">fullscreen</i>
+              </button>
+              <button type="button" class="mM_stgs_resp justify w3-btn" title="justify-content:center"
+              ng-click="take1.tool.views[take1.view][take1.destination].justify = 'center'; take1.form_item_style(take1.destination)"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].justify == 'center'}">
+                <i class="material-icons" style="font-size:1rem;color:blue">format_align_center</i>
+              </button>
+              <button type="button" class="mM_stgs_resp justify w3-btn" title="justify-content:space-between"
+              ng-show="take1.available_option(take1.tool.views[take1.view][take1.destination],'justify_full')"
+              ng-click="take1.tool.views[take1.view][take1.destination].justify = 'space-between'; take1.form_item_style(take1.destination)"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].justify == 'space-between'}">
+                <i class="material-icons" style="font-size:1rem;color:blue">fullscreen_exit</i>
+              </button>
+              <button type="button" class="mM_stgs_resp justify last w3-btn" title="justify-content:flex-end"
+              ng-click="take1.tool.views[take1.view][take1.destination].justify = 'flex-end'; take1.form_item_style(take1.destination)"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].justify == 'flex-end'}"  title="justify right" >
+                <i class="material-icons" style="font-size:1rem;color:blue">format_align_right</i>
+              </button>
+            </div><!--ends mobility info-->
+
+            <div class="mM_stgs_mobility_info mM_stgs_content_box"
+            ng-show="take1.tool.views[take1.view][take1.destination].display == 'flex'" >
+              <label title="align imagelayer:">align content:</label>
+              <button type="button" class="mM_stgs_resp align first w3-btn"
+              ng-click="take1.tool.views[take1.view][take1.destination].align = 'flex-start'; take1.form_item_style(take1.destination)"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].align == 'flex-start'}">
+              top
+              </button>
+
+              <button type="button" class="mM_stgs_resp align w3-btn"
+              ng-click="take1.tool.views[take1.view][take1.destination].align = 'center'; take1.form_item_style(take1.destination)"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].align == 'center'}">
+                center
+              </button>
+              <button type="button" class="mM_stgs_resp align last w3-btn"
+              ng-click="take1.tool.views[take1.view][take1.destination].align = 'flex-end'; take1.form_item_style(take1.destination)"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].align == 'flex-end'}"  title="align right" >
+                bottom
+              </button>
+            </div><!--ends mobility info-->
+
+            <div class="mM_stgs_mobility_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.tool.views[take1.view][take1.destination],'display')"
+            ng-show="take1.tool.views[take1.view][take1.destination].display == 'flex'" >
+              <label title="flow imagelayer:">flow content:</label>
+              <button type="button" class="mM_stgs_resp flow first w3-btn"  title="row wrap"
+              ng-click="take1.tool.views[take1.view][take1.destination].flow = 'row wrap'; take1.form_item_style(take1.destination)"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].flow == 'row wrap'}">
+                wrap
+              </button>
+
+              <button type="button" class="mM_stgs_resp flow w3-btn"  title="row nowrap"
+              ng-click="take1.tool.views[take1.view][take1.destination].flow = 'row nowrap'; take1.form_item_style(take1.destination)"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].flow == 'row nowrap'}">
+                nowrap
+              </button>
+              <button type="button" class="mM_stgs_resp flow last w3-btn"  title="column"
+              ng-click="take1.tool.views[take1.view][take1.destination].flow = 'column nowrap'; take1.form_item_style(take1.destination)"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].flow == 'column nowrap'}">
+                column
+              </button>
+            </div><!--ends mobility info-->
+
+            <div class="mM_stgs_mobility_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.tool.views[take1.view][take1.destination],'width_control')">
+              <div class="mM_switch_cont switch_cont">
+                <label class="mM_switch_label stgs_access">width control? </label>
+                <label class="mM_switch switch">
+                  <input class="switch_input stgs_access access" type="checkbox"
+                  ng-model="take1.tool.views[take1.view][take1.destination].width_control"
+                  ng-change="">
+                  <span class="fs_slider"></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="mM_stgs_bg_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.tool.views[take1.view][take1.destination],'width_control')"
+            ng-show="take1.tool.views[take1.view][take1.destination].width_control == true" >
+              <div class="d3_range_container width_pct">
+                <div class="d3_range_stack">
+                  <label class="width_label" title="">total width %:</label>
+                  <div class="word_box width_pct">
+                  <input type="number" class="mM_stgs_bg_opacity_nbr mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].width_pct"
+                  min="0" max="100" ng-blur="take1.form_item_style(take1.destination)" />
+                  </div>
+                </div>
+                <!--
+                  <div class="d3_auto_range">
+                    <div class="auto_width squaredOne">
+                      <input type="checkbox" value="None" id="auto_width" name="check"  ng-model="take1.tool.views[take1.view].auto_width" />
+                      <label for="auto_width" >auto</label>
+                    </div>
+                    <label class="auto_label" title="" ng-show="take1.tool.views[take1.view][take1.destination].auto_width == true" >on</label>
+                    <label class="auto_label" title="" ng-show="take1.tool.views[take1.view][take1.destination].auto_width != true" >off</label>
+                  </div>
+                -->
+
+              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+            <!--range slider-->
+              <div class="range_box">
+                <input type="range" class="mM_stgs_bg_opacity_rng mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].width_pct"
+                min="0" max="100" ng-change="take1.form_item_style(take1.destination)" />
+              </div>
+            </div><!-- end width % -->
+
+            <div class="mM_stgs_bg_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.tool.views[take1.view][take1.destination],'device_small')">
+              <div class="d3_range_container width_pct">
+                <div class="d3_range_stack">
+                  <label class="width_label" title="">device width:</label>
+                  <div class="d3_auto_range">
+                    <div class="mobile_padding_custom squaredOne" ng-hide="show.on">
+                      <button class="" ng-click="take1.make_devices(take1.destination,'clear')">clear</button>
+                    </div>
+                    <label class="auto_label" title="" >clear mobile</label>
+                  </div>
+                  <div class="word_box width_pct">
+                  <input type="number" class="mM_stgs_bg_opacity_nbr mM_stgs_bg_option" data-dest="{{take1.destination}}" ng-model="take1.tool.views[take1.view][take1.destination].device_value"
+                  min="1" max="100" ng-change="take1.make_devices(take1.destination)" value="{{take1.tool.views[take1.view][take1.destination].device_value}}"/>
+                  </div>
+                </div>
+              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+              <div class="d3_range_container width_pct">
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.views[take1.view][take1.destination].device_small}}</div>
+                  <div class="content_device_sm squaredOne" ng-hide="show.on">
+                    <input id="content_device_sm" type="radio" value="None" class="{{take1.destination}}_device_box content_device"
+                    name="device" data-param="device_small" checked />
+                    <label for="content_device_sm" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    SM
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.views[take1.view][take1.destination].device_medium}}</div>
+                  <div class="content_device_md squaredOne" ng-hide="show.on">
+                    <input id="content_device_md" type="radio" class="{{take1.destination}}_device_box content_device" value="None"
+                    name="device" data-param="device_medium" checked />
+                    <label for="content_device_md" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    MD
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.views[take1.view][take1.destination].device_large}}</div>
+                  <div class="content_device_lg squaredOne" ng-hide="show.on">
+                    <input id="content_device_lg" type="radio" value="None" class="{{take1.destination}}_device_box content_device"
+                    name="device" data-param="device_large" checked />
+                    <label for="content_device_lg" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    LG
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.views[take1.view][take1.destination].device_xlarge}}</div>
+                  <div class="content_device_xl squaredOne" ng-hide="show.on">
+                    <input id="content_device_xl" type="radio" value="None" class="{{take1.destination}}_device_box content_device"
+                    name="device" data-param="device_xlarge" checked />
+                    <label for="content_device_xl" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    XL
+                  </label>
+                </div>
+                <!--<div class="d3_auto_range_cube d3_auto_range">
+                  <div class="content_device_all squaredOne" ng-hide="show.on">
+                    <input type="checkbox" value="None" id="content_device_all" class="content_device_all_box content_device" ng-model="take1.tool.views[take1.view][take1.destination].auto_same_devices"
+                    name="device"  checked ng-click="take1.make_devices('all','content_device_all_box',take1.destination)"/>
+                    <label for="content_device_all" ></label>
+                  </div>
+                  <label class="auto_label" title="">all</label>
+                </div>-->
+              </div>
+            <!--range slider-->
+              <div class="range_box">
+                <input type="range" class="mM_stgs_bg_opacity_rng mM_stgs_bg_option" data-dest="{{take1.destination}}" ng-model="take1.tool.views[take1.view][take1.destination].device_value"
+                min="1" max="100" ng-change="take1.make_devices(take1.destination)" value="{{take1.tool.views[take1.view][take1.destination].device_value}}"/>
+              </div>
+            </div><!-- end range container -->
+
+            <div class="mM_stgs_bg_info mM_stgs_logo_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'flexible')" >
+              <label title="should the slideshow be responsive">flexible width:</label>
+              <button type="logo" class="mM_active_border first w3-btn" ng-click="take1.tool.views[take1.view].logo.flexible = 'none';take1.form_item_style('logo')"
+              ng-class="{active:take1.tool.views[take1.view].logo.flexible == 'none'}">none</button>
+              <button type="logo" class="mM_active_border  w3-btn" ng-click="take1.tool.views[take1.view].logo.flexible = 'grow';take1.form_item_style('logo')"
+              ng-class="{active:take1.tool.views[take1.view].logo.flexible == 'grow'}">grow</button>
+              <button type="logo" class="mM_active_border  w3-btn" ng-click="take1.tool.views[take1.view].logo.flexible = 'shrink';take1.form_item_style('logo')"
+              ng-class="{active:take1.tool.views[take1.view].logo.flexible == 'shrink'}"  title="" >shrink</button>
+              <button type="logo" class="mM_active_border last w3-btn" ng-click="take1.tool.views[take1.view].logo.flexible = 'both';take1.form_item_style('logo')"
+              ng-class="{active:take1.tool.views[take1.view].logo.flexible == 'both'}"  title="" >all</button>
+            </div>
+
+            <div class="mM_stgs_bg_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.tool.views[take1.view][take1.destination],'column_small')">
+              <div class="d3_range_container width_pct">
+                <div class="d3_range_stack">
+                  <label class="width_label" title="">columns across?:</label>
+                  <div class="word_box width_pct">
+                  <input type="number" class="mM_stgs_bg_opacity_nbr mM_stgs_bg_option" data-dest="content" ng-model="take1.tool.views[take1.view][take1.destination].column_value"
+                  min="1" max="6" ng-change="take1.make_columns(take1.destination)" value="{{take1.tool.views[take1.view][take1.destination].column_value}}"/>
+                  </div>
+                </div>
+              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+              <div class="d3_range_container width_pct">
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.views[take1.view][take1.destination].column_small}}</div>
+                  <div class="content_column_sm squaredOne" ng-hide="show.on">
+                    <input id="content_column_sm" type="radio" value="None" class="{{take1.destination}}_column_box content_column"
+                    name="column" data-param="column_small" checked />
+                    <label for="content_column_sm" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    SM
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.views[take1.view][take1.destination].column_medium}}</div>
+                  <div class="content_column_md squaredOne" ng-hide="show.on">
+                    <input id="content_column_md" type="radio" class="{{take1.destination}}_column_box content_column" value="None"
+                    name="column" data-param="column_medium" checked />
+                    <label for="content_column_md" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    MD
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.views[take1.view][take1.destination].column_large}}</div>
+                  <div class="content_column_lg squaredOne" ng-hide="show.on">
+                    <input id="content_column_lg" type="radio" value="None" class="{{take1.destination}}_column_box content_column"
+                    name="column" data-param="column_large" checked />
+                    <label for="content_column_lg" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    LG
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.views[take1.view][take1.destination].column_xlarge}}</div>
+                  <div class="content_column_xl squaredOne" ng-hide="show.on">
+                    <input id="content_column_xl" type="radio" value="None" class="{{take1.destination}}_column_box content_column"
+                    name="column" data-param="column_xlarge" checked />
+                    <label for="content_column_xl" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    XL
+                  </label>
+                </div>
+                <!--<div class="d3_auto_range_cube d3_auto_range">
+                  <div class="content_column_all squaredOne" ng-hide="show.on">
+                    <input type="checkbox" value="None" id="content_column_all" class="content_column_all_box content_column" ng-model="take1.tool.views[take1.view][take1.destination].auto_same_columns"
+                    name="column"  checked ng-click="take1.make_columns('all','content_column_all_box',take1.destination)"/>
+                    <label for="content_column_all" ></label>
+                  </div>
+                  <label class="auto_label" title="">all</label>
+                </div>-->
+              </div>
+            <!--range slider-->
+              <div class="range_box">
+                <input type="range" class="mM_stgs_bg_opacity_rng mM_stgs_bg_option" data-dest="content" ng-model="take1.tool.views[take1.view][take1.destination].column_value"
+                min="1" max="6" ng-change="take1.make_columns(take1.destination)" value="{{take1.tool.views[take1.view][take1.destination].column_value}}"/>
+              </div>
+            </div><!-- end range container -->
+
+            <div class="mM_stgs_mobility_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'flex_fill')" >
+              <!-- used with css flex_fill for {flex: 1 auto $mp;} -->
+              <div class="mM_switch_cont switch_cont">
+                <label class="mM_switch_label stgs_access">expanded? </label>
+                <label class="mM_switch switch">
+                  <input class="switch_input stgs_access access" type="checkbox"
+                  ng-model="take1.tool.views[take1.view][take1.destination].flex_fill" ng-change="take1.make_margin(take1.destination)">
+                  <span class="fs_slider"></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="mM_stgs_mobility_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.tool.views[take1.view][take1.destination],'height_control')" >
+              <label title="flow imagelayer:">height control? </label>
+              <button type="button" class="mM_stgs_resp first w3-btn"  title="height control disabled"
+              ng-click="take1.tool.views[take1.view][take1.destination].height_control = false; take1.form_item_style(take1.destination)"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].height_control == false}">
+                disable
+              </button>
+
+              <button type="button" class="mM_stgs_resp w3-btn"  title="height control percent"
+              ng-click="take1.tool.views[take1.view][take1.destination].height_control = 'percent'; take1.form_item_style(take1.destination)"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].height_control == 'percent'}">
+                percent
+              </button>
+
+              <button type="button" class="mM_stgs_resp last w3-btn"  title="height control other"
+              ng-click="take1.tool.views[take1.view][take1.destination].height_control = 'direct'; take1.form_item_style(take1.destination)"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].height_control == 'direct'}">
+                other
+              </button>
+            </div><!--ends mobility info-->
+
+            <div class="mM_stgs_custom_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.tool.views[take1.view][take1.destination],'height_control')"
+            ng-show="take1.tool.views[take1.view][take1.destination].height_control == 'direct'" >
+              <label title="">height:</label>
+              <div class="mM_stgs_size_wrapr">
+                <div >height:</div>
+                <input class="mM_stgs_custom_input" type="text" ng-blur=""
+                ng-model="take1.service.tool.views[take1.view][take1.destination].height"
+                ng-change="take1.form_item_style(take1.destination)" >
+              </div>
+              <div class="measure_btns measure_btns mM_stgs_button_info">
+                <button type="button" class="mM_stgs_resp w3-btn first" ng-click="take1.tool.views[take1.view][take1.destination].height_measure = 'px'; take1.form_item_style(take1.destination)"
+                ng-class="{active:take1.tool.views[take1.view][take1.destination].height_measure == 'px'}"  title="" >px</button>
+                <button type="button" class="mM_stgs_resp w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].height_measure = 'rem'; take1.form_item_style(take1.destination)"
+                ng-class="{active:take1.tool.views[take1.view][take1.destination].height_measure == 'rem'}">rem</button>
+                <button type="button" class="mM_stgs_resp w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].height_measure = 'em'; take1.form_item_style(take1.destination)"
+                ng-class="{active:take1.tool.views[take1.view][take1.destination].height_measure == 'em'}">em</button>
+                <button type="button" class="mM_stgs_resp w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].height_measure = '%'; take1.form_item_style(take1.destination)"
+                ng-class="{active:take1.tool.views[take1.view][take1.destination].height_measure == '%'}">%</button>
+                <button type="button" class="mM_stgs_resp w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].height_measure = 'vh'; take1.form_item_style(take1.destination)"
+                ng-class="{active:take1.tool.views[take1.view][take1.destination].height_measure == 'vh'}">vh</button>
+                <button type="button" class="mM_stgs_resp w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].height_measure = 'vmax'; take1.form_item_style(take1.destination)"
+                ng-class="{active:take1.tool.views[take1.view][take1.destination].height_measure == 'vmax'}">vmx</button>
+                <button type="button" class="mM_stgs_resp w3-btn last" ng-click="take1.tool.views[take1.view][take1.destination].height_measure = 'vmin'; take1.form_item_style(take1.destination)"
+                ng-class="{active:take1.tool.views[take1.view][take1.destination].height_measure == 'vmin'}"  title="" >vmn</button>
+              </div>
+            </div><!--ends custom info-->
+            <div class="mM_stgs_mobility_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.tool.views[take1.view][take1.destination],'px_to_rem')"
+            ng-show="take1.tool.views[take1.view][take1.destination].height_control == 'direct'" >
+              <div class="mM_switch_cont switch_cont">
+                <label class="mM_switch_label stgs_access">px to rem? </label>
+                <label class="mM_switch switch">
+                  <input class="switch_input stgs_access access" type="checkbox"
+                  ng-model="take1.tool.views[take1.view][take1.destination].px_to_rem"
+                  ng-change="take1.form_item_style(take1.destination)" >
+                  <span class="fs_slider"></span>
+                </label>
+              </div>
+            </div>
+
+
+            <div class="mM_stgs_bg_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.tool.views[take1.view][take1.destination],'height_control')"
+            ng-show="take1.tool.views[take1.view][take1.destination].height_control !== false &&
+            take1.tool.views[take1.view][take1.destination].height_control !== 'disable'
+            && take1.tool.views[take1.view][take1.destination].height_control !== 'direct'" >
+              <div class="d3_range_container height_pct">
+                <div class="d3_range_stack">
+                  <label class="height_label" title="">total height %:</label>
+                  <div class="word_box height_pct">
+                  <input type="number" class="mM_stgs_bg_opacity_nbr mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].height_pct"
+                  min="0" max="100" ng-blur="take1.form_item_style(take1.destination)" />
+                  </div>
+                </div>
+
+              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+            <!--range slider-->
+              <div class="range_box">
+                <input type="range" class="mM_stgs_bg_opacity_rng mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].height_pct"
+                min="0" max="100" ng-change="take1.form_item_style(take1.destination)" />
+              </div>
+            </div><!-- end height % -->
+
+            <div class="mM_stgs_mobility_info mM_stgs_content_box"
+            ng-if="take1.available_option(take1.service.tool.views[take1.view][take1.destination],'force_landscape')" >
+              <div class="mM_switch_cont switch_cont">
+              <label class="mM_switch_label stgs_access">force landscape? </label>
+              <label class="mM_switch switch">
+                <input class="switch_input stgs_access access" type="checkbox"
+                ng-model="take1.tool.views[take1.view][take1.destination].force_landscape">
+                <span class="fs_slider"></span>
+              </label>
+              </div>
+            </div>
+
+            <div class="mM_stgs_mobility_info mM_stgs_content_box"
+            ng-if="take1.available_option(take1.service.tool.views[take1.view][take1.destination],'force_portrait')" >
+              <div class="mM_switch_cont switch_cont">
+              <label class="mM_switch_label stgs_access">force portrait? </label>
+              <label class="mM_switch switch">
+                <input class="switch_input stgs_access access" type="checkbox"
+                ng-model="take1.tool.views[take1.view][take1.destination].force_portrait">
+                <span class="fs_slider"></span>
+              </label>
+              </div>
+            </div>
+
+            <div class="mM_stgs_mobility_info mM_stgs_content_box"
+            ng-if="take1.available_option(take1.service.tool.views[take1.view][take1.destination],'linkable')" >
+              <div class="mM_switch_cont switch_cont">
+              <label class="mM_switch_label stgs_access">linkable? </label>
+              <label class="mM_switch switch">
+                <input class="switch_input stgs_access access" type="checkbox"
+                ng-model="take1.tool.views[take1.view][take1.destination].linkable" ng-change="take1.soft_apply()">
+                <span class="fs_slider"></span>
+              </label>
+              </div>
+            </div>
+
+            <div class="mM_stgs_mobility_info mM_stgs_content_box"
+            ng-if="take1.available_option(take1.service.tool.views[take1.view][take1.destination],'custom_text')" >
+              <div class="mM_switch_cont switch_cont">
+              <label class="mM_switch_label stgs_access">custom text? </label>
+              <label class="mM_switch switch">
+                <input class="switch_input stgs_access access" type="checkbox"
+                ng-model="take1.tool.views[take1.view][take1.destination].custom_text" >
+                <span class="fs_slider"></span>
+              </label>
+              </div>
+            </div>
+
+            <div class="mM_stgs_mobility_info mM_stgs_content_box"
+            ng-if="take1.available_option(take1.service.tool.views[take1.view][take1.destination],'font_controls')" >
+              <div class="mM_switch_cont switch_cont">
+              <label class="mM_switch_label stgs_access">master controls? </label>
+              <label class="mM_switch switch">
+                <input class="switch_input stgs_access access" type="checkbox"
+                ng-model="take1.tool.views[take1.view][take1.destination].font_controls" >
+                <span class="fs_slider"></span>
+              </label>
+              </div>
+            </div>
+
+            <div class="mM_stgs_mobility_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.tool.views[take1.view][take1.destination],'font_style')">
+              <div class="mM_switch_cont switch_cont">
+                <label class="mM_switch_label stgs_access">font style? </label>
+                <label class="mM_switch switch">
+                  <input class="switch_input stgs_access access" type="checkbox"
+                  ng-model="take1.tool.views[take1.view][take1.destination].font_style"
+                  ng-change="take1.service.linkedve(take1.destination,'font_style','height_control')">
+                  <span class="fs_slider"></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="mM_stgs_class_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.tool.views[take1.view][take1.destination],'font')"
+            ng-show="take1.tool.views[take1.view][take1.destination].font_style == true" >
+              <label title="css style unique identifier">font:</label>
+              <div class="select-menu mM_stgs_custom_class" data-value-mode='none' data-value-data='take1.tool.views[take1.view][take1.destination].font'
+              data-option-data='take1.service.custom_head.font' data-callout="take1.setSelect" data-params="{targ:take1.tool.views[take1.view][take1.destination],prop:'font'}"></div>
+            </div><!--ends bg info-->
+            <div class="mM_stgs_class_info mM_stgs_content_box mM_font_size"
+            ng-if="take1.is_custom() || take1.available_option(take1.tool.views[take1.view][take1.destination],'font_size')"
+            ng-show="take1.tool.views[take1.view][take1.destination].font_style == true" >
+              <label title="css style unique identifier">font size:</label>
+              <div class="word_box width_pct">
+                <input type="number" class="mM_stgs_bg_opacity_nbr mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].font_size"
+                min="8" max="72" step="1" ng-model-options="{ updateOn: 'blur' }" ng-if="take1.tool.views[take1.view][take1.destination].font_measure == 'px'" />
+                <input type="number" class="mM_stgs_bg_opacity_nbr mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].font_size"
+                min="0.2" max="5" step=".1" ng-model-options="{ updateOn: 'blur' }" ng-if="take1.tool.views[take1.view][take1.destination].font_measure != 'px'" />
+                <label class=""> {{take1.tool.views[take1.view][take1.destination].font_measure}}</label>
+              </div>
+              <div class="font_measure_btns measure_btns mM_stgs_button_info">
+                  <button type="button" class="mM_stgs_resp w3-btn first" ng-click="take1.tool.views[take1.view][take1.destination].font_measure = 'px'; take1.form_item_style(take1.destination)"
+                  ng-class="{active:take1.tool.views[take1.view][take1.destination].font_measure == 'px'}"  title="" >px</button>
+                  <button type="button" class="mM_stgs_resp w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].font_measure = 'rem'; take1.form_item_style(take1.destination)"
+                  ng-class="{active:take1.tool.views[take1.view][take1.destination].font_measure == 'rem'}">rem</button>
+                  <button type="button" class="mM_stgs_resp w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].font_measure = 'em'; take1.form_item_style(take1.destination)"
+                  ng-class="{active:take1.tool.views[take1.view][take1.destination].font_measure == 'em'}">em</button>
+                  <button type="button" class="mM_stgs_resp w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].font_measure = '%'; take1.form_item_style(take1.destination)"
+                  ng-class="{active:take1.tool.views[take1.view][take1.destination].font_measure == '%'}">%</button>
+                  <button type="button" class="mM_stgs_resp w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].font_measure = 'vmax'; take1.form_item_style(take1.destination)"
+                  ng-class="{active:take1.tool.views[take1.view][take1.destination].font_measure == 'vmax'}">vmx</button>
+                  <button type="button" class="mM_stgs_resp w3-btn last" ng-click="take1.tool.views[take1.view][take1.destination].font_measure = 'vmin'; take1.form_item_style(take1.destination)"
+                  ng-class="{active:take1.tool.views[take1.view][take1.destination].font_measure == 'vmin'}"  title="" >vmin</button>
+                </div>
+
+              <div class="range_box">
+              <input type="range" class="mM_stgs_bg_opacity_rng mM_stgs_bg_option" data-dest="custom" ng-model="take1.tool.views[take1.view][take1.destination].font_size"
+              min="8" max="72" step="1"  value="{{take1.tool.views[take1.view][take1.destination].font_size}}" ng-if="take1.tool.views[take1.view][take1.destination].font_measure == 'px'" />
+              <input type="range" class="mM_stgs_bg_opacity_rng mM_stgs_bg_option" data-dest="custom" ng-model="take1.tool.views[take1.view][take1.destination].font_size"
+              min="0.2" max="5" step=".1"  value="{{take1.tool.views[take1.view][take1.destination].font_size}}" ng-if="take1.tool.views[take1.view][take1.destination].font_measure != 'px'" />
+              </div>
+            </div><!--ends mM_font_size-->
+
+            <div class="mM_stgs_class_info mM_stgs_content_box mM_line_height"
+            ng-if="take1.is_custom() || take1.available_option(take1.tool.views[take1.view][take1.destination],'line_height')"
+            ng-show="take1.tool.views[take1.view][take1.destination].font_style == true" >
+              <label title="css style unique identifier">line height:</label>
+              <div class="word_box width_pct">
+                <input type="number" class="mM_stgs_bg_opacity_nbr mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].line_height"
+                min="0" max="25" step=".5" ng-model-options="{ updateOn: 'blur' }" ng-if="take1.tool.views[take1.view][take1.destination].font_measure == 'px'" />
+                <input type="number" class="mM_stgs_bg_opacity_nbr mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].line_height"
+                min="0" max="10" step=".1" ng-model-options="{ updateOn: 'blur' }" ng-if="take1.tool.views[take1.view][take1.destination].font_measure != 'px'" />
+                <label class=""> {{take1.tool.views[take1.view][take1.destination].font_measure}}</label>
+              </div>
+              <div class="range_box">
+                <input type="range" class="mM_stgs_bg_opacity_rng mM_stgs_bg_option" data-dest="custom" ng-model="take1.tool.views[take1.view][take1.destination].line_height"
+                min="0" max="25" step=".5"  value="{{take1.tool.views[take1.view][take1.destination].line_height}}" ng-if="take1.tool.views[take1.view][take1.destination].font_measure == 'px'" />
+                <input type="range" class="mM_stgs_bg_opacity_rng mM_stgs_bg_option" data-dest="custom" ng-model="take1.tool.views[take1.view][take1.destination].line_height"
+                min="0" max="10" step=".1"  value="{{take1.tool.views[take1.view][take1.destination].line_height}}" ng-if="take1.tool.views[take1.view][take1.destination].font_measure != 'px'" />
+              </div>
+            </div><!--ends mM_line_height-->
+            <div class="mM_stgs_class_info mM_stgs_content_box mM_item_height"
+            ng-if="take1.is_custom() || take1.available_option(take1.tool.views[take1.view][take1.destination],'font_measure')">
+              <label title="css style unique identifier">item height:</label>
+              <div class="word_box width_pct">
+                <input type="number" class="mM_stgs_bg_opacity_nbr mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].item_height"
+                min="0" max="25" step=".5" ng-model-options="{ updateOn: 'blur' }" ng-if="take1.tool.views[take1.view][take1.destination].font_measure == 'px'" />
+                <input type="number" class="mM_stgs_bg_opacity_nbr mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].item_height"
+                min="0" max="10" step=".1" ng-model-options="{ updateOn: 'blur' }" ng-if="take1.tool.views[take1.view][take1.destination].font_measure != 'px'" />
+                <label class=""> {{take1.tool.views[take1.view][take1.destination].font_measure}}</label>
+              </div>
+              <div class="range_box">
+                <input type="range" class="mM_stgs_bg_opacity_rng mM_stgs_bg_option" data-dest="custom" ng-model="take1.tool.views[take1.view][take1.destination].item_height"
+                min="0" max="25" step=".5"  value="{{take1.tool.views[take1.view][take1.destination].item_height}}" ng-if="take1.tool.views[take1.view][take1.destination].font_measure == 'px'" />
+                <input type="range" class="mM_stgs_bg_opacity_rng mM_stgs_bg_option" data-dest="custom" ng-model="take1.tool.views[take1.view][take1.destination].item_height"
+                min="0" max="10" step=".1"  value="{{take1.tool.views[take1.view][take1.destination].item_height}}" ng-if="take1.tool.views[take1.view][take1.destination].font_measure != 'px'" />
+              </div>
+            </div><!--ends mM_item_height-->
+            <div class="mM_stgs_mobility_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.tool.views[take1.view][take1.destination],'ellipsis')"
+            ng-show="take1.tool.views[take1.view][take1.destination].font_style == true" >
+              <div class="mM_switch_cont switch_cont">
+                <label class="mM_switch_label stgs_access">content control? </label>
+                <label class="mM_switch switch">
+                  <input class="switch_input stgs_access access" type="checkbox"
+                  ng-model="take1.tool.views[take1.view][take1.destination].ellipsis">
+                  <span class="fs_slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="mM_stgs_class_info mM_stgs_content_box mM_line_height"
+            ng-if="take1.is_custom() || take1.available_option(take1.tool.views[take1.view][take1.destination],'ellipsis')"
+            ng-show="take1.tool.views[take1.view][take1.destination].ellipsis == true && take1.tool.views[take1.view][take1.destination].font_style == true"
+              <label title="css style unique identifier">number of lines?</label>
+              <div class="word_box width_pct">
+                <input type="number" class="mM_stgs_bg_opacity_nbr mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].line_number"
+                min="1" max="10" step="1" ng-model-options="{ updateOn: 'blur' }" />
+                <label class=""> {{take1.tool.views[take1.view][take1.destination].line_number}}</label>
+              </div>
+              <div class="range_box">
+                <input type="range" class="mM_stgs_bg_opacity_rng mM_stgs_bg_option" data-dest="custom" ng-model="take1.tool.views[take1.view][take1.destination].line_number"
+                min="1" max="10" step="1"  value="{{take1.tool.views[take1.view][take1.destination].line_number}}" />
+              </div>
+            </div><!--ends mM_line_number-->
+
+            <div class="mM_stgs_bg_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'font_color')"
+            ng-show="take1.tool.views[take1.view][take1.destination].font_style == true" >
+              <label title="">font color:</label>
+              <input type="color" class="mM_stgs_bg_color" ng-model="take1.service.tool.views[take1.view][take1.destination].font_color"
+              ng-change="take1.service.color_change();"/>
+
+              <div class="advanced_colors" data-destination="take1.service.tool.views[take1.view][take1.destination]" data-property="font_color"
+              data-collection="take1.getMyColors" data-expandto="mM_stgs_sect_cont" ></div>
+            </div><!--ends bg info-->
+
+            <div class="mM_stgs_bg_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'bg_color')" >
+              <label title="">bkgd color:</label>
+              <input type="color" class="mM_stgs_bg_color mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].bg_color"
+              ng-change="take1.service.color_change(); take1.prep_color('color',take1.destination)" />
+              <div class="advanced_colors" data-destination="take1.tool.views[take1.view][take1.destination]" data-property="bg_color"
+              data-callout="take1.prep_color2" data-params="['color',take1.destination]" data-collection="take1.getMyColors"
+              data-expandto="mM_stgs_sect_cont"></div>
+            </div><!--ends bg info-->
+            <div class="mM_stgs_bg_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'bg_opacity')" >
+              <div class="d3_range_container">
+                <label title="">bkgd opacity:</label>
+                <div class="word_box">
+                  <input type="number" class="mM_stgs_bg_opacity_nbr mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].bg_opacity"
+                  min="0" max="100" ng-change="take1.prep_color('opacity',take1.destination)"/>
+                </div>
+              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+              <div class="range_box">
+                <input type="range" class="mM_stgs_bg_opacity_rng mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].bg_opacity"
+                min="0" max="100" ng-change="take1.prep_color('opacity',take1.destination)"/>
+              </div>
+            </div><!--ends bg info-->
+
+            <div class="mM_stgs_bg_info mM_stgs_content_box"
+          	ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'btn_hov')" >
+          	  <label title="">bkgd hover color:</label>
+          	  <input type="color" class="mM_stgs_bg_color mM_stgs_bg_option" ng-model="take1.tool.views[take1.view].button.btn_hov" />
+              <div class="advanced_colors" data-destination="take1.tool.views[take1.view][take1.destination]" data-property="btn_hov"
+              data-callout="take1.prep_color2" data-params="['color',take1.destination]" data-collection="take1.getMyColors"
+              data-expandto="mM_stgs_sect_cont"></div>
+            </div><!--ends bg info-->
+
+            <div class="mM_stgs_bg_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'icon_bg')" >
+              <label title="">icon color:</label>
+              <input type="color" class="mM_stgs_bg_color" ng-model="take1.service.tool.views[take1.view].button.icon_bg"/>
+              <div class="advanced_colors" data-destination="take1.tool.views[take1.view][take1.destination]" data-property="icon_bg"
+              data-callout="take1.prep_color2" data-params="['color',take1.destination]" data-collection="take1.getMyColors"
+              data-expandto="mM_stgs_sect_cont"></div>
+            </div><!--ends bg info-->
+            <div class="mM_stgs_bg_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'icon_hov')" >
+              <label title="">icon hover color:</label>
+              <input type="color" class="mM_stgs_bg_color mM_stgs_bg_option" ng-model="take1.tool.views[take1.view].button.icon_hov" />
+              <div class="advanced_colors" data-destination="take1.tool.views[take1.view][take1.destination]" data-property="icon_hov"
+              data-callout="take1.prep_color2" data-params="['color',take1.destination]" data-collection="take1.getMyColors"
+              data-expandto="mM_stgs_sect_cont"></div>
+            </div><!--ends bg info-->
+            <div class="mM_stgs_bg_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'btn_height')" >
+              <div class="d3_range_container">
+              <label title="">btn height:</label>
+              <div class="word_box">
+              <input type="number" class="mM_stgs_bg_opacity_nbr mM_stgs_bg_option" ng-model="take1.tool.views[take1.view].button.btn_height"
+              min="15" max="100" ng-change="take1.prep_height()"/>
+              </div>
+              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+            <!--range slider-->
+              <div class="range_box">
+              <input type="range" class="mM_stgs_bg_opacity_rng mM_stgs_bg_option" ng-model="take1.tool.views[take1.view].button.btn_height"
+              min="15" max="100" ng-change="take1.prep_height()"/>
+              </div>
+            </div>
+
+            <div class="mM_stgs_bg_info mM_stgs_content_box"
+          	ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'font_hov_color')" >
+          	  <label title="">hover text color:</label>
+          	  <input type="color" class="mM_stgs_bg_color mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].font_hov_color"
+          	  ng-change="take1.service.color_change(); take1.prep_color('color',take1.destination,'font_hov')" /><!-- formerly 'text' -->
+          	  <div class="advanced_colors" data-destination="take1.service.tool.views[take1.view][take1.destination]" data-property="font_hov_color"
+          	  data-collection="take1.getMyColors" data-expandto="mM_stgs_sect_cont" ></div>
+          	</div><!--ends bg info-->
+
+            <div class="mM_stgs_bg_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'bg_hov_color')">
+              <label title="">hover bkgd color:</label>
+              <input type="color" class="mM_stgs_bg_color mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].bg_hov_color"
+              ng-change="take1.service.color_change(); take1.prep_color('color',take1.destination,'bg_hov')" />
+              <div class="advanced_colors" data-destination="take1.tool.views[take1.view][take1.destination]" data-property="bg_hov_color"
+              data-collection="take1.getMyColors" data-expandto="mM_stgs_sect_cont"></div>
+            </div><!--ends bg info-->
+
+          	<div class="mM_stgs_bg_info mM_stgs_content_box"
+          	ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'bg_hov_opacity')">
+          	  <div class="d3_range_container">
+          		<label title="">hover bkgd opacity:</label>
+          		<div class="word_box">
+          		  <input type="number" class="mM_stgs_bg_opacity_nbr mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].bg_hov_opacity"
+          		  min="0" max="100" ng-change="take1.prep_color('opacity',take1.destination,'bg_hov')"/>
+          		</div>
+          	  </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+          	  <div class="range_box">
+          		<input type="range" class="mM_stgs_bg_opacity_rng mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].bg_hov_opacity"
+          		min="0" max="100" ng-change="take1.prep_color('opacity',take1.destination,'bg_hov')"/>
+          	  </div>
+          	</div><!--ends bg info-->
+
+            <div class="mM_stgs_mobility_info mM_stgs_content_box"
+          	ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'nav_dots')" >
+          	  <div class="mM_switch_cont switch_cont">
+          		<label class="mM_switch_label stgs_access">navigation dots? </label>
+          		<label class="mM_switch switch">
+          		  <input class="switch_input stgs_access access" type="checkbox"
+          		  ng-model="take1.tool.views[take1.view][take1.destination].nav_dots" ng-change="take1.manage_dots(take1.iUN);take1.soft_apply()">
+          		  <span class="fs_slider"></span>
+          		</label>
+          	  </div>
+          	</div>
+
+          	<div class="mM_stgs_bg_info mM_stgs_button_info mM_stgs_content_box"
+          	ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'dot_mode') && take1.tool.views[take1.view][take1.destination].nav_dots" >
+          	  <label title="">dot mode:</label>
+          	  <button type="button" class="mM_active_border first w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].dot_mode = 'layered';"
+          	  ng-class="{active:take1.tool.views[take1.view][take1.destination].dot_mode != 'inline'}">layered</button>
+          	  <button type="button" class="mM_active_border last w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].dot_mode = 'inline';"
+          	  ng-class="{active:take1.tool.views[take1.view][take1.destination].dot_mode == 'inline'}"  title="" >inline</button>
+          	</div>
+
+          	<div class="mM_stgs_bg_info mM_stgs_content_box"
+          	ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'dot_position') && take1.tool.views[take1.view][take1.destination].nav_dots" >
+          	  <div class="d3_range_container width_pct">
+          		<div class="d3_range_stack">
+          		  <label class="width_label" title="">dot position:</label>
+          		  <div class="word_box width_pct">
+          		  <input type="number" class="mM_stgs_bg_opacity_nbr mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].dot_position"
+          		  min="-50" max="50" ng-model-options="{ updateOn: 'blur' }" />
+          		  </div>
+          		</div>
+
+          	  </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+          	<!--range slider-->
+          	  <div class="range_box">
+          		<input type="range" class="mM_stgs_bg_opacity_rng mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].dot_position"
+          		min="-50" max="50" />
+          	  </div>
+          	</div>
+
+          	<div class="mM_stgs_bg_info mM_stgs_button_info mM_stgs_content_box"
+          	ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'wrap_dots') && take1.tool.views[take1.view][take1.destination].nav_dots" >
+          	  <label title="should the slideshow be responsive">wrap dots:</label>
+          	  <button type="button" class="mM_active_border first w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].wrap_dots = 'yes';take1.get_nav_style(take1.destination)"
+          	  ng-class="{active:take1.tool.views[take1.view][take1.destination].wrap_dots == 'yes'}">yes</button>
+          	  <button type="button" class="mM_active_border last w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].wrap_dots = 'no';take1.get_nav_style(take1.destination)"
+          	  ng-class="{active:take1.tool.views[take1.view][take1.destination].wrap_dots != 'yes'}"  title="" >no</button>
+          	</div>
+
+            <div class="mM_stgs_bg_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'margin_value')" >
+              <div class="d3_range_container width_pct">
+                <div class="d3_range_stack">
+                  <div class="mM_stgs_label_cont">
+                    <label class="width_label" title="">margin:</label>
+
+                    <!--width mobile margin/padding chk box -->
+                    <div class="d3_auto_range">
+                      <div class="mobile_margin_custom squaredOne" ng-hide="show.on">
+                        <input type="checkbox" value="None" id="mobile_margin_custom" name="check"
+                        ng-model="take1.tool.views[take1.view][take1.destination].mobile_margin" ng-change="take1.form_item_style(take1.destination)" />
+                        <label for="mobile_margin_custom" ></label>
+                      </div>
+                      <label class="auto_label" title="" >clear mobile</label>
+                    </div>
+                  </div><!-- mM_stgs_label_cont -->
+                  <div class="word_box width_pct">
+                  <input type="number" class="mM_stgs_bg_opacity_nbr mM_stgs_bg_option" data-dest="custom" ng-model="take1.tool.views[take1.view][take1.destination].margin_value"
+                  min="0.0" max="3.0" step=".1"  ng-change="take1.make_margin(take1.destination)" value="{{take1.tool.views[take1.view][take1.destination].margin_value}}"/>
+                  </div>
+                </div>
+              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+              <div class="d3_range_container width_pct">
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.views[take1.view][take1.destination].margin_top}}</div>
+                  <div class="{{take1.destination}}_margin_top squaredOne" ng-hide="show.on">
+                    <input id="{{take1.destination}}_margin_top" type="checkbox" value="None" class="{{take1.destination}}_margin_box {{take1.destination}}_margin"
+                    name="check" data-param="margin_top" />
+                    <label for="{{take1.destination}}_margin_top" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">expand_less</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.views[take1.view][take1.destination].margin_right}}</div>
+                  <div class="{{take1.destination}}_margin_rt squaredOne" ng-hide="show.on">
+                    <input id="{{take1.destination}}_margin_rt" type="checkbox" class="{{take1.destination}}_margin_box {{take1.destination}}_margin" value="None"
+                    name="check" data-param="margin_right" />
+                    <label for="{{take1.destination}}_margin_rt" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">chevron_right</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.views[take1.view][take1.destination].margin_bottom}}</div>
+                  <div class="{{take1.destination}}_margin_bot squaredOne" ng-hide="show.on">
+                    <input id="{{take1.destination}}_margin_bot" type="checkbox" value="None" class="{{take1.destination}}_margin_box {{take1.destination}}_margin"
+                    name="check" data-param="margin_bottom" />
+                    <label for="{{take1.destination}}_margin_bot" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">expand_more</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.views[take1.view][take1.destination].margin_left}}</div>
+                  <div class="{{take1.destination}}_margin_lft squaredOne" ng-hide="show.on">
+                    <input id="{{take1.destination}}_margin_lft" type="checkbox" value="None" class="{{take1.destination}}_margin_box {{take1.destination}}_margin"
+                    name="check" data-param="margin_left" />
+                    <label for="{{take1.destination}}_margin_lft" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">chevron_left</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div class="{{take1.destination}}_margin_all squaredOne" ng-hide="show.on">
+                    <input type="checkbox" value="None" id="{{take1.destination}}_margin_all" class="{{take1.destination}}_margin_all_box {{take1.destination}}_margin" ng-model="take1.tool.views[take1.view][take1.destination].auto_same_margins"
+                    name="check" ng-click="take1.make_margin('all',take1.destination + '_margin_all_box',take1.destination)"/>
+                    <label for="{{take1.destination}}_margin_all" ></label>
+                  </div>
+                  <label class="auto_label" title="">all</label>
+                </div>
+              </div>
+            <!--range slider-->
+              <div class="range_box">
+                <input type="range" class="mM_stgs_bg_opacity_rng mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].margin_value"
+                min="-50.0" max="50.0" step="1" ng-change="take1.make_margin(take1.destination)" value="{{take1.tool.views[take1.view][take1.destination].margin_value}}"
+                data-dest="custom" ng-if="take1.tool.views[take1.view][take1.destination].margin_measure == 'px'" />
+                <input type="range" class="mM_stgs_bg_opacity_rng mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].margin_value"
+                min="-5.0" max="5.0" step=".1" ng-change="take1.make_margin(take1.destination)" value="{{take1.tool.views[take1.view][take1.destination].margin_value}}"
+                data-dest="custom" ng-if="take1.tool.views[take1.view][take1.destination].margin_measure != 'px'" />
+              </div>
+
+              <div class="margin_measure_btns measure_btns mM_stgs_button_info">
+                <button type="button" class="mM_stgs_resp w3-btn first" ng-click="take1.tool.views[take1.view][take1.destination].margin_measure = 'px'; take1.form_item_style(take1.destination)"
+                ng-class="{active:take1.tool.views[take1.view][take1.destination].margin_measure == 'px'}"  title="" >px</button>
+                <button type="button" class="mM_stgs_resp w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].margin_measure = 'rem'; take1.form_item_style(take1.destination)"
+                ng-class="{active:take1.tool.views[take1.view][take1.destination].margin_measure == 'rem'}">rem</button>
+                <button type="button" class="mM_stgs_resp w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].margin_measure = 'em'; take1.form_item_style(take1.destination)"
+                ng-class="{active:take1.tool.views[take1.view][take1.destination].margin_measure == 'em'}">em</button>
+                <button type="button" class="mM_stgs_resp w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].margin_measure = '%'; take1.form_item_style(take1.destination)"
+                ng-class="{active:take1.tool.views[take1.view][take1.destination].margin_measure == '%'}">%</button>
+                <button type="button" class="mM_stgs_resp w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].margin_measure = 'vmax'; take1.form_item_style(take1.destination)"
+                ng-class="{active:take1.tool.views[take1.view][take1.destination].margin_measure == 'vmax'}">vmx</button>
+                <button type="button" class="mM_stgs_resp w3-btn last" ng-click="take1.tool.views[take1.view][take1.destination].margin_measure = 'vmin'; take1.form_item_style(take1.destination)"
+                ng-class="{active:take1.tool.views[take1.view][take1.destination].margin_measure == 'vmin'}"  title="" >vmn</button>
+              </div>
+
+            </div><!-- end range container -->
+
+            <div class="mM_stgs_mobility_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'auto_margins')" >
+              <div class="mM_switch_cont switch_cont">
+                <label class="mM_switch_label stgs_access">auto margins? </label>
+                <label class="mM_switch switch">
+                  <input class="switch_input stgs_access access" type="checkbox"
+                  ng-model="take1.tool.views[take1.view][take1.destination].auto_margins"
+                  ng-change="take1.form_item_style(take1.destination)">
+                  <span class="fs_slider"></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="mM_stgs_bg_info mM_stgs_button_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'card_styling')" >
+              <label title="should the slideshow be responsive">w3-card styling?:</label>
+              <button type="button" class="mM_active_border first w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].card_styling = true;"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].card_styling != false}">yes</button>
+              <button type="button" class="mM_active_border last w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].card_styling = false;"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].card_styling == false}"  title="" >no</button>
+            </div>
+
+            <div class="mM_stgs_bg_info mM_stgs_button_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'active_border')" >
+              <label title="should the slideshow be responsive">active border:</label>
+              <button type="button" class="mM_active_border first w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].active_border = true;take1.form_item_style(take1.destination)"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].active_border == true}">yes</button>
+              <button type="button" class="mM_active_border last w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].active_border = false;take1.form_item_style(take1.destination)"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].active_border != true}"  title="" >no</button>
+            </div>
+
+            <div class="mM_stgs_bg_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'border_color')" >
+              <label title="">border color:</label>
+              <input type="color" class="mM_stgs_border_color mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].border_color"
+              ng-change="take1.service.color_change(); take1.form_item_style(take1.destination)" />
+              <div class="advanced_colors" data-destination="take1.service.tool.views[take1.view][take1.destination]" data-property="border_color"
+            data-collection="take1.getMyColors" data-expandto="mM_stgs_sect_cont" ></div>
+            </div><!--ends bg info-->
+
+            <div class="mM_stgs_bg_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'border_width')" >
+              <div class="d3_range_container">
+                <label title="">border width:</label>
+                <div class="word_box">
+                  <input type="number" class="mM_stgs_border_width mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].border_width"
+                  min="0" max="10" ng-change="take1.form_item_style(take1.destination)"/>
+                </div>
+              </div>
+              <div class="range_box">
+                <input type="range" class="mM_stgs_border_width_rng mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].border_width"
+                min="0" max="10" ng-change="take1.form_item_style(take1.destination)"/>
+              </div>
+            </div>
+
+            <div class="mM_stgs_bg_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'border_radius')" >
+              <div class="d3_range_container">
+                <label title="">border radius:</label>
+                <div class="word_box">
+                  <input type="number" class="mM_stgs_border_radius mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].border_radius"
+                  min="0" max="50" ng-change="take1.form_item_style(take1.destination)"/>
+                </div>
+              </div>
+              <div class="range_box">
+                <input type="range" class="mM_stgs_border_radius_rng mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].border_radius"
+                min="0" max="50" ng-change="take1.form_item_style(take1.destination)"/>
+              </div>
+            </div>
+
+            <div class="mM_stgs_bg_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'padding_value')" >
+              <div class="d3_range_container width_pct">
+                <div class="d3_range_stack">
+                  <div class="mM_stgs_label_cont">
+                    <label class="width_label" title="">padding:</label>
+
+                    <!--width mobile margin/padding chk box -->
+                    <div class="d3_auto_range">
+                      <div class="mobile_padding_custom squaredOne" ng-hide="show.on">
+                        <input type="checkbox" value="None" id="mobile_padding_custom" name="check"
+                        ng-model="take1.tool.views[take1.view][take1.destination].mobile_padding" ng-change="take1.form_item_style(take1.destination)" />
+                        <label for="mobile_padding_custom" ></label>
+                      </div>
+                      <label class="auto_label" title="" >clear mobile</label>
+                    </div>
+                  </div><!-- mM_stgs_label_cont -->
+                  <div class="word_box width_pct">
+                  <div class="word_box width_pct">
+                  <input type="number" class="mM_stgs_bg_opacity_nbr mM_stgs_bg_option" data-dest="custom" ng-model="take1.tool.views[take1.view][take1.destination].padding_value"
+                  min="0.0" max="5.0" step=".1" ng-change="take1.make_padding(take1.destination)" value="{{take1.tool.views[take1.view][take1.destination].padding_value}}"/>
+                  </div>
+                </div>
+              </div><!--d3_range_container  ng-model-options="{ getterSetter: true }"  -->
+            </div>
+              <div class="d3_range_container width_pct">
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.views[take1.view][take1.destination].padding_top}}</div>
+                  <div class="{{take1.destination}}_padding_top squaredOne" ng-hide="show.on">
+                    <input id="{{take1.destination}}_padding_top" type="checkbox" value="None" class="{{take1.destination}}_padding_box {{take1.destination}}_padding"
+                    name="check" data-param="padding_top" checked />
+                    <label for="{{take1.destination}}_padding_top" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">expand_less</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.views[take1.view][take1.destination].padding_right}}</div>
+                  <div class="{{take1.destination}}_padding_rt squaredOne" ng-hide="show.on">
+                    <input id="{{take1.destination}}_padding_rt" type="checkbox" class="{{take1.destination}}_padding_box {{take1.destination}}_padding" value="None"
+                    name="check" data-param="padding_right" checked />
+                    <label for="{{take1.destination}}_padding_rt" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">chevron_right</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.views[take1.view][take1.destination].padding_bottom}}</div>
+                  <div class="{{take1.destination}}_padding_bot squaredOne" ng-hide="show.on">
+                    <input id="{{take1.destination}}_padding_bot" type="checkbox" value="None" class="{{take1.destination}}_padding_box {{take1.destination}}_padding"
+                    name="check" data-param="padding_bottom" checked />
+                    <label for="{{take1.destination}}_padding_bot" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">expand_more</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div>{{take1.tool.views[take1.view][take1.destination].padding_left}}</div>
+                  <div class="{{take1.destination}}_padding_lft squaredOne" ng-hide="show.on">
+                    <input id="{{take1.destination}}_padding_lft" type="checkbox" value="None" class="{{take1.destination}}_padding_box {{take1.destination}}_padding"
+                    name="check" data-param="padding_left" checked />
+                    <label for="{{take1.destination}}_padding_lft" ></label>
+                  </div>
+                  <label class="auto_label" title="">
+                    <i class="material-icons" style="font-size:1rem;color:blue">chevron_left</i>
+                  </label>
+                </div>
+                <div class="d3_auto_range_cube d3_auto_range">
+                  <div class="{{take1.destination}}_padding_all squaredOne" ng-hide="show.on">
+                    <input type="checkbox" value="None" id="{{take1.destination}}_padding_all" class="{{take1.destination}}_padding_all_box {{take1.destination}}_padding" ng-model="take1.tool.views[take1.view][take1.destination].auto_same_padding"
+                    name="check"  checked ng-click="take1.make_padding('all',take1.destination + '_padding_all_box',take1.destination)"/>
+                    <label for="{{take1.destination}}_padding_all" ></label>
+                  </div>
+                  <label class="auto_label" title="">all</label>
+                </div>
+              </div>
+            <!--range slider-->
+              <div class="range_box">
+                <input type="range" class="mM_stgs_bg_opacity_rng mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].padding_value"
+                min="0" max="50.0" step="1" ng-change="take1.make_padding(take1.destination)" value="{{take1.tool.views[take1.view][take1.destination].padding_value}}"
+                data-dest="custom" ng-if="take1.tool.views[take1.view][take1.destination].padding_measure == 'px'" />
+                <input type="range" class="mM_stgs_bg_opacity_rng mM_stgs_bg_option" ng-model="take1.tool.views[take1.view][take1.destination].padding_value"
+                min="0" max="5.0" step=".1" ng-change="take1.make_padding(take1.destination)" value="{{take1.tool.views[take1.view][take1.destination].padding_value}}"
+                data-dest="custom" ng-if="take1.tool.views[take1.view][take1.destination].padding_measure != 'px'" />
+              </div>
+
+              <div class="padding_measure_btns measure_btns mM_stgs_button_info">
+                  <button type="button" class="mM_stgs_resp w3-btn first" ng-click="take1.tool.views[take1.view][take1.destination].padding_measure = 'px'; take1.form_item_style(take1.destination)"
+                  ng-class="{active:take1.tool.views[take1.view][take1.destination].padding_measure == 'px'}"  title="" >px</button>
+                  <button type="button" class="mM_stgs_resp w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].padding_measure = 'rem'; take1.form_item_style(take1.destination)"
+                  ng-class="{active:take1.tool.views[take1.view][take1.destination].padding_measure == 'rem'}">rem</button>
+                  <button type="button" class="mM_stgs_resp w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].padding_measure = 'em'; take1.form_item_style(take1.destination)"
+                  ng-class="{active:take1.tool.views[take1.view][take1.destination].padding_measure == 'em'}">em</button>
+                  <button type="button" class="mM_stgs_resp w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].padding_measure = '%'; take1.form_item_style(take1.destination)"
+                  ng-class="{active:take1.tool.views[take1.view][take1.destination].padding_measure == '%'}">%</button>
+                  <button type="button" class="mM_stgs_resp w3-btn" ng-click="take1.tool.views[take1.view][take1.destination].padding_measure = 'vmax'; take1.form_item_style(take1.destination)"
+                  ng-class="{active:take1.tool.views[take1.view][take1.destination].padding_measure == 'vmax'}">vmx</button>
+                  <button type="button" class="mM_stgs_resp w3-btn last" ng-click="take1.tool.views[take1.view][take1.destination].padding_measure = 'vmin'; take1.form_item_style(take1.destination)"
+                  ng-class="{active:take1.tool.views[take1.view][take1.destination].padding_measure == 'vmin'}"  title="" >vmn</button>
+                </div>
+
+            </div><!-- end range container -->
+
+            <div class="mM_stgs_bg_info mM_stgs_button_info mM_stgs_content_box"
+            ng-if="take1.is_custom() || take1.available_option(take1.service.tool.views[take1.view][take1.destination],'overflow')" >
+              <label title="should the slideshow be responsive">overflow?:</label>
+              <button type="button" class="mM_active_border first w3-btn"
+              ng-click="take1.tool.views[take1.view][take1.destination].overflow = 'unset'; take1.form_item_style(take1.destination)"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].overflow == 'unset'}">unset</button>
+              <button type="button" class="mM_active_border w3-btn"
+              ng-click="take1.tool.views[take1.view][take1.destination].overflow = 'hidden';take1.form_item_style(take1.destination)"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].overflow == 'hidden'}">hidden</button>
+              <button type="button" class="mM_active_border last w3-btn"
+              ng-click="take1.tool.views[take1.view][take1.destination].overflow = 'scroll';take1.form_item_style(take1.destination)"
+              ng-class="{active:take1.tool.views[take1.view][take1.destination].overflow == 'scroll'}"  title="" >scroll</button>
+            </div>
+
+            <div class="mM_stgs_class_info mM_stgs_content_box">
+              <!-- advanced class -->
+              <label title="css style unique identifier">advanced class:</label>
+              <textarea type="text" class="mM_stgs_advanced_class"
+              ng-model="take1.service.tool.views[take1.view][take1.destination].advanced_class"
+              ng-blur="take1.soft_apply()" ></textarea>
+            </div><!--ends bg info-->
+
+            <div class="mM_stgs_class_info mM_stgs_content_box">
+              <!-- advanced style -->
+              <label title="css style unique identifier">advanced style:</label>
+              <textarea type="text" class="mM_stgs_advanced_style"
+              ng-model="take1.service.tool.views[take1.view][take1.destination].advanced_style"
+              ng-blur="take1.form_item_style(take1.destination)"></textarea>
+            </div><!--ends bg info-->
+            <div class="mM_stgs_class_info mM_stgs_content_box">
+              <!-- advanced style -->
+              <label title="css style unique identifier">notes:</label>
+              <textarea type="text" class="mM_stgs_advanced_style"
+              ng-model="take1.service.tool.views[take1.view][take1.destination].notes"
+              ng-blur="take1.soft_apply()"></textarea>
+            </div><!--ends bg info-->
+
+            <div class="mM_stgs_bg_info col mM_stgs_content_box" ng-if="take1.is_custom()" >
+                <button type="button" class="mM_custom_new_item_btn  w3-btn custom_delete"
+                ng-click="take1.remove_select(take1.destination,'custom')"
+                ng-show="take1.add_custom == false" >
+                  <i class="material-icons" style="font-size:1.5rem;color:FireBrick">delete_forever</i>
+                </button>
+            </div><!--ends bg info-->
+
+          </div><!-- ngif custom box -->
+          </div>
+
+          <!-- ******************************* END CUSTOM SECTION ************************************* -->
+
+          <!-- new section sample copy below -->
+          <div class="option_section option_section1" ng-show="take1.option_section == 'sample'">
+            sample section
+          </div>
+          <div class="option_section option_section1" ng-show="take1.option_section == 'advanced'">
+              <label style="width:95%;margin:10px auto;">view json:</label>
+              <textarea  ng-if="take1.option_section == 'advanced'"
+              style="white-space:pre-wrap;min-height:15rem;width:95%;margin:10px auto;"
+              ng-model="take1._.json_manager" ng-model-options="{ getterSetter: true, updateOn : 'blur' }">
+              </textarea>
+          </div>
+          <!-- new section sample copy above -->
+        </div><!--end mM_stgs_sect2-->
+
+        <!-- ******************************* END ADVANCED SECTION *************************************** -->
+
+    </div><!--end mM_stgs_sect_cont-->
+  </div><!-- mM_main -->
+</div><!---->
