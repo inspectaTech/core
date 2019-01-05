@@ -1,65 +1,50 @@
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\000031}}
 * {
   box-sizing: border-box; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000316}}
 .tall {
   height: 21.25rem; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000317}}
 .medium {
   height: 10rem; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000318}}
 .short {
   height: 2.8rem; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000319}}
 .full {
   height: 100%; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000320}}
 .huge {
   height: 26.25rem; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000322}}
 .bookmark_cont {
   position: relative; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000324}}
   .bookmark_cont .bookmark_hidden {
     width: 100%;
     position: relative; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000326}}
     .bookmark_cont .bookmark_hidden .bookmark_curtain {
       display: flex;
       justify-content: center;
       align-items: center;
       width: 100%;
       height: 22rem; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000329}}
       .bookmark_cont .bookmark_hidden .bookmark_curtain .loader {
         border-width: 0.5rem;
         width: 75px;
         height: 75px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000332}}
   .bookmark_cont .bookmark_edit_title {
     margin: 0.5rem 0 0;
     font-size: 0.9rem;
     line-height: 1.4rem; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000333}}
   .bookmark_cont .bookmark_tool_title {
     margin: unset;
     font-size: 0.8rem;
     line-height: 1rem; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000334}}
   .bookmark_cont .stgs_config_cont {
     padding: unset; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000335}}
   .bookmark_cont .bookmark_ctrls {
     display: flex;
     align-items: center;
     justify-content: space-between; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000337}}
     .bookmark_cont .bookmark_ctrls label {
       width: 60%;
       padding-left: 0.5rem;
@@ -67,54 +52,44 @@
       text-overflow: ellipsis;
       overflow: hidden;
       margin-bottom: 0.25rem; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000339}}
     .bookmark_cont .bookmark_ctrls .bookmark_btn_cont {
       width: 35%;
       display: flex;
       flex-flow: row nowrap;
       justify-content: center; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000342}}
       .bookmark_cont .bookmark_ctrls .bookmark_btn_cont button {
         margin: 0.2rem;
         padding: unset; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000345}}
   .bookmark_cont .bookmark_list {
     height: 14rem; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000346}}
     .bookmark_cont .bookmark_list .bookmark_item {
       display: flex;
       flex-flow: column;
       border: thin solid #ccc;
       padding: unset !important; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000349}}
       .bookmark_cont .bookmark_list .bookmark_item .bookmark_item_upper {
         display: flex;
         justify-content: space-around;
         height: 2.2rem;
         align-items: center;
         padding: 0 0.25rem; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000352}}
         .bookmark_cont .bookmark_list .bookmark_item .bookmark_item_upper label {
           color: #17315a;
           margin: unset;
           width: 60%;
           text-align: left; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000354}}
       .bookmark_cont .bookmark_list .bookmark_item .bookmark_edit_ctrls {
         display: flex;
         align-items: center; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000356}}
         .bookmark_cont .bookmark_list .bookmark_item .bookmark_edit_ctrls .bookmark_btn {
           padding: unset;
           min-width: 1.3rem !important;
-          min-height: 1rem !important; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000357}}
+          min-height: 1rem !important;
+          margin: 0 .25rem; }
         .bookmark_cont .bookmark_list .bookmark_item .bookmark_edit_ctrls .bookmark_btn.nope {
           cursor: not-allowed; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000359}}
       .bookmark_cont .bookmark_list .bookmark_item hr {
         margin: 0.5rem 0 !important; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000360}}
       .bookmark_cont .bookmark_list .bookmark_item .bookmark_item_lower {
         display: flex;
         justify-content: flex-end;
@@ -125,113 +100,94 @@
         border: thin solid #ccc;
         border-radius: 0.25rem;
         background: #ddd; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000365}}
         .bookmark_cont .bookmark_list .bookmark_item .bookmark_item_lower .bookmark_edit_ctrls .bookmark_btn {
-          padding: unset; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000370}}
+          padding: unset;
+          margin: 0 .25rem; }
   .bookmark_cont .bookmark_list, .bookmark_cont .bookmark_form {
     border: 1px solid #ddd;
     margin: 0.5rem 0 0.25rem;
     overflow-y: auto; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000373}}
   .bookmark_cont .bookmark_note {
     height: 5.5rem;
     padding: 0.5rem;
     border: thin solid #ddd;
     font-size: 0.75rem;
     line-height: 1.1rem; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000375}}
   .bookmark_cont .bookmark_form {
     padding: 0.5rem; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000377}}
     .bookmark_cont .bookmark_form input {
       width: 100%;
       height: 2.2rem;
       maring-bottom: 0.45rem; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000378}}
     .bookmark_cont .bookmark_form label {
       margin-bottom: 0.25rem; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000379}}
     .bookmark_cont .bookmark_form textarea {
       width: 100%;
       height: 5.3rem;
       margin-bottom: 0.45rem; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000380}}
     .bookmark_cont .bookmark_form .bookmark_ctrls2 {
       display: flex;
       justify-content: center; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000382}}
       .bookmark_cont .bookmark_form .bookmark_ctrls2 button {
         padding: unset; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000386}}
 .bookmark_stgs_content_box {
   border: 1px solid #ddd;
   padding: 0.5rem 0.5rem 0.75rem; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000387}}
   .bookmark_stgs_content_box .active {
     background-color: #17315a;
     color: white; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000389}}
   .bookmark_stgs_content_box label {
     width: 100%; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000390}}
   .bookmark_stgs_content_box label.shared {
     width: 60%; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000391}}
   .bookmark_stgs_content_box .measure_btns {
     width: 100%;
     margin: 15px auto 0.25rem; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000393}}
 .bookmark_stgs_mobility_info {
   display: flex;
   flex-flow: wrap;
   display: flex;
   flex-flow: wrap; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000396}}
   .bookmark_stgs_mobility_info .bookmark_switch_cont {
     width: 95%; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000398}}
     .bookmark_stgs_mobility_info .bookmark_switch_cont .bM_switch_label {
       width: unset;
       margin-right: 7%; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\0000399}}
     .bookmark_stgs_mobility_info .bookmark_switch_cont .fs_slider {
       min-width: 54px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\00003102}}
   .bookmark_stgs_mobility_info button {
     flex: 1;
     border: 1px solid blue;
     padding: 3px 0px !important;
     margin-right: 2px;
     border-radius: 0; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\00003103}}
   .bookmark_stgs_mobility_info button.last {
     border-radius: 0 0.25rem 0.25rem 0;
     margin-right: unset; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\00003104}}
   .bookmark_stgs_mobility_info button.first {
     border-radius: 0.25rem 0 0 0.25rem; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\00003105}}
   .bookmark_stgs_mobility_info button.justify.active {
     /*background-color: #17315a6b;*/ }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\00003107}}
     .bookmark_stgs_mobility_info button.justify.active .material-icons {
       color: #fff !important; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\00003110}}
 .bkmk_hr {
   margin: unset; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\00003112}}
+.bkmrks.fyinfo.open {
+  display: block !important;
+  height: 20rem;
+  padding: .5rem 1rem;
+  overflow-y: scroll; }
+
 .sticky-top, .sticky_top {
   position: -webkit-sticky;
   position: sticky;
   top: 0px;
   background: #fff; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/xampp\/htdocs\/Joomla\/administrator\/components\/com_psmod\/xfiles\/scss\/bookmark\.scss}line{font-family:\00003113}}
 .sticky-bot, .sticky_bot {
   position: -webkit-sticky;
   position: sticky;

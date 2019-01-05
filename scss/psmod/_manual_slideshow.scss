@@ -1,0 +1,10 @@
+.canvas_area{width:90%; margin:10px auto;}
+.canvas_display{/*width: 100%; height: 100%;*/display: table-cell /*flex*/; align-items: center;}
+.canvas_area.portrait,.prev_img_ImgCanvas.portrait,.portrait{width:unset $mp; height:100%;}
+.canvas_area.asset,.canvas_area.page{display:flex;justify-content: center; height:100%;}
+.pure-h{height:100%;}
+.showTime_img_cont{overflow:hidden;}
+.canvas_cont, .canvas_area {
+    width: 100% $mp;
+    margin: 0 auto;
+}

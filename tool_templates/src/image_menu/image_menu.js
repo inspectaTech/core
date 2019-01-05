@@ -1,16 +1,16 @@
 (function(){
   //console.log("mega_menu.js running!");
   var app = angular.module("pictureShow");
-  app.directive("megaMenu",["$window",function($window){
+  app.directive("imageMenu",["$window",function($window){
   return{
     restrict:"C",
     templateUrl:function(elem, attr){
       let file_name = attr.marquee;
-      if(file_name != "mega_menu")return;
+      if(file_name != "image_menu")return;
       let template_style = (attr.motiv == "settings") ? "admin" : attr.motiv;
       //let urlStr = `${BASEURL}components/com_psmod/xfiles/js/${file_name}.html`;
 
-      let urlStr = `${attr.home}tool_templates/${file_name}/templates/${template_style}.html`;
+      let urlStr = `${attr.home}tool_templates/src/${file_name}/templates/${template_style}.html`;
 
       //console.log(`new url string = ${urlStr}`);
 
@@ -79,13 +79,15 @@
       element.on("dragend",function(event){ctrl.stop_the_press(event);});*/
 
     },
-    controller:["ShowData","$sce","$scope","$timeout",function(ShowData,$sce,$scope,$timeout){
+    controller:["ShowData","CoStars","$sce","$scope","$timeout",function(ShowData,CoStars,$sce,$scope,$timeout){
 
       /** VARSECT - variable section **/
       var boss = this;
       this.service = ShowData;
       this._ = ShowData;
-      if(boss._.tool.file_name != "mega_menu")return;
+      this._c = CoStars;
+
+      if(boss._.tool.file_name != "image_menu")return;
 
       var iUN = Math.round(Math.random() * 10000);
       this.iUN = iUN;
@@ -108,7 +110,7 @@
       this.background = "";
       this.view = "default";
       this.add_view = false;
-      this.view_select = `megaMenu_view_select_${boss.iUN}`;
+      this.view_select = `imageMenu_view_select_${boss.iUN}`;
       this.section = "items";
       this.option_section = "options";
       this.front_stage = "";
@@ -117,7 +119,7 @@
       this.destination = "";
       this.add_custom = false;
       this._.resize_id = 0;
-      this.custom_select = `megaMenu_custom_select_${boss.iUN}`;
+      this.custom_select = `imageMenu_custom_select_${boss.iUN}`;
 
       this.info_space = {
         height_style:0,
@@ -150,9 +152,9 @@
       this.insert_mode = "default";
       this.valid_title = "default";
       this.valid_url = "default";
-      this.custom_select = `megaMenu_custom_select_${boss.iUN}`;
+      this.custom_select = `imageMenu_custom_select_${boss.iUN}`;
       this.loader = 0;
-      this.loader_el = "megaMenu_curtain";
+      this.loader_el = "imageMenu_curtain";
       this.strict_titles = true;
 
       this.menu_display = "category";
@@ -181,7 +183,7 @@
       $scope.$watch(function(){return boss.marquee}, function (newValue, oldValue, scope) {
         if (newValue)
           //boss.my_stars = newValue;
-          if(boss._.tool.file_name != "mega_menu")return;
+          if(boss._.tool.file_name != "image_menu")return;
         boss.file_name = newValue;
         //console.log("i see a change in screen_height = ",boss.screen_height);
       }, true);
@@ -189,7 +191,7 @@
       $scope.$watch(function(){return boss.view}, function (newValue, oldValue, scope) {
         if (newValue)
           //boss.my_stars = newValue;
-          if(boss._.tool.file_name != "mega_menu")return;
+          if(boss._.tool.file_name != "image_menu")return;
           boss._.current_view = newValue;
           boss.make_tool_properties();
         //console.log("i see a change in screen_height = ",boss.screen_height);
@@ -198,7 +200,7 @@
       $scope.$watch(function(){return boss._.view}, function (newValue, oldValue, scope) {
         if (newValue)
 
-        if(boss._.tool.file_name != "mega_menu")return;
+        if(boss._.tool.file_name != "image_menu")return;
 
         boss.view = newValue;
         boss._.view = boss.view;
@@ -214,7 +216,7 @@
         //console.log("newValue = ",newValue);
         //console.log("oldValue = ",oldValue);
         if (newValue && boss.initiated == true)
-          if(boss._.tool.file_name != "mega_menu")return;
+          if(boss._.tool.file_name != "image_menu")return;
           //boss.my_stars = newValue;
         boss.my_stars = newValue;//i think this is an array of all the asset content associated with this tool
         //console.log("i see a change in my_stars = ",boss.my_stars);
@@ -227,7 +229,7 @@
         boss.screen_width = newValue;
         if(boss.initiated == true)
         {
-          if(boss._.tool.file_name != "mega_menu")return;
+          if(boss._.tool.file_name != "image_menu")return;
           boss.process_size();
         }//end if
         //console.log("i see a change in screen_width = ",boss.screen_width);
@@ -238,7 +240,7 @@
         boss.screen_height = newValue;
         if(boss.initiated == true)
         {
-          if(boss._.tool.file_name != "mega_menu")return;
+          if(boss._.tool.file_name != "image_menu")return;
           boss.process_size();
         }//end if
         //console.log("i see a change in screen_height = ",boss.screen_height);
@@ -249,7 +251,7 @@
 
           if(boss.initiated == true)
           {
-            if(boss._.tool.file_name != "mega_menu")return;
+            if(boss._.tool.file_name != "image_menu")return;
             boss.process_size();
           }//end if
         }
@@ -261,7 +263,7 @@
 
           if(boss.initiated == true)
           {
-            if(boss._.tool.file_name != "mega_menu")return;
+            if(boss._.tool.file_name != "image_menu")return;
             boss.prep_elements();
           }//end if
         }
@@ -273,7 +275,7 @@
 
           if(boss.initiated == true)
           {
-            if(boss._.tool.file_name != "mega_menu")return;
+            if(boss._.tool.file_name != "image_menu")return;
             boss.prep_elements();
           }//end if
         }
@@ -284,13 +286,13 @@
       $scope.$watch(function(){return boss._.tool.views[boss.view].custom_class}, function (newValue, oldValue, scope) {
         if (newValue)
           //boss.my_stars = newValue;
-          if(boss._.tool.file_name != "mega_menu")return;
+          if(boss._.tool.file_name != "image_menu")return;
         boss.cast = newValue;
         //console.log("i see a change in screen_height = ",boss.screen_height);
       }, true);
 
       $scope.$watch(function(){return boss._.tool.views[boss.view].width_pct}, function (newValue, oldValue, scope) {
-        if(boss._.tool.file_name != "mega_menu")return;
+        if(boss._.tool.file_name != "image_menu")return;
         if (newValue)
           //boss.my_stars = newValue;
         //boss.cast = newValue;
@@ -302,7 +304,7 @@
         if (newValue)
           //boss.my_stars = newValue;
         //boss.cast = newValue;
-        if(boss._.tool.file_name != "mega_menu")return;
+        if(boss._.tool.file_name != "image_menu")return;
         boss.process_size();
         //console.log("i see a change in screen_height = ",boss.screen_height);
       }, true);
@@ -310,7 +312,7 @@
       //do i need this $watch?
       $scope.$watch(function(){return boss._.tool.views[boss.view].sample_class}, function (newValue, oldValue, scope) {
         if (newValue){
-          if(boss._.tool.file_name != "mega_menu")return;
+          if(boss._.tool.file_name != "image_menu")return;
           //boss.my_stars = newValue;
         //boss.alternate = newValue;
         }
@@ -319,7 +321,7 @@
 
       $scope.$watch(function(){return boss._.tool.params}, function (newValue, oldValue, scope) {
         if (newValue){
-          if(boss._.tool.file_name != "mega_menu")return;
+          if(boss._.tool.file_name != "image_menu")return;
           //boss.my_stars = newValue;
         //boss.alternate = newValue;
         $timeout(function(){
@@ -333,7 +335,7 @@
       //watch for ShowData.tool changes
       $scope.$watch(function(){return boss._.tool}, function (newValue, oldValue, scope) {
         if (newValue)
-        if(boss._.tool.file_name != "mega_menu")return;
+        if(boss._.tool.file_name != "image_menu")return;
           //boss.my_stars = newValue;
         boss.tool = newValue;
         //console.log("i see a change in screen_height = ",boss.screen_height);
@@ -343,7 +345,7 @@
 
       $scope.$watch(function(){return boss._.tool.views[boss.view]}, function (newValue, oldValue, scope) {
         if (newValue){
-          if(boss._.tool.file_name != "mega_menu")return;
+          if(boss._.tool.file_name != "image_menu")return;
           let mesee = newValue;
           //boss.my_stars = newValue;
         //boss.alternate = newValue;
@@ -353,7 +355,7 @@
 
       $scope.$watch(function(){return boss._.tool.menu_ids}, function (newValue, oldValue, scope) {
         if (newValue)
-        if(boss._.tool.file_name != "mega_menu")return;
+        if(boss._.tool.file_name != "image_menu")return;
         boss.prepData();
         boss.prep_elements();
       }, true);
@@ -409,7 +411,7 @@
            $scope.$watch(function(){return boss._.tool.views[boss.view].width}, function (newValue, oldValue, scope) {
              if (newValue)
                //boss.my_stars = newValue;
-               if(boss._.tool.file_name != "mega_menu")return;
+               if(boss._.tool.file_name != "image_menu")return;
                if(newValue == "default"){
                  ShowData.tool.views[boss.view].width = document.body.clientWidth * .95;
                  //ShowData.tool.views[boss.view].width = document.querySelector(boss.front_stage).parentNode.clientWidth * .95;
@@ -421,7 +423,7 @@
            $scope.$watch(function(){return boss._.tool.views[boss.view].height}, function (newValue, oldValue, scope) {
              if (newValue)
                //boss.my_stars = newValue;
-               if(boss._.tool.file_name != "mega_menu")return;
+               if(boss._.tool.file_name != "image_menu")return;
                if(newValue == "default"){
                  let c_Ht = document.body.clientWidth * .95;
                  //let c_Ht = document.querySelector(boss.front_stage).parentNode.clientWidth * .95;
@@ -433,7 +435,7 @@
 
            $scope.$watch(function(){return boss._.tool.views[boss.view].responsive}, function (newValue, oldValue, scope) {
              if (newValue)
-             if(boss._.tool.file_name != "mega_menu")return;
+             if(boss._.tool.file_name != "image_menu")return;
                //boss.my_stars = newValue;
              boss.responsive = newValue;
              //console.log("i see a change in responsive = ",boss.responsive);
@@ -668,20 +670,7 @@
         boss.item_url = boss.restore_url;
       }
 
-      this.soft_apply = function(callout,prop,ms)
-      {
-        let mili = ms || 0;
-        return new Promise(function(resolve, reject) {
-          $timeout(function(){},mili,true).then(function(){
-            if(callout != undefined && callout != ""){
-              callout(prop);
-              resolve();
-            }else{
-              resolve();
-            }
-          });
-        });
-      }//soft_apply
+      this.soft_apply = boss._c.soft_apply.bind(this);
 
       this.exists = function(item)
       {
@@ -1604,21 +1593,13 @@
       /*************  END ORDERING SECTION ***********/
 
 
-      this.update_assets = function(dIDs)
-      {
-        let comp_ids = [];
-        dIDs.forEach(function(entry){
-          if(ShowData.asset_reference[entry] != undefined){
-            comp_ids.push(ShowData.asset_reference[entry]);
-          }//end if
-        });
-        return comp_ids;
-      }
+      this.update_assets = boss._c.update_assets.bind(this);
 
       this.insertCanvas = function(dt,lst,tIUN)
       {
+        // unique
         // note: run .after() with some insert canvas' issue with ng-if and _.refresh_tool
-        if(boss._.tool.file_name != "mega_menu")return;
+        if(boss._.tool.file_name != "image_menu")return;
         if(dt == undefined)return;
 
         var inObj = dt;
@@ -1633,8 +1614,8 @@
         // i didn't want to do numbers and create gap indexes so i used a multidim array
         boss.object_params[params_str] = obj_params;
         let obj_str = "bm_canvas_" + iUN + "_"  + inObj.id;
-        let asset_id = "megaMenu_img_" + iUN + "_" + inObj.id;//custom id
-        let addClass = " " + restrict_id + " megaMenu asset darken ";//d3-w80 d3-h30
+        let asset_id = "imageMenu_img_" + iUN + "_" + inObj.id;//custom id
+        let addClass = " " + restrict_id + " imageMenu asset darken ";//d3-w80 d3-h30
         boss.canvas_mkr({name:obj_str,params:obj_params,home:asset_id,class:addClass,adjust:true});
 
         //console.log("asset_id = ",asset_id);
@@ -1659,6 +1640,7 @@
       ];
 
       this.outer_style = function(){
+        // unique
         //this section is designed to style the directive container
         //let queryStr = ".manual-slideshow.tool_default";
         let mt = boss._.tool.module_title;
@@ -1673,7 +1655,7 @@
 
         // let use_style = (boss.mode == "admin") ? parseInt(ShowData.tool.views[boss.view].samp_h_nbr) + "vw": parseInt(ShowData.tool.views[boss.view].h_nbr) + "vw";
 
-        let use_style = boss.form_item_style("outer","get");
+        let use_style = boss.form_item_style("outer","get");//**diff
 
         boss_cont.style = use_style;
 
@@ -1681,7 +1663,7 @@
 
         let add_class = (boss.mode == "admin" && boss._.preview_display != "max") ? ShowData.tool.views[boss.view].sample_class: ShowData.tool.views[boss.view].custom_class;
         add_ary = add_class.split(" ");
-        boss_cont.className = boss._.clear_redundacy(boss_cont.className,add_ary);
+        boss_cont.className = boss.clear_redundacy(boss_cont.className,add_ary);
         let use_class = add_class;// speghetti code ment to erase redundancies in custom_class
         //limit/hide on devices
 
@@ -1706,10 +1688,8 @@
 
         let invisible = (boss.mode != "admin" && boss._.tool.views[boss.view].invisible == true) ? " invisible " : "";
 
-        let adv_class = boss._.tool.views[boss.view].outer.advanced_class;
-        boss_cont.className = boss._.clear_redundacy(boss_cont.className,adv_class);
 
-        let newClass = ` ${boss_cont.className} ${use_class} ${device_limits} ${invisible} ${adv_class}`;
+        let newClass = ` ${boss_cont.className} ${use_class} ${device_limits} ${invisible} `;
 
         boss_cont.className = ShowData.removeSomething(newClass,' ');
         boss_cont.dataset.option_x = "outer";
@@ -1718,7 +1698,7 @@
         if(boss._.exists(boss._.tool.views[boss.view].grid_area_class) && boss.mode == "site"){
           //get the parent moduletable - make it inline ad add width
           let grid_area_class = boss._.tool.views[boss.view].grid_area_class || "";
-          parent_module.className = boss._.clear_redundacy(parent_module.className,[grid_area_class]);
+          parent_module.className = boss.clear_redundacy(parent_module.className,[grid_area_class]);
           parent_module.className = `${parent_module.className} ${grid_area_class}`;
           parent_module.className = ShowData.removeSomething(parent_module.className,' ');
         }// if grid_area_class
@@ -1727,30 +1707,28 @@
           let grid_area_style = boss._.tool.views[boss.view].grid_area_style || "";
           parent_module.style = `${grid_area_style}`;
           // let par_style = parent_module.style || "";
-          // parent_module.style = boss._.clear_redundacy(par_style,[grid_area_style]);
+          // parent_module.style = boss.clear_redundacy(par_style,[grid_area_style]);
           // parent_module.style = ShowData.removeSomething(parent_module.style,' ');
         }// if grid_area_style
 
       }//outer_style
 
-      this.getParam = function(data)
-      {
-        let  targ_data = data;
-        let params_str = "params" + targ_data.id;
+      this.clear_redundacy = function (cN,rA) {
+        let text = cN,
+        redundant_array = rA;
 
-        if(boss.object_params[params_str] != undefined){
-          boss.object_params[params_str] = JSON.parse(targ_data.params);
-        }//end if
+        redundant_array.forEach(function (entry) {
+          text = text.replace(entry,"");
+        })
 
-        let my_params = boss.object_params[params_str];
-        //console.log("mega_menu params =",my_params);
+        return text;
+      }// clear_redundacy
 
-        return my_params;
-
-      }//getParam
+      this.getParam = boss._c.getParam.bind(this);
 
       this.getClass = function(str)
       {
+        // unique
         let use_class = "";
         let type = (str.match(/custom\d+/g)) ? "custom" : str;
         let target_detail = ShowData.tool.views[boss.view][str];
@@ -1872,6 +1850,7 @@
 
       this.getStyle = function()
       {
+
         let use_style = (boss.mode == "admin") ? ShowData.tool.views[boss.view].samp_h_nbr: ShowData.tool.views[boss.view].h_nbr;
 
         //return `min-height:${ShowData.tool.views[boss.view].height}px;`;
@@ -1885,55 +1864,7 @@
         return `min-height:${use_style}vw;`;
       }//getStyle_OG
 
-      this.weedOut = function(str,srch,qSel)
-      {
-        /*this function takes out unwanted css classes from the elements classNames by referencing
-        an array of possible unwanted strings*/
-        let targ_str = str;
-        let targ_ary = str.split(" ");//take the classname str & make an array
-        let weedAry = [];
-        let srch_ary = (typeof srch == "string") ? [srch] : srch;
-        let scratchy = (qSel != undefined) ? document.querySelector(qSel) : "default";
-
-        targ_ary.forEach(function(entry)
-        {
-          let not_in_array = true;
-          srch_ary.forEach(function(sentry)
-          {
-            //i need a while to clear multiple instances of the srch term
-            if(entry.indexOf(sentry) != -1 && entry != "")
-            {
-              not_in_array = false;
-            }
-            });
-
-            if(not_in_array == true){
-              //make sure its not already in weedAry
-              let not_in_here = true;
-              weedAry.forEach(function(checka){
-                if(checka == entry)
-                {
-                  not_in_here = false;
-                }//end if
-              });
-              if(not_in_here == true){
-                weedAry.push(entry);//if isn't found in the srch array push into the final array
-              }//end if
-            }else {
-              if(scratchy != "default"){
-                //scratchy.className = scratchy.className.replace(entry,"");
-                scratchy.className = scratchy.className.replace(new RegExp(entry, 'g'),"");
-              }//end if
-            }//end else
-
-        });
-
-        //when im done clean it up
-        if(scratchy != "default"){
-          scratchy.className = ShowData.removeSomething(scratchy.className,' ');
-        }//end if
-        return weedAry.join(" ");
-      }//weedOut
+      this.weedOut = boss._c.weedOut.bind(this);
 
 
       this.setListHover = function(eID,dest)
@@ -1973,25 +1904,7 @@
         }//switch
       }//item_hover
 
-      this.image_object_converter = function(cpar)
-      {
-        let data = cpar;
-        if(data.img_obj != undefined && data.img_obj[0] == undefined)
-        {
-          let temp_obj = boss._.bboy(data.img_obj);
-          data.img_obj = [];
-          data.img_obj[0] = (boss._.exists(temp_obj)) ? temp_obj : {} ;
-          data.img_obj[0].url = data.url;
-
-          if(boss._.exists(data.canvas))
-          {
-            data.img_obj[0].canvas = boss._.bboy(data.canvas);
-          }//if
-        }//if
-
-        return data;
-
-      }//image_object_converter
+      this.image_object_converter = boss._c.image_object_converter.bind(this);
 
 
       this.canvas_mkr = function(cObj)
@@ -2077,7 +1990,7 @@
       {
         let restrict_id = "simple_canvas_img" + ndx;
 
-        let mesee_all = document.querySelectorAll(".megaMenu_img");
+        let mesee_all = document.querySelectorAll(".imageMenu_img");
 
         if(document.querySelector("." + restrict_id)) return;
         if(sObj == undefined)return;
@@ -2135,422 +2048,31 @@
         return boss._.tool.views[boss.view][dest][attr];
       }//getDetails
 
-      this.plusDivs = function(n) {
-        if(boss.initiated == false)return;
-        boss.showDivs(slideIndex += n);
-      }
+      this.plusDivs = boss._c.plusDivs.bind(this);
 
-      this.showDivs = function(n) {
-        var i;
-        //let cls_str = "mySlides" + iUN;
-        //let cls_str = "mySlides";
-        let cls_str = "mySlides" + boss._.module_id;//bugfix for multiple slideshows
-        var x = document.getElementsByClassName(cls_str);
+      this.showDivs = boss._c.showDivs.bind(this);
 
-        if(x == undefined || x.length == 0)return;//bugfix for angular false positives
+      this.process_size = boss._c.process_size.bind(this);
 
-        if (n > x.length) {slideIndex = 1}
-        if (n < 1) {slideIndex = x.length}
-        for (i = 0; i < x.length; i++) {
-           x[i].style.display = "none";
-        }
-        x[slideIndex-1].style.display = "block";
-      }//end showDivs
 
-      this.process_size = function()
-      {
-        if(boss.mode == "admin"){
-          //i can use an admin mode if i need it
-          //console.log("mode=",boss.mode);
-          //console.log("crew=",unescape(boss.crew));
+      this.get_ratio = boss._c.get_ratio.bind(this);
 
-          //get the sceen dimensions
-          let s_w = parseInt(boss.screen_width);//* .8 gives me the size of the showcase
-          let s_h = parseInt(boss.screen_height);
+      this.rounded = boss._c.rounded.bind(this);
 
-          let get_screen_ratio = boss.get_ratio(s_w,s_h);
-          let screen_ratio = get_screen_ratio.split(":");
-          let s_w_ratio = screen_ratio[0];
-          let s_h_ratio = screen_ratio[1];
-          //let h_screen_pct =
-
-          //i need to conver s_h into s_w units of measurement
-
-          //get the custom dimensions
-          let c_w = ShowData.tool.views[boss.view].width;
-          let c_h = ShowData.tool.views[boss.view].height;//this is the user set dimensions
-
-          let auto_width = ShowData.tool.views[boss.view].auto_width;
-          //let width_pct = parseFloat("." + ShowData.tool.views[boss.view].width_pct);
-          let width_pct = ShowData.tool.views[boss.view].width_pct;
-
-          let orient = (c_w == c_h) ? "square" : (c_w > c_h) ? "landscape"  : "portrait";
-
-          let is_responsive = boss.responsive;
-          //console.log("process_size responsive = ",boss.responsive);
-
-          //if responsive or if <= use the responsive classes
-          //process width
-          if(is_responsive == 1)
-          {
-            //if(c_w <= s_w && c_h <= s_h ) use the ratio if its bigger than the page
-            //if its bigger than the screen height - use c_h to s_h
-            ShowData.tool.views[boss.view].ratio = boss.get_ratio(c_w,c_h);
-            let the_ratio = ShowData.tool.views[boss.view].ratio.split(":");
-            let w_ratio = the_ratio[0];
-            let h_ratio = the_ratio[1];
-
-            //get % of screen width
-
-            let w_pct,h_pct;
-            switch(orient)
-            {
-              case "square":
-
-              w_pct = width_pct;
-
-              h_pct = w_pct;
-              break;
-
-              case "portrait":
-              //right now he purpose is for displays that fit in the viewport window.
-              //i need the s|c_h converted into screen width measurements - the h is naturally x s|c_w
-              //then i want to know what % of the available h the users wants to use
-              h_pct = (c_w <= s_w) ? c_h / s_w : c_h / c_w;
-              h_pct = (h_pct > .95) ? .95 : h_pct;//make sure it doesn't exceed 95
-
-              w_pct = width_pct;
-              break;
-
-              case "landscape":
-
-                w_pct = width_pct;
-
-                h_pct = w_pct / w_ratio;
-              break;
-            }//switch
-
-            let w_nbr = w_pct;//boss.rounded();
-            let w_class = " d3S_pw" + w_nbr;//" d3S_w" + w_nbr;
-            let h_nbr = boss.rounded(h_pct);
-            let h_class = "d3S_ph" + h_nbr;// "d3S_h" + h_nbr;
-
-            let samp_w_nbr = w_pct;//parseInt(boss.rounded());// * .80
-            let samp_w_class = " d3S_pw" + samp_w_nbr;// " d3S_w" + samp_w_nbr;
-            let samp_h_nbr = parseInt(boss.rounded(h_pct  * .60));
-            let samp_h_class = "d3S_ph" + h_nbr;//"d3S_h" + samp_h_nbr;
-
-            ShowData.tool.views[boss.view].w_class = w_class;
-            ShowData.tool.views[boss.view].h_class = h_class;
-            ShowData.tool.views[boss.view].w_nbr = w_nbr;
-            ShowData.tool.views[boss.view].h_nbr = h_nbr;
-            ShowData.tool.views[boss.view].samp_w_class = samp_w_class;
-            ShowData.tool.views[boss.view].samp_h_class = samp_h_class;
-            ShowData.tool.views[boss.view].samp_w_nbr = samp_w_nbr;
-            ShowData.tool.views[boss.view].samp_h_nbr = samp_h_nbr;
-
-            ShowData.tool.views[boss.view].class_style = " " + w_class + " ";
-            ShowData.tool.views[boss.view].class_alt = " " + samp_w_class + " ";
-
-            let custom_class = " " + ShowData.tool.views[boss.view].class_pfx + " " + ShowData.tool.views[boss.view].class_style + " ";
-            custom_class = ShowData.removeSomething(custom_class,' ');
-            let sample_class = " " + ShowData.tool.views[boss.view].class_pfx + " " + ShowData.tool.views[boss.view].class_alt + " ";
-            sample_class = ShowData.removeSomething(sample_class,' ');
-
-            ShowData.tool.views[boss.view].custom_class = custom_class;
-            ShowData.tool.views[boss.view].sample_class = sample_class;
-
-            let custom_style = `min-height:${ShowData.tool.views[boss.view].height}px !important`;
-            let sample_style = `min-height:${ShowData.tool.views[boss.view].height}px !important`;
-            ShowData.tool.views[boss.view].custom_style = "";//custom_style;
-            ShowData.tool.views[boss.view].sample_style = "";//sample_style;
-
-
-            //console.log("class style = ",ShowData.tool.views[boss.view].class_style);
-            //console.log("class alt = ",ShowData.tool.views[boss.view].class_alt);
-          }else {
-            ShowData.tool.views[boss.view].custom_class = "";
-            ShowData.tool.views[boss.view].sample_class = "";
-          }
-          //end if boss.mode
-          boss.outer_style();
-
-          ShowData.refresh_tool = "true";
-        }
-
-      }//process_size
-
-
-      this.process_size_OG = function()
-      {
-        if(boss.mode == "admin"){
-          //i can use an admin mode if i need it
-          //console.log("mode=",boss.mode);
-          //console.log("crew=",unescape(boss.crew));
-
-          //get the sceen dimensions
-          let s_w = parseInt(boss.screen_width);//* .8 gives me the size of the showcase
-          let s_h = parseInt(boss.screen_height);
-
-          let get_screen_ratio = boss.get_ratio(s_w,s_h);
-          let screen_ratio = get_screen_ratio.split(":");
-          let s_w_ratio = screen_ratio[0];
-          let s_h_ratio = screen_ratio[1];
-          //let h_screen_pct =
-
-          //i need to conver s_h into s_w units of measurement
-
-          //get the custom dimensions
-          let c_w = ShowData.tool.views[boss.view].width;
-          let c_h = ShowData.tool.views[boss.view].height;//this is the user set dimensions
-
-          let auto_width = ShowData.tool.views[boss.view].auto_width;
-          let width_pct = parseFloat("." + ShowData.tool.views[boss.view].width_pct);
-
-          let orient = (c_w == c_h) ? "square" : (c_w > c_h) ? "landscape"  : "portrait";
-
-          let is_responsive = boss.responsive;
-          //console.log("process_size responsive = ",boss.responsive);
-
-          //if responsive or if <= use the responsive classes
-          //process width
-          if(is_responsive == 1)
-          {
-            //if(c_w <= s_w && c_h <= s_h ) use the ratio if its bigger than the page
-            //if its bigger than the screen height - use c_h to s_h
-            ShowData.tool.views[boss.view].ratio = boss.get_ratio(c_w,c_h);
-            let the_ratio = ShowData.tool.views[boss.view].ratio.split(":");
-            let w_ratio = the_ratio[0];
-            let h_ratio = the_ratio[1];
-
-            //get % of screen width
-
-            let w_pct,h_pct;
-            switch(orient)
-            {
-              case "square":
-              w_pct = (c_w <= s_w) ? c_w / s_w : .95;
-              w_pct = (w_pct > .95) ? .95 : w_pct;//make sure it doesn't exceed 95
-              w_pct = (auto_width != false) ? width_pct : w_pct;
-
-              h_pct = w_pct;
-              break;
-
-              case "portrait":
-              //right now he purpose is for displays that fit in the viewport window.
-              //i need the s|c_h converted into screen width measurements - the h is naturally x s|c_w
-              //then i want to know what % of the available h the users wants to use
-              h_pct = (c_w <= s_w) ? c_h / s_w : c_h / c_w;
-              h_pct = (h_pct > .95) ? .95 : h_pct;//make sure it doesn't exceed 95
-
-              w_pct = h_pct / h_ratio;
-              break;
-
-              case "landscape":
-                w_pct = (c_w <= s_w) ? c_w / s_w : .95;
-                w_pct = (w_pct > .95) ? .95 : w_pct;//make sure it doesn't exceed 95
-                w_pct = (auto_width != false) ? width_pct : w_pct;
-
-                h_pct = w_pct / w_ratio;
-              break;
-            }//switch
-
-            let w_nbr = boss.rounded(w_pct);
-            let w_class = " d3S_w" + w_nbr;//" d3S_w" + w_nbr;
-            let h_nbr = boss.rounded(h_pct);
-            let h_class = "d3S_h" + h_nbr;// "d3S_h" + h_nbr;
-
-            let samp_w_nbr = parseInt(boss.rounded(w_pct * .80));
-            let samp_w_class = " d3S_w" + samp_w_nbr;// " d3S_w" + samp_w_nbr;
-            let samp_h_nbr = parseInt(boss.rounded(h_pct  * .60));
-            let samp_h_class = "d3S_h" + samp_h_nbr;//"d3S_h" + samp_h_nbr;
-
-            ShowData.tool.views[boss.view].w_class = w_class;
-            ShowData.tool.views[boss.view].h_class = h_class;
-            ShowData.tool.views[boss.view].w_nbr = w_nbr;
-            ShowData.tool.views[boss.view].h_nbr = h_nbr;
-            ShowData.tool.views[boss.view].samp_w_class = samp_w_class;
-            ShowData.tool.views[boss.view].samp_h_class = samp_h_class;
-            ShowData.tool.views[boss.view].samp_w_nbr = samp_w_nbr;
-            ShowData.tool.views[boss.view].samp_h_nbr = samp_h_nbr;
-
-            ShowData.tool.views[boss.view].class_style = " " + w_class + " ";
-            ShowData.tool.views[boss.view].class_alt = " " + samp_w_class + " ";
-
-            let custom_class = " " + ShowData.tool.views[boss.view].class_pfx + " " + ShowData.tool.views[boss.view].class_style + " ";
-            custom_class = ShowData.removeSomething(custom_class,' ');
-            let sample_class = " " + ShowData.tool.views[boss.view].class_pfx + " " + ShowData.tool.views[boss.view].class_alt + " ";
-            sample_class = ShowData.removeSomething(sample_class,' ');
-
-            ShowData.tool.views[boss.view].custom_class = custom_class;
-            ShowData.tool.views[boss.view].sample_class = sample_class;
-
-            let custom_style = `min-height:${h_nbr}vw !important`;
-            let sample_style = `min-height:${samp_h_nbr}vw !important`;
-            ShowData.tool.views[boss.view].custom_style = "";//custom_style;
-            ShowData.tool.views[boss.view].sample_style = "";//sample_style;
-
-
-            //console.log("class style = ",ShowData.tool.views[boss.view].class_style);
-            //console.log("class alt = ",ShowData.tool.views[boss.view].class_alt);
-          }else {
-            ShowData.tool.views[boss.view].custom_class = "";
-            ShowData.tool.views[boss.view].sample_class = "";
-          }
-          //end if boss.mode
-          boss.outer_style();
-
-          ShowData.refresh_tool = "true";
-        }
-
-      }//process_size_OG
-
-
-      this.get_ratio = function(w,h)
-      {
-        let ratio;
-        if(w == h){
-          ratio = "1:1";
-        }else if(w > h){
-          calc = w / h;
-          ratio = calc + ":1";
-        }else {
-          calc = h / w;
-          ratio = "1:" + calc;
-        }
-
-        return ratio;
-      }//get_ratio
-
-      this.rounded = function(nbr,mod)
-      {
-        //sample: boss.rounded(h_pct,"fives");//rounds to the nearest 5
-
-        let mode = mod || "default";
-        let targ = nbr * 100;
-        let test_nbr;
-        targ = targ.toFixed(2);
-        //isolate the 1's place #
-        targ_floor = Math.floor(parseInt(targ)/10) * 10;
-        let e_nbr = targ - targ_floor;
-        switch(mode)
-        {
-          case "fives":
-
-          //i dont want to go bigger
-          if(e_nbr == 5){
-            //if its a 5 use the number as is
-            pct = Math.floor(targ);
-          }else if(e_nbr > 5){
-            //if greater than 5
-            test_nbr = e_nbr - 5;
-            if(test_nbr >= 2.5){
-              pct = targ_floor + 10;
-            }else{
-              pct = targ_floor + 5;
-            }//end else
-          }else {
-            //less than 5
-            test_nbr = 5 - e_nbr;
-            if(test_nbr <= 2.5){
-              pct = targ_floor + 5;
-            }else{
-              pct = targ_floor;
-            }//end else
-          }//end else
-          break;
-          default:
-            pct = Math.round(targ);
-          break;
-        }
-        //console.log("pct = ",pct);
-        return pct;
-      }//rounded
-
-      this.prep_color = function(mod,dest,param)
-      {
-        let targ_el = event.target;
-        boss.prep_color2(targ_el.value,mod,dest,param)
-        //return arguments.length ? (_name = newName) : _name;//I like this shortcut
-      }//prep_color
+      this.prep_color = boss._c.prep_color.bind(this);
 
       //hack for color.ctrlr.js
-      this.prep_color2 = function(val,mod,dest,param)
-      {
-            //i need to compile the new color
-            boss.form_item_color(val,mod,dest,param);
-            boss.form_item_style(dest);
-            //$scope.$digest();
+      this.prep_color2 = boss._c.prep_color2.bind(this);
 
-        //return arguments.length ? (_name = newName) : _name;//I like this shortcut
-      }//prep_color2
+      this.prep_height = boss._c.prep_height.bind(this);
 
-      this.prep_height = function(dest,cls)
-      {
-        let targ_el = event.target;
-            //i need to compile the new color
-            boss.form_btn_height(targ_el.value,dest,cls);
-            //boss.form_item_style();
-            $timeout(function(){},0,true);
+      this.form_btn_height = boss._c.form_btn_height.bind(this);
 
-        //return arguments.length ? (_name = newName) : _name;//I like this shortcut
-      }//prep_height
-
-      this.form_btn_height = function(dat,dest,cls)
-      {
-        //what if its empty or brand new and angular is just digesting?
-        if(dat == undefined && dest == undefined && cls == undefined) return;
-        let active_width = boss._.tool.views[boss.view][dest].active_width;
-        if(dat == undefined || active_width === false)return;
-          let btn_grp = document.querySelectorAll(".bM_read_more");
-          let new_class = ` ${cls}${dat} `;
-
-          btn_grp.forEach(function(entry){
-            let dirty_class = entry.className;
-            let clean_class = boss.weedOut(dirty_class,["d3_","d3S_","d3M_","d3L_","d3XL_"]);
-            let class_final = clean_class + new_class;
-            entry.className = ShowData.removeSomething(class_final,' ');
-          });
-
-      }//form_btn_height
-
-      this.form_item_color = function(dat,mod,dest,pref)
-      {
-        let pfx = pref || "bg";
-        let base16_str = pfx + "_base16";
-        let hex_str = pfx + "_hex";
-        let color_str = pfx + "_color";
-
-        switch(mod)
-        {
-            case "opacity":
-              let nbr = dat;//0 - 100
-              let pct = parseInt(dat,10) / 100;
-              let targ_nbr = (Math.floor(255 * pct)).toString(16);
-              targ_nbr = (targ_nbr.length == 1) ? "0" + targ_nbr : targ_nbr;
-
-              boss._.tool.views[boss.view][dest][`${pfx}_base16`] = targ_nbr;
-              boss._.tool.views[boss.view][dest][`${pfx}_hex`] = boss._.tool.views[boss.view][dest][`${pfx}_color`] + "" + targ_nbr;
-              //boss._.tool.views[boss.view].btn_opacity = parseInt(dat,10);
-            break;
-
-            case "color":
-              boss._.tool.views[boss.view][dest][`${pfx}_hex`] = dat + "" + boss._.tool.views[boss.view][dest][`${pfx}_base16`];
-              boss._.tool.views[boss.view][dest][`${pfx}_color`] = dat;
-
-              let hVal = `hex value = ${boss._.tool.views[boss.view][dest][`${pfx}_hex`]}`
-              //console.log(hVal);
-            break;
-
-            /*case "text":
-              boss._.tool.views[boss.view][dest][`${pref}_color`] = dat;
-            break;*/
-        }//end switch
-      }//form_item_color
+      this.form_item_color = boss._c.form_item_color.bind(this);
 
       this.form_item_style = function(dest,mod)
       {
-
+        //unique
             //let width = `width:${boss._.tool.views[boss.view].width_pct}%;`;
             let target_detail = boss._.tool.views[boss.view][dest];
 
@@ -2785,7 +2307,7 @@
 
       this.prep_main  = function(ndx)
       {
-        let main_str = `megaMenu_menu_cont_${ndx}`;
+        let main_str = `imageMenu_menu_cont_${ndx}`;
         if(boss.object_elements[main_str] == undefined){
           boss.object_elements[main_str] = {};
           boss.object_elements[main_str].collapsed = (boss._.tool.views[boss.view].menu_bar == true) ? true : false;
@@ -2794,9 +2316,9 @@
 
       this.toggle_show = function(ndx)
       {
-        let main_str = `megaMenu_menu_cont_${ndx}`;
+        let main_str = `imageMenu_menu_cont_${ndx}`;
         let main_array = Object.keys(boss.object_elements);
-        boss.last_menu = `megaMenu_menu_cont_${ndx}`;
+        boss.last_menu = `imageMenu_menu_cont_${ndx}`;
         main_array.forEach(function(entry){
           if(main_str == entry){
             boss.object_elements[entry].collapsed = (boss.object_elements[entry].collapsed == true) ? false : true;
@@ -2809,7 +2331,7 @@
 
       this.is_collapsed = function(ndx)
       {
-          let main_str = `megaMenu_menu_cont_${ndx}`;
+          let main_str = `imageMenu_menu_cont_${ndx}`;
 
           //see also toggle_show above
           return (boss._.tool.views[boss.view].nav.display != 'none' &&
@@ -2825,132 +2347,12 @@
         })
       }// collapse_all
 
-      this.make_margin = function(dest,mod,dest2)
-      {
-        let margin_str,margin_boxes;
+      this.make_margin = boss._c.make_margin.bind(this);
 
-        switch (dest) {
-        case "all":
-          let mod_str = "." + mod;
-          let chkAll = document.querySelector(mod_str);
-          margin_str = `.${dest2}_margin`;
-          margin_boxes = document.querySelectorAll(margin_str);
-
-          if(chkAll.checked)
-          {
-            margin_boxes.forEach(function(entry){
-              entry.checked = true;
-            });
-            //boss._.tool.views[boss.view][dest].auto_same_margins = false;
-          }else {
-            margin_boxes.forEach(function(entry){
-              entry.checked = false;
-            });
-            //boss._.tool.views[boss.view][dest].auto_same_margins = true;
-          }
-        break;
-
-        default:
-        margin_str = `.${dest}_margin_box`;
-        margin_boxes = document.querySelectorAll(margin_str);
-        margin_boxes.forEach(function(entry){
-          if(entry.checked)
-          {
-            let el_param = entry.dataset.param;
-            boss._.tool.views[boss.view][dest][el_param] = boss._.tool.views[boss.view][dest].margin_value;
-          }
-        });
-
-        boss.form_item_style(dest);
-      }//switch
+      this.make_padding = boss._c.make_padding.bind(this);
 
 
-      }//make_margin
-
-      this.make_padding = function(dest,mod,dest2)
-      {
-        let padding_str,padding_boxes;
-
-        switch (dest) {
-        case "all":
-          let mod_str = "." + mod;
-          let chkAll = document.querySelector(mod_str);
-          padding_str = `.${dest2}_padding`;
-          padding_boxes = document.querySelectorAll(padding_str);
-
-          if(chkAll.checked)
-          {
-            padding_boxes.forEach(function(entry){
-              entry.checked = true;
-            });
-            //boss._.tool.views[boss.view][dest].auto_same_paddings = false;
-          }else {
-            padding_boxes.forEach(function(entry){
-              entry.checked = false;
-            });
-            //boss._.tool.views[boss.view][dest].auto_same_paddings = true;
-          }
-        break;
-
-        default:
-        padding_str = `.${dest}_padding_box`;
-        padding_boxes = document.querySelectorAll(padding_str);
-        padding_boxes.forEach(function(entry){
-          if(entry.checked)
-          {
-            let el_param = entry.dataset.param;
-            boss._.tool.views[boss.view][dest][el_param] = boss._.tool.views[boss.view][dest].padding_value;
-          }
-        });
-
-        boss.form_item_style(dest);
-      }//switch
-
-
-      }//make_padding
-
-
-      this.make_border = function(dest,mod,dest2)
-      {
-        let border_str,border_boxes;
-
-        switch (dest) {
-        case "all":
-          let mod_str = "." + mod;
-          let chkAll = document.querySelector(mod_str);
-          border_str = `.${dest2}_border`;
-          border_boxes = document.querySelectorAll(border_str);
-
-          if(chkAll.checked)
-          {
-            border_boxes.forEach(function(entry){
-              entry.checked = true;
-            });
-            //boss._.tool.views[boss.view][dest].auto_same_borders = false;
-          }else {
-            border_boxes.forEach(function(entry){
-              entry.checked = false;
-            });
-            //boss._.tool.views[boss.view][dest].auto_same_borders = true;
-          }
-        break;
-
-        default:
-        border_str = `.${dest}_border_box`;
-        border_boxes = document.querySelectorAll(border_str);
-        border_boxes.forEach(function(entry){
-          if(entry.checked)
-          {
-            let el_param = entry.dataset.param;
-            boss._.tool.views[boss.view][dest][el_param] = boss._.tool.views[boss.view][dest].border_width_value;
-          }
-        });
-
-        boss.form_item_style(dest);
-      }//switch
-
-
-      }//make_border
+      this.make_border = boss._c.make_border.bind(this);
 
       // this.test_link = function(lObj,fc)
       // {
@@ -2966,34 +2368,18 @@
 
       this.test_link = function(tObj)
       {
-        //test_link check to see if the item is linkable first
-        let lObj = tObj.data;
-        let dest = tObj.dest || "none";
-        let force = tObj.force || false;
-        let link_data = boss.getDisplayData(lObj,'url');
-        let link = link_data || "";
-        // let anchor = lObj.anchor || "";
-        let anchor_data = boss.getDisplayData(lObj,'anchor');
-        let anchor = anchor_data || "";
-        let full_link = (link != "" && anchor != "") ? `${link}/#${anchor}` : link;
-        let active = (lObj.active_link != undefined) ? lObj.active_link : true;
-        let linkable = (dest == "none" || boss._.tool.views[boss.view][dest].linkable == undefined) ? true :
-        boss._.tool.views[boss.view][dest].linkable;// legacy capatibility
-        if(force == false && linkable !== true || force == false && active !== true  || link == "")return;
-        //window.location.replace(lnk);
-        boss.link(full_link);
+        // unique - shared by menus
+        boss.menu_test_link(tObj);
       }//link
 
-      this.link = function(lnk)
-      {
-        //window.location.replace(lnk);
-        window.location.href = lnk;
+      this.menu_test_link = boss._c.menu_test_link.bind(this);
 
-      }//link
+      this.link = boss._c.link.bind(this);
 
 
       this.make_columns = function(dest,mod,dest2)
       {
+        // unique
         let column_str,column_boxes;
 
         switch (dest) {
@@ -3179,61 +2565,15 @@
 
     this.getMyColors = function()
     {
-      let color_location = boss._.tool.views[boss.view];
+      // unique
       let color_array = ['main','content','image','title','body','list','list2'];
-      let all_colors = [];
-
-      color_array.forEach(function(entry){
-        let color_case = {};
-        color_case.bg_color = color_location[entry].bg_color;
-        color_case.bg_color = color_location[entry].bg_hov;
-        color_case.bg_color = color_location[entry].bg_hov_color;
-        color_case.border_color = color_location[entry].border_color;
-        color_case.txt_color = color_location[entry].txt_color;
-        color_case.txt_color = color_location[entry].font_color;
-        color_case.txt_color = color_location[entry].font_hov_color;
-
-        color_case_array = Object.keys(color_case);
-
-        color_case_array.forEach(function(item){
-          if(color_case[item] != undefined && color_case[item] != "" && color_case[item].charAt(0) == "#")
-          {
-            let is_in_array = ShowData.valueChecker({"array":all_colors,"string":color_case[item],"mod":"index","type":"sna"});
-
-            if(is_in_array[0] == -1)
-            {
-              //add the new swatch color to the array
-              all_colors.push(color_case[item]);
-            }//if
-          }//if
-        });//color_case_array.forEach
-
-      });//color_array.forEach
-
-      return all_colors;
+      return boss.color_getter(color_array);
 
     }//getMyColors
 
-    this.setSelect = function(data,params)
-    {
+    this.color_getter = boss._c.color_getter.bind(this);
 
-      boss;
-      if(data != undefined)
-      {
-        //console.log("here comes data",data);
-        //params.targ[params.prop] = parseInt(data,10);//bugfix - used for font_size select menu - deprecated
-        params.targ[params.prop] = data;
-        //console.log("here comes more ",boss.tool.views[boss.view].title);
-        //console.log("here comes more ",params.targ[params.prop]);
-      }
-
-      if(params.callout != undefined){
-        params.callout();
-      }//if
-
-      return true;
-
-    }//setSelect
+    this.setSelect = boss._c.setSelect.bind(this);
 
     this.setTemplateStyle = function()
     {
@@ -3242,7 +2582,7 @@
 
     this.getTextStyle = function(data,src)
     {
-
+      // unique
       if(data.font == 'NaN')
       {
         //console.log("data.font = ",data.font + src);
@@ -3301,19 +2641,7 @@
     }//getTextStyle
 
 
-      this.is_responsive = function(str)
-      {
-        //console.log("is_responsive str = ",str);
-        switch(str)
-        {
-          case "yes":
-            ShowData.tool.views[boss.view].responsive = "1";
-          break;
-          case "no":
-            ShowData.tool.views[boss.view].responsive = "0";
-          break;
-        }//switch
-      }//end is_responsive
+      this.is_responsive = boss._c.is_responsive.bind(this);
 
       this.btn_hover = function(str,cStr,mID)
       {
@@ -3340,16 +2668,7 @@
         }//switch
       }//btn_hover
 
-      this.form_reset = function(fNm)
-      {
-        ShowData.toolData.forEach(function(entry)
-        {
-          if(entry.file_name == fNm)
-          {
-            ShowData.tool = ShowData.bboy(entry);
-          }
-        });
-      }//form_reset
+      this.form_reset = boss._c.form_reset.bind(this);
 
 
       //this has to run once everything is finished loading so i put it in $onInit
@@ -3357,72 +2676,9 @@
 
       /******  custom section *******/
 
-      this.get_device_size = function()
-      {
-        //let screen_width = document.body.clientWidth;
-        let screen_width = window.innerWidth;
+      this.get_device_size = boss._c.get_device_size.bind(this);
 
-        //seems off by 16
-        let sm = 480;//464;
-        let md = 768;//752
-        let device_size = (screen_width < sm) ? "small" :
-        (screen_width >= sm && screen_width < md) ? "medium" :
-        "large";
-        boss.device_size = device_size;
-        return device_size;
-      }//get_device_size
-
-      this.update_view = function(fc)
-      {
-        return new Promise(function(resolve, reject) {
-
-          let force = fc || false;
-          let view_str = "default";
-          if(boss.mode == "admin")
-          {
-            //if admin use dropdown
-            let targ_sel_str = boss.view_select;
-
-            //test to see if selector exists - if it does use its value, if not use default
-            if(document.querySelector(`.${targ_sel_str}`)){
-
-              let select_el = (document.querySelector(`.${targ_sel_str}`)) ? document.querySelector(`.${targ_sel_str}`) : "default";
-              let select_ndx = select_el.selectedIndex;
-              let accessValue = boss._.getSelectedValue(`.${targ_sel_str}`,"index_value",select_ndx);
-              view_str = accessValue;
-            }
-
-          }else{
-
-            let size_ary = {small:"mobile",medium:"tablet",large:"desktop",xlarge:"max"}
-            let device_size = boss.get_device_size();
-            //if its active change the view
-            view_str = size_ary[device_size];
-
-          }//else
-
-            let active_view = (boss.exists(boss._.tool.views[view_str])  &&
-            boss.exists(boss._.tool.views[view_str].active_view)) ? true : false;
-
-            if(boss.view != view_str && active_view == true)
-            {
-              boss._.refresh_tool = "true";
-            }//if
-
-            // if theres an active view switch to the view
-            if(boss.mode == "admin" || active_view )
-            {
-              boss.view = view_str;
-              boss._.view = boss.view;
-            }else{
-              //otherwise use default
-              boss.view = "default";
-              boss._.view = boss.view;
-            }
-          resolve();
-        });//promise
-
-      }//update_view
+      this.update_view = boss._c.update_view.bind(this);
 
       this.dropdown_view = function()
       {
@@ -3434,26 +2690,7 @@
 
       }///dropdown_view
 
-      this.select_image_ndx = function(iObj)
-      {
-        //determine the view //
-        let size_ary = {small:"mobile",medium:"tablet",large:"desktop",xlarge:"max"}
-        let device_size = boss.get_device_size();
-        //if its active change the view
-        let active_view =  (boss.mode == "admin") ? boss.view : size_ary[device_size];
-        let active_ndx = 0;
-
-        // look through img_obj array and find any image with an active_mobile label
-        let test_ndx = iObj.img_obj.findIndex(function(entry,ndx)
-        {
-          return active_view == "mobile" && boss._.exists(entry.mobile) &&  entry.mobile == "on";
-
-        });
-
-        return (test_ndx != undefined && test_ndx != -1) ? test_ndx : active_ndx;
-
-
-      }//select_image_ndx
+      this.select_image_ndx = boss._c.select_image_ndx.bind(this);
 
       this.custom_delay = function()
       {
@@ -3506,58 +2743,11 @@
         return;
       }//repeat_done empty_loader2
 
-      this.prep_custom = function(chk)
-      {
-        //get all custom# obj keys
+      this.prep_custom = boss._c.prep_custom.bind(this);
 
-        let check = chk || "all";//if i don't pass a value prep all available custom elements
+      this.getAnchor = boss._c.getAnchor.bind(this);
 
-        let custom_keys = [];
-        let obj_keys = (check != "all") ? [check] : Object.keys(boss._.tool.views[boss.view]);
-        obj_keys.forEach(function(entry)
-        {
-          if(entry.match(/custom\d+/g))
-          {
-            ///custom[0-9]/g - works but only matches 1 digit
-            //filter for approved/proper properties or 'custom' pfx
-            custom_keys.push(entry);
-          }//if
-        });
-
-        //make sure it found something
-        if(custom_keys.length < 1)return;
-
-        //iterate and process
-        custom_keys.forEach(function(dest)
-        {
-          let targ_obj = boss._.tool.views[boss.view][dest];
-          //if it doesn't have a type, skip it
-          if(targ_obj.custom_type == undefined || targ_obj.custom_type == "")return;
-
-          let custom_type = targ_obj.custom_type;
-          let targ_name = targ_obj.custom_element;
-          //let targ_el = boss.get_custom_element(custom_type,targ_name);
-
-          boss.process_custom_element(targ_obj,custom_type,targ_name,dest);
-
-
-        });
-
-      }//prep_custom
-
-      this.getAnchor = function(t_Obj,str)
-      {
-        let targ_obj = t_Obj;
-        let active_anchor = targ_obj.active_anchor || false;
-        let has_alias = (targ_obj.anchor_alias != undefined && targ_obj.anchor_alias != "") ? true : false;
-
-        return (active_anchor && has_alias) ? targ_obj.anchor_alias : `${str}_${boss.iUN}`;
-      }
-
-      this.has_destination = function()
-      {
-        return (boss.destination == undefined || boss.destination == "") ? false : true;
-      }//has_destination
+      this.has_destination = boss._c.has_destination.bind(this);
 
       this.custom_keys = {"":""};
       this.view_keys = {"":""};
@@ -3579,7 +2769,7 @@
       ];
       this.nest_prop_obj = {label:"",options:boss.nest_properties};
 
-      this.el_pfx = "blogMod";
+      this.el_pfx = "imageMenu";
 
       this.child_elements = [
         "div","h1","h2","h3","h4","h5","h6","h7",
@@ -3591,10 +2781,7 @@
         body:`.${boss.el_pfx}_body_html_${boss.iUN}`
       };
 
-      this.get_view = function()
-      {
-        return "default";
-      }//get_view
+      this.get_view = boss._c.get_view.bind(this);
 
       this.top_element = function(tObj,val)
       {
@@ -3612,247 +2799,26 @@
 
       }//top_element
 
-      this.get_select_props = function(mod)
-      {
-        return new Promise(function(resolve, reject) {
-          //if(boss._.tool.views[boss.view].custom == undefined){boss._.tool.views[boss.view].custom = {};}
-          let targ_obj = (mod == "custom") ? boss._.tool.views[boss.view] :
-          boss._.tool.views;
-          let my_keys = Object.keys(targ_obj);
-          if(mod == "custom")boss.custom_keys = {};
-          if(mod == "view")boss.view_keys = {};
+      this.get_select_props = boss._c.get_select_props.bind(this);
 
-          if(my_keys.length > 0){
-            my_keys.forEach(function(entry){
-
-              let sample_array = (mod == "custom") ? boss.proper_properties: boss.proper_views;
-              let is_in_array = ShowData.valueChecker({"array":sample_array,"string":entry,"mod":"index","type":"sna"});
-
-              if(is_in_array[0] != -1 || entry.match(/custom\d+/g))
-              {
-                ///custom[0-9]/g - works but only matches 1 digit
-                //filter for approved/proper properties or 'custom' pfx
-                if(mod == "custom"){
-                  boss.custom_keys[entry] = targ_obj[entry].description || entry;
-                }else {
-                  boss.view_keys[entry] = targ_obj[entry].description || entry;
-                }
-              }//if
-            });
-          }
-          boss[`${mod}_ary_obj`].options = (mod == "custom") ? boss.custom_keys : boss.view_keys ;
-          resolve();
-          //return boss.custom_ary_obj;
-        });//promise
-      }//get_select_props
-
-      this.prep_view = function()
-      {
-        // Object.keys(obj).length === 0 && obj.constructor === Object
-        if(boss.view != "default" && Object.keys(boss._.tool.views[boss.view]).length < 1)
-        {
-          // if its empty - clone default
-          boss._.tool.views[boss.view] = lodash.merge(boss._.tool.views[boss.view],boss._.tool.views.default);////(dst,src)
-        }//if
-
-        boss.update_view()
-        .then(function(){
-          boss.soft_apply();
-        });//.then
-        let mesee = boss._.tool.views;
-      }//prep_view
+      this.prep_view = boss._c.prep_view.bind(this);
 
       boss.get_select_props("custom");
       boss.get_select_props("view");
 
-      this.make_select = function(str,mod)
-      {
-        let t_str = `.bM_${mod}_title_input`;
-        let t_inp = document.querySelector(t_str);
-        switch (str) {
-          case "confirm":
-            boss.loader = 1;
+      this.make_select = boss._c.make_select.bind(this);
 
-            let mod_t_c_t = boss[`temp_${mod}_text`] || "";
-            mod_t_c_t = boss._.removeSomething(mod_t_c_t," ")
-            if( mod_t_c_t  == ""){boss.make_select("cancel"); return;}
-            let curr_keys = Object.keys(boss.custom_keys);
+      this.update_select_menu = boss._c.update_select_menu.bind(this);
 
-            //prevent duplicates
-            let not_a_key = curr_keys.every(function(entry){
-              return boss.custom_keys[entry] != mod_t_c_t;
-            });
+      this.remote_loader = boss._c.remote_loader.bind(this);
 
-            if( not_a_key  == false){boss.make_select("cancel"); return;}
+      this.is_custom = boss._c.is_custom.bind(this);
 
-            //boss.destination = boss.temp_custom_text;
-            //create a generic name
-            let name_gen_str = "custom";
-            //get length of tool details
-            let details_length = (mod == "custom") ? (Object.keys(boss._.tool.views[boss.view])).length :
-            (Object.keys(boss._.tool.views)).length;
-            let current_select = "";
-            for(let i = 1; i < details_length +1; i++)
-            {
-              //test for existing names
-              let test_specimen = (mod == "custom") ? boss._.tool.views[boss.view] :
-              boss._.tool.views;
-              if(test_specimen[`${name_gen_str}${i}`] == undefined)
-              {
-                if(mod == "custom"){
-                  test_specimen[`${name_gen_str}${i}`] = {};
-                }else {
-                  test_specimen[`${name_gen_str}${i}`] = boss._.bboy(boss._.tool.views.default);
-                }
-                test_specimen[`${name_gen_str}${i}`].description = mod_t_c_t;
-                current_select = `${name_gen_str}${i}`;
+      this.not_custom = boss._c.not_custom.bind(this);
 
+      this.process_custom_element = boss._c.process_custom_element.bind(this);
 
-
-                break;
-              }//if
-            }//for
-
-            boss.get_select_props(mod)
-            .then(function()
-            {
-              //then make it select a specific option
-              boss[`temp_${mod}_text`] = "";
-              boss[`add_${mod}`] = false;
-              // let targ_sel_str = (mod == "custom") ? boss.custom_select: boss.view_select;
-              // let select_el = document.querySelector(`.${targ_sel_str}`);
-              // var accessIndex = boss._.getSelectedValue(`.${targ_sel_str}`,"value_index",current_select);
-              //
-              // //update the select menu's display and change the destination
-              // //value to reflect the new data
-              // select_el.selectedIndex = accessIndex;
-              // boss.soft_apply(boss.remote_loader,"hide")
-              // .then(function(){
-              //   boss.destination = current_select;
-              // });
-              boss.update_select_menu(current_select,mod);
-            });
-
-          break;
-          case "cancel":
-            boss[`temp_${mod}_text`] = "";
-            boss[`add_${mod}`] = false;
-            boss.loader = 0;
-          break;
-        }//switch
-      }//make_select
-
-      this.update_select_menu = function (cs,md)
-      {
-        let current_select = cs,
-        mod = md || "default",
-        targ_sel_str = (mod == "custom") ? boss.custom_select: boss.view_select,
-        select_el = document.querySelector(`.${targ_sel_str}`),
-        accessIndex = boss.service.getSelectedValue(`.${targ_sel_str}`,"value_index",current_select);
-
-        //update the select menu's display and change the destination
-        //value to reflect the new data
-        select_el.selectedIndex = accessIndex;
-        boss.soft_apply(boss.remote_loader,"hide")
-        .then(function(){
-          // destination tells the advanced options which option to display
-          // could be main or content or custom1
-          if(mod == "custom"){
-            //this is only really run when its made
-            boss.destination = current_select;
-          }//if
-        });
-
-      }// update_select_menu
-
-      this.remote_loader = function(str)
-      {
-        switch (str) {
-          case "show":
-            boss.loader = 1;
-            break;
-          default:
-            boss.loader = 0;
-        }
-      }//remote_loader
-
-      this.is_custom = function()
-      {
-        return (boss.destination.match(/custom\d+/g)) ? true : false;
-      }//is_custom
-
-      this.not_custom = function()
-      {
-        let sample_array = boss.proper_properties;
-        let is_in_array = ShowData.valueChecker({"array":sample_array,"string":boss.destination,"mod":"index","type":"sna"});
-
-        return (boss.destination == "" || is_in_array[0] == -1) ? true : false;
-      }//not_custom
-
-      this.process_custom_element = function(t_obj,typ,nM,dest)
-      {
-        //return new Promise(function(resolve, reject) {
-
-          let type = typ;
-          let name = nM || "";
-          let targ_el;
-
-          let mt = boss._.tool.module_title;
-          console.log("module title = ",mt);
-
-          switch (type) {
-            case "parent":
-              //save it for the front end
-
-              //if(boss.mode == "admin") return "";
-              let par_name =  boss._.tool.module_position;
-              //find where the module position is kept
-              targ_el = (document.getElementById(par_name)) ? document.getElementById(par_name) :
-              (document.querySelectorAll(`.${par_name}`)) ? document.querySelectorAll(`.${par_name}`) : "";
-
-              boss.parse_custom(targ_el,type,dest);
-              //return (targ_el != undefined) ? targ_el : "";
-              //resolve(targ_el);
-            break;
-
-            case "classname":
-              //save it for the front end
-              //if(boss.mode == "admin") return "";
-                if(name == ""){return "";}
-              //test for id and then classname
-              targ_el = (document.getElementById(name)) ? document.getElementById(name) :
-              (document.querySelectorAll(`.${name}`)) ? document.querySelectorAll(`.${name}`) : "";
-
-              boss.parse_custom(targ_el,type,dest);
-              //return (targ_el != undefined) ? targ_el : "";
-              //resolve(targ_el);
-            break;
-            case "nested":
-
-              boss.soft_apply("","",300)
-              .then(function(){
-
-                boss.soft_apply()
-                .then(function(){
-
-                  boss.delay_nested({t_obj,type,dest})
-                });
-
-              });
-            break;
-
-          }//switch
-        //});//promise
-      }//process_custom_element
-
-      this.declare_last = function(lst){
-        let targ_str = boss.section_objects['body'];
-
-        //call the parent target
-        let collection = document.querySelectorAll(targ_str);
-        let meseeks = "last here";
-
-      }//declare_last
+      this.declare_last = boss._c.declare_last.bind(this);
 
       $scope.$on('repeatDone', function(event,data)
       {
@@ -3864,240 +2830,33 @@
           boss.repeat_done(data.last);
       });
 
-      this.delay_nested = function(nest)
-      {
-        //split the string
-        //if(name == ""){return "";}
-        let t_obj = nest.t_obj;
-        let type = nest.type;
-        let dest = nest.dest;
+      this.delay_nested = boss._c.delay_nested.bind(this);
 
+      this.parse_custom = boss._c.parse_custom.bind(this);
 
-        let name_arry = name.split(" ");
-        let section_target = t_obj.nested_parent || "";//name_arry[0];
-        let element_target = t_obj.nested_element || ""//name_arry[1];
+      this.customize = boss._c.customize.bind(this);
 
+      this.getHeight = boss._c.getHeight.bind(this);
 
-        //test against a list of options
-        /*
-        let in_nest_array = ShowData.valueChecker({"array":boss.nest_properties,
-        "string":section_target,"mod":"index","type":"sna","action":"match"});
-        let in_child_array = ShowData.valueChecker({"array":boss.child_elements,
-        "string":element_target,"mod":"index","type":"sna","action":"match"});
-        */
+      this.rivals = boss._c.rivals.bind(this);
 
-        //make sure they are both valid
-        //if(in_nest_array[0] != -1 && in_child_array[0] != -1)
-        if(section_target != "" && element_target != "")
-        {
-          //get preformatted name from section_target object for example:
-          //title:`.${boss.el_pfx}_head_html_${boss.iUN}`
-          let targ_str = boss.section_objects[section_target];
+      this.remove_select = boss._c.remove_select.bind(this);
 
-          //call the parent target
-          let collection = document.querySelectorAll(targ_str);
-
-          //get a list of targeted child elements
-          if(collection.length > 0)
-          {
-
-            //section for dealing with an array
-            for(let i = 0; i < collection.length; i++)
-            {
-              targ_el = collection[i].getElementsByTagName(element_target);
-              boss.parse_custom(targ_el,type,dest);
-            }
-          }
-          //return (targ_el != undefined) ? targ_el : "";
-          //resolve(targ_el);
-
-        }else{
-          return "";
-        }
-      }//delay_nested
-
-      this.parse_custom = function(targ_el,custom_type,dest)
-      {
-        if(targ_el != undefined && targ_el != "" && typeof targ_el == "object")
-        {
-            if(targ_el[0] != undefined)
-            {
-              //section for dealing with an array
-              for(let i = 0; i < targ_el.length; i++)
-              {
-                boss.customize(targ_el[i],custom_type,dest);
-              }//for
-            }else if(targ_el.length == undefined){
-              //section for dealing with a single object
-                boss.customize(targ_el,custom_type,dest);
-            }//else
-        }//if
-      }//parse_custom
-
-
-      this.customize = function(targ_el,type,dest)
-      {
-        let chk_str = targ_el.className;
-        let new_class = boss.weedOut(chk_str,boss.outer_array);
-        let target_detail = boss._.tool.views[boss.view][dest];//(dest.match(/custom\d+/g)) ? :
-        let active_style = (target_detail[`active_${dest}`] != undefined) ? target_detail[`active_${dest}`] :
-        (target_detail.active_style != undefined) ? target_detail.active_style :  false;
-
-        targ_el.className = ShowData.removeSomething(new_class,' ');
-
-
-        //get class
-        //im trying to prevent the class addons from being repeated with each digest
-        let calc_class = (active_style == true) ? boss.getClass(dest) : "";
-        targ_el.className.replace(calc_class,"");
-
-        targ_el.className = (active_style == true) ?
-        ` ${targ_el.className} ${calc_class} ` : targ_el.className;
-
-
-        //get style
-        let font_style = boss._.tool.views[boss.view][dest].font_style || false;
-        let height_control = boss._.tool.views[boss.view][dest].height_control || false;
-        let simple_style = (active_style == true) ? boss.style_obj(dest) : "";
-        let txt_style = "";
-
-        if(type == "nested")
-        {
-          txt_style = (active_style == true && font_style == true) ? boss.getTextStyle(boss._.tool.views[boss.view][dest],dest) : "";
-        }else if(height_control == true){
-          txt_style = boss.getHeight(dest);
-        }
-
-        let new_style = `${simple_style} ${txt_style}`;
-        targ_el.style = ShowData.removeSomething(new_style,' ');
-        targ_el.dataset.view = boss.view;
-        let mesee = new_style;
-
-      }//customize
-
-      this.getHeight = function(dest)
-      {
-        //return `min-height:${ShowData.tool.views[boss.view].height}px;`;
-        let measure = (boss._.tool.views[boss.view][dest].measure != undefined && boss._.tool.views[boss.view][dest].measure != "") ?
-        boss._.tool.views[boss.view][dest].measure : "";
-        let height = (boss._.tool.views[boss.view][dest].height != undefined && boss._.tool.views[boss.view][dest].height != "" ) ?
-        boss._.tool.views[boss.view][dest].height : "";
-        return (measure != "" && height != "") ? `height:${boss._.tool.views[boss.view][dest].height}${measure};` : "";
-      }//getHeight
-
-      this.rivals = function(dest,active,adjust)
-      {//deprecated - use link_vars
-
-        switch (dest)
-        {
-          case 'root':
-            if(boss._.tool.views[boss.view][dest][active] == true)
-            {
-              boss._.tool.views[boss.view][dest][adjust] = false;
-            }
-          break;
-          default:
-            if(boss._.tool.views[boss.view][dest][active] == true)
-            {
-              boss._.tool.views[boss.view][dest][adjust] = false;
-            }
-        }//switch
-      }//rivals
-
-
-      this.remove_select = function(dest,mod)
-      {
-        if(dest.match(/custom\d+/g) == false) return;
-        if(mod == "view" && dest == "default") return;
-
-        let targ_obj = (mod == "custom") ? boss._.tool.views[boss.view] :
-         boss._.tool.views;
-        let are_u_sure = confirm(`are you sure you want to delete ${targ_obj[dest].description}`)
-
-        if(are_u_sure == true && targ_obj[dest])
-        {
-
-          targ_obj[dest].active_style = false;
-          boss.prep_custom (dest);
-
-          delete targ_obj[dest];
-          boss.get_select_props(mod)
-          .then(function(){
-
-
-
-            let targ_sel_str = (mod == "custom") ? boss.custom_select: boss.view_select;
-            let select_el = document.querySelector(`.${targ_sel_str}`);
-
-            if(mod == "custom"){
-              select_el.selectedIndex = 0;
-              boss.destination = "";
-            }else if(mod == "view"){
-              var accessIndex = boss._.getSelectedValue(`.${targ_sel_str}`,"value_index","default");
-              select_el.selectedIndex = accessIndex;
-              boss.view = "default";
-              boss._.view = boss.view;
-              boss.soft_apply();
-            }//if
-          });//then
-        }
-      }//remove_select
-
-      this.remove_view = function(vw,mod)
-      {
-        let mode = mod;
-        switch (mode) {
-          case 'reset':
-            if(boss.exists(boss._.tool.views[boss.view]))
-            {
-              boss._.tool.views[boss.view] = boss._.bboy(boss._.tool.views.default)
-            }
-          break;
-          default:
-          //delete
-            if(boss.exists(boss._.tool.views[boss.view]))
-            {
-              boss._.tool.views[boss.view] = {};
-              let targ_sel_str = boss.view_select;
-              let select_el = document.querySelector(`.${targ_sel_str}`);
-              var accessIndex = boss._.getSelectedValue(`.${targ_sel_str}`,"value_index","default");
-              //select_el.selectedIndex = accessIndex;
-              //select_el.click();
-              select_el.options[accessIndex].selected = true;
-
-              boss.view = "default";
-              boss._.view = boss.view;
-
-              boss.soft_apply()
-              .then(function(){
-                try{
-                  //runs after the digest without error. - also when called before it doesn't trigger change event
-                  let event = new Event('change');
-                  select_el.dispatchEvent(event);
-                }catch(err){
-                  console.log(err);
-                }//catch
-              });
-            }
-
-        }//switch
-
-        let mesee  = boss._.tool.views;
-      }//remove_view
+      this.remove_view = boss._c.remove_view.bind(this);
 
 
       /******  end custom section *******/
 
 
-      this.refresh = function()
-      {
-        $scope.$digest();
-
-      }//refresh
+      // this.refresh = function()
+      // {
+      //   $scope.$digest();
+      //
+      // }//refresh
 
       this.me_seeks= function(data)
       {
-        if(boss._.tool.file_name != "mega_menu")return;
+        if(boss._.tool.file_name != "image_menu")return;
         boss;
         if(data != undefined)
         {
@@ -4111,7 +2870,7 @@
 
       this.meView = function(data,params)
       {
-        if(boss._.tool.file_name != "mega_menu")return;
+        if(boss._.tool.file_name != "image_menu")return;
         boss;
         if(data != undefined)
         {
@@ -4125,10 +2884,7 @@
 
       }//meView
 
-      this.hnic = function()
-      {
-        return (boss._.tool.file_name == boss.file_name) ? true : false;
-      }//hnic
+      this.hnic = boss._c.hnic.bind(this);
 
 
       this.refresh = function()
@@ -4143,48 +2899,11 @@
 
       this.tool_properties = [];
 
-      this.available_option = function(dest,prop)
-      {
-        return (dest[prop] != undefined) ? true : false;
-      }//available_option
+      this.available_option = boss._c.available_option
 
-      this.unavailable_option = function(dest,prop)
-      {
-        return (dest[prop] == undefined) ? true : false;
-      }//available_option
+      this.unavailable_option = boss._c.unavailable_option
 
-      this.make_tool_properties = function()
-      {
-        let custom_keys = [];
-        let obj_keys = Object.keys(boss._.tool.views[boss.view]);
-        let sample_array = boss.proper_properties;
-        boss.tool_properties = [];
-
-        obj_keys.forEach(function(entry)
-        {
-            ///custom[0-9]/g - works but only matches 1 digit
-            //filter for approved/proper properties or 'custom' pfx
-            let is_in_array = ShowData.valueChecker({"array":sample_array,"string":entry,"mod":"index","type":"sna"});
-
-            if(is_in_array[0] != -1 /* || entry.match(/custom\d+/g)*/)
-            {
-              //i don't want any custom properties in here
-              custom_keys.push(entry);
-              //run a restructure on active_X
-              let active_str = `active_${entry}`;
-              if(boss._.exists(boss._.tool.views[boss.view][entry][active_str]))
-              {
-                //boss._.restructure(boss._.tool.views[boss.view][entry],active_str,'active');
-              }//if
-            }
-        });
-
-        boss.tool_properties = custom_keys;
-
-        let mesee = custom_keys;
-        boss.soft_apply();
-
-      }//make_tool_properties
+      this.make_tool_properties = boss._c.make_tool_properties.bind(this);
 
       boss.make_tool_properties();
 
@@ -4197,7 +2916,7 @@
 }]);
 
   //first the value for the json file / then the human readable value for the select options
-  //"mega_menu":"mega menu" //produced an error. doesn't like underscores
+  //"image_menu":"mega menu" //produced an error. doesn't like underscores
   var mM_temps = {
     "basic":"single basic",
     "mega":"mega menu"
