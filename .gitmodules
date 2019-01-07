@@ -1,0 +1,4 @@
+[submodule "tool_templates"]
+	path = tool_templates
+	url = https://github.com/inspectaTech/tool_templates.git
+	branch = webpack
