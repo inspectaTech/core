@@ -1,4 +1,12 @@
-[submodule "tool_templates"]
-	path = tool_templates
+
+[submodule "subs/tool_templates"]
+	path = subs/tool_templates
 	url = https://github.com/inspectaTech/tool_templates.git
 	branch = webpack
+[submodule "subs/d3po_ITK"]
+	path = subs/d3po_ITK
+	url = https://github.com/inspectaTech/d3po_ITK.git
+	branch = webpack
+[submodule "subs/d3po_BTK"]
+	path = subs/d3po_BTK
+	url = https://github.com/inspectaTech/d3po_BTK.git
